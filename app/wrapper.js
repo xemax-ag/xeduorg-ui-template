@@ -1,5 +1,5 @@
 // Wrapper / connection screen for the Strategie-Cockpit — Preact (no build step).
-// Reads the API base URL + bearer token (injected as URL parameters by the dev
+// Reads the API base URL + bearer token (injected as URL parameters by the web
 // server, with localStorage fallback), loads the project list, lets the user pick
 // a project and theme, then embeds app.html in an iframe with those values
 // forwarded via the iframe URL.
@@ -68,6 +68,8 @@ function App() {
     // Apply the theme to this document whenever it changes.
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.classList.toggle('wa-dark', theme === 'dark');
+        document.documentElement.classList.toggle('wa-light', theme !== 'dark');
     }, [theme]);
 
     // Reflect the selected language on <html lang> (initial value is set
@@ -113,7 +115,7 @@ function App() {
     async function connect() {
         setErr('');
         if (!TOKEN) {
-            setErr('No bearer token available. Please set `auth_token` in the configuration (strategy_cockpit.env).');
+            setErr(t('wrapper_js.no_token'));
             return;
         }
         saveCfg();
@@ -171,59 +173,59 @@ function App() {
 
     // Top-right toggle: collapse/expand the topbar to give the cockpit the full viewport.
     return html`
-      <button type="button" title=${topbarHidden ? t('show_panel') : t('hide_panel')}
-              onClick=${() => setTopbarHidden(v => !v)}
-              class="fixed top-2 right-2 z-50 h-9 w-9 p-0 flex items-center justify-center text-base leading-none rounded-card bg-panel border border-border text-text-dim shadow-card hover:border-secondary hover:text-text">
-        ${topbarHidden ? '☰' : '✕'}
-      </button>
+      <wa-button appearance="filled" size="s" variant="neutral"
+                 title=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}
+                 onClick=${() => setTopbarHidden(v => !v)} class="fixed top-2 right-2 z-50">
+        <wa-icon name=${topbarHidden ? 'bars' : 'xmark'}
+                 label=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}></wa-icon>
+      </wa-button>
 
-      <div class=${'w-full shrink-0 max-w-[1920px] mx-auto px-5 pt-5 pb-2' + (topbarHidden ? ' hidden' : '')}>
+      <div class=${'w-full shrink-0 max-w-[1920px] mx-auto px-5 pt-5 pb-0' + (topbarHidden ? ' hidden' : '')}>
         <header
             class="flex items-center gap-3.5 pl-5 pr-5 py-4 mb-4 bg-primary border border-primary rounded-card shadow-header">
           <div>
             <h1 class="m-0 text-lg font-semibold tracking-tight text-white">Wrapper xEduOrg Template</h1>
-            <div class="text-xs text-white/70">eduxept-api-v1 · ${t('connection_and_configuration')}</div>
+            <div class="text-xs text-white/70">eduxept-api-v1 · ${t('wrapper_js.connection_and_configuration')}</div>
           </div>
-          <div class="ml-auto mr-2 flex items-center gap-3"
-               title=${t('language_selection')}>
-            <label class="flex items-center gap-1.5 text-white/80">
-              <select class="w-auto" value=${language} onChange=${onSelectLanguage}>
-                <option value="de">DE</option>
-                <option value="fr">FR</option>
-                <option value="it">IT</option>
-                <option value="en">EN</option>
-              </select>
-            </label>
-            <button type="button"
-                    title=${theme === 'dark' ? t('switch_to_light_theme') : t('switch_to_dark_theme')}
-                    onClick=${onToggleTheme}
-                    class="h-9 w-9 p-0 flex items-center justify-center text-base leading-none rounded-card 
-                      bg-panel-2 border border-border shadow-card hover:border-secondary">
-              ${theme === 'dark' ? '🌙' : '☀️'}
-            </button>
+          <div class="ml-auto mr-2 flex items-center gap-3">
+            <wa-select appearance="filled" size="s" class="w-20" title=${t('wrapper_js.language_selection')}
+                       value=${language} onChange=${onSelectLanguage}>
+              <wa-option value="de">DE</wa-option>
+              <wa-option value="fr">FR</wa-option>
+              <wa-option value="it">IT</wa-option>
+              <wa-option value="en">EN</wa-option>
+            </wa-select>
+            <wa-button appearance="filled" size="s" variant="neutral"
+                       title=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
+                       onClick=${onToggleTheme}>
+              <wa-icon name=${theme === 'dark' ? 'moon' : 'sun'}
+                       label=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}></wa-icon>
+            </wa-button>
           </div>
 
         </header>
 
-        <div class="bg-panel border border-border rounded-card shadow-card p-4 flex flex-col gap-1.5 mb-3">
-          <label>${t('project')}</label>
-          <select disabled=${!projectRows.length} value=${projectPk} onChange=${onSelectProject}>
-            ${!projectRows.length && html`
-              <option>${t('connect_first')}</option>`}
+        <wa-card class="mb-1">
+          <div slot="header" class="wa-cluster wa-gap-xs wa-align-items-center">
+            <wa-icon name="diagram-project"></wa-icon>
+            <h1 class="wa-heading-s m-0">${t('wrapper_js.project')}</h1>
+          </div>
+          <wa-select placeholder=${t('wrapper_js.connect_first')} disabled=${!projectRows.length}
+                     value=${projectPk} onChange=${onSelectProject}>
             ${projectRows.map(p => html`
-              <option value=${p.pk}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
-          </select>
-        </div>
+              <wa-option value=${String(p.pk)}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</wa-option>`)}
+          </wa-select>
+        </wa-card>
 
         ${err && html`
-          <div
-              class="px-4 py-3 mb-2 rounded-lg text-sm whitespace-pre-wrap bg-red-50 border border-red-200 text-red-700 dark:bg-red-950/40 dark:border-red-900 dark:text-red-300">
-            ${err}
-          </div>`}
+          <wa-callout variant="danger" class="mb-2">
+            <wa-icon slot="icon" name="triangle-exclamation"></wa-icon>
+            <span class="whitespace-pre-wrap">${err}</span>
+          </wa-callout>`}
       </div>
 
       ${iframeSrc && html`
-        <iframe title="Strategie-Cockpit" src=${iframeSrc}
+        <iframe title=${t('wrapper_js.cockpit_title')} src=${iframeSrc}
                 class="flex-1 w-full h-full border-0 border-t border-border pb-4"></iframe>`}
     `;
 }

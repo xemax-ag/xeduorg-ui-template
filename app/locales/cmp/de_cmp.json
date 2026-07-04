@@ -1,20 +1,26 @@
 {
   "master_data": "Stammdaten",
-  "project": "Projekt",
   "project_settings": "Projekteinstellungen",
-  "params_from_wrapper": "Parameter vom Wrapper",
   "no_project_loaded": "Kein Projekt geladen.",
-  "show_panel": "Bereich einblenden",
-  "hide_panel": "Bereich ausblenden",
-  "connection_and_configuration": "Verbindung & Konfiguration",
-  "language_selection": "Sprachauswahl",
-  "switch_to_light_theme": "Zum hellen Design wechseln",
-  "switch_to_dark_theme": "Zum dunklen Design wechseln",
-  "connect_first": "– zuerst verbinden –",
   "http_error": "HTTP {{status}} bei {{method}} {{path}}",
   "no_error_text": "(kein Fehlertext vom Server)",
   "invalid_number": "Ungültige Zahl für {{key}}: {{value}}",
   "invalid_json": "Ungültiges JSON für {{key}}: {{message}}",
+  "wrapper_js": {
+    "no_token": "Kein Bearer-Token verfügbar. Bitte `auth_token` in der Konfiguration (strategy_cockpit.env) setzen.",
+    "cockpit_title": "Strategie-Cockpit",
+    "project": "Projekt",
+    "show_panel": "Bereich einblenden",
+    "hide_panel": "Bereich ausblenden",
+    "connection_and_configuration": "Verbindung & Konfiguration",
+    "language_selection": "Sprachauswahl",
+    "switch_to_light_theme": "Zum hellen Design wechseln",
+    "switch_to_dark_theme": "Zum dunklen Design wechseln",
+    "connect_first": "– zuerst verbinden –"
+  },
+  "view_js": {
+    "params_from_wrapper": "Parameter vom Wrapper"
+  },
   "base_data": {
     "projects": {
       "view_js": {

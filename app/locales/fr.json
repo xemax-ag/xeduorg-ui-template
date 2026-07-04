@@ -1,20 +1,26 @@
 {
   "master_data": "Données de base",
-  "project": "Projet",
   "project_settings": "Paramètres du projet",
-  "params_from_wrapper": "Paramètres du wrapper",
   "no_project_loaded": "Aucun projet chargé.",
-  "show_panel": "Afficher le panneau",
-  "hide_panel": "Masquer le panneau",
-  "connection_and_configuration": "Connexion & configuration",
-  "language_selection": "Choix de la langue",
-  "switch_to_light_theme": "Passer au thème clair",
-  "switch_to_dark_theme": "Passer au thème sombre",
-  "connect_first": "– se connecter d'abord –",
   "http_error": "HTTP {{status}} sur {{method}} {{path}}",
   "no_error_text": "(pas de message d'erreur du serveur)",
   "invalid_number": "Nombre invalide pour {{key}} : {{value}}",
   "invalid_json": "JSON invalide pour {{key}} : {{message}}",
+  "wrapper_js": {
+    "no_token": "Aucun jeton au porteur n'est disponible. Veuillez définir `auth_token` dans la configuration (strategy_cockpit.env).",
+    "cockpit_title": "Tableau de bord stratégique",
+    "project": "Projet",
+    "show_panel": "Afficher la section",
+    "hide_panel": "Masquer cette section",
+    "connection_and_configuration": "Connexion et configuration",
+    "language_selection": "Sélection de la langue",
+    "switch_to_light_theme": "Passer au thème clair",
+    "switch_to_dark_theme": "Passer au thème sombre",
+    "connect_first": "– se connecter d'abord –"
+  },
+  "view_js": {
+    "params_from_wrapper": "Paramètres du wrapper"
+  },
   "base_data": {
     "projects": {
       "view_js": {

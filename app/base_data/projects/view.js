@@ -13,7 +13,7 @@ import {PROJECT_FIELDS} from './model.js';
 
 // Field keys rendered by ProjectSettings, in display order.
 const FIELD_ORDER = [
-    'pk', 'id', 'name', 'description', 'icon',
+    'pk', 'id', 'name', 'description',
     'traffic_light', 'traffic_light_quality', 'traffic_light_cost', 'traffic_light_time',
     'data_state', 'mcp_data_state', 'comments', 'notes', 'metadatas', 'created_at', 'updated_at',
 ];
@@ -28,10 +28,10 @@ export function ProjectSettings({project, onChangeField}) {
     const fld = key => PROJECT_FIELDS.find(f => f.key === key);
     const lbl = key => t(`base_data.projects.view_js.${key}`);
     return html`
-        <wa-card class="w-full mb-5">
+        <wa-card class="w-full mb-1">
             <div slot="header" class="wa-cluster wa-gap-xs wa-align-items-center">
                 <wa-icon name="sliders"></wa-icon>
-                <h1 class="wa-heading-s" style="margin: 0;">${t('project_settings')}</h1>
+                <h1 class="wa-heading-s m-0">${t('project_settings')}</h1>
             </div>
             ${!project ? html`
                 <p class="wa-color-text-quiet">${t('no_project_loaded')}</p>` : html`

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upload the cockpit files (HTML/JS/CSS) to the eduxept file API.
+"""Zip the cockpit app/ folder and upload it to the eduxept file API.
 
 Mirrors the reference curl call:
 
@@ -17,6 +17,7 @@ import mimetypes
 import os
 from pathlib import Path
 import sys
+import zipfile
 import httpx
 
 __cwd__ = str(Path(__file__).parents[2]).replace('\\', '/')
@@ -29,18 +30,24 @@ from core.config import config
 # Disable TLS certificate verification (self-signed / internal cert).
 _VERIFY = False
 
-SUBFOLDER = "strategies/cockpit"
-FILES = [
-    "app.html", "app.css", "model.js", "view.js", "controller.js",
-    "openapi.js",
-    "wrapper.html", "wrapper.js",
-    "base_data/projects/model.js", "base_data/projects/view.js",
-    "locales/de.json", "locales/fr.json", "locales/it.json", "locales/en.json",
-]
+SUBFOLDER = "strategies/template"
+
+APP_DIR = Path(__file__).resolve().parents[2] / "app"
+ZIP_PATH = Path(__file__).resolve().parent / "temp" / "app.zip"
+
+
+def zip_app_folder(app_dir: Path = APP_DIR, zip_path: Path = ZIP_PATH) -> Path:
+    """Zip every file under app_dir into zip_path (paths kept relative to app_dir)."""
+    zip_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        for path in sorted(app_dir.rglob("*")):
+            if path.is_file():
+                zf.write(path, path.relative_to(app_dir).as_posix())
+    return zip_path
 
 
 def upload_file(
-    file_path: str,
+    file_path: str | Path,
     *,
     api_url: str = config.api_base_url + "/files/upload",
     token: str = '',
@@ -80,44 +87,27 @@ def upload_file(
         return {"raw": resp.text}
 
 
-def upload_cockpit_files(
-    files: list[str] | None = None,
+def upload_app_zip(
     *,
     api_url: str = config.api_base_url + "/files/upload",
     token: str = '',
     subfolder: str = SUBFOLDER,
 ) -> dict[str, object]:
-    """Upload all cockpit files; return a {filename: result} mapping."""
-    files = files or FILES
-    # This script lives in toolbox/upload/; the source files are at <repo>/source.
-    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    base_dir = os.path.join(repo_root, "app")
-    results: dict[str, object] = {}
-
-    for name in files:
-        path = name if os.path.isabs(name) else os.path.join(base_dir, name)
-        # Preserve subdirectories (e.g. base_data/projects/) on the server —
-        # upload_file() only keeps the basename.
-        rel_dir = "" if os.path.isabs(name) else os.path.dirname(name).replace("\\", "/")
-        sub = f"{subfolder}/{rel_dir}" if rel_dir else subfolder
-        try:
-            results[name] = upload_file(
-                path, api_url=api_url, token=token, subfolder=sub
-            )
-            print(f"[OK]   {name} -> {api_url} ({sub})")
-        except FileNotFoundError:
-            results[name] = {"error": "file not found", "path": path}
-            print(f"[SKIP] {name}: not found at {path}")
-        except httpx.HTTPStatusError as exc:
-            detail = exc.response.text
-            results[name] = {"error": f"HTTP {exc.response.status_code}", "detail": detail}
-            print(f"[FAIL] {name}: HTTP {exc.response.status_code} {exc.response.reason_phrase} — {detail}")
-        except httpx.HTTPError as exc:
-            results[name] = {"error": str(exc)}
-            print(f"[FAIL] {name}: {exc}")
-
-    return results
+    """Zip app/ into core/upload/temp/app.zip, then upload it to subfolder."""
+    zip_path = zip_app_folder()
+    print(f"[ZIP]  {APP_DIR} -> {zip_path}")
+    try:
+        result = upload_file(zip_path, api_url=api_url, token=token, subfolder=subfolder)
+        print(f"[OK]   {zip_path.name} -> {api_url} ({subfolder})")
+        return result
+    except httpx.HTTPStatusError as exc:
+        detail = exc.response.text
+        print(f"[FAIL] {zip_path.name}: HTTP {exc.response.status_code} {exc.response.reason_phrase} — {detail}")
+        return {"error": f"HTTP {exc.response.status_code}", "detail": detail}
+    except httpx.HTTPError as exc:
+        print(f"[FAIL] {zip_path.name}: {exc}")
+        return {"error": str(exc)}
 
 
 if __name__ == "__main__":
-    upload_cockpit_files(token=config.auth_token)
+    upload_app_zip(token=config.auth_token)

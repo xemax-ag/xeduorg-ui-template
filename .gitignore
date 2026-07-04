@@ -1,3 +1,4 @@
 /uv.lock
 /.claude/settings.local.json
 /.tokensave/
+/core/upload/temp/*.zip

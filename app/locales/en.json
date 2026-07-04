@@ -1,20 +1,26 @@
 {
   "master_data": "Master data",
-  "project": "Project",
   "project_settings": "Project settings",
-  "params_from_wrapper": "Parameters from the wrapper",
   "no_project_loaded": "No project has been loaded.",
-  "show_panel": "Show section",
-  "hide_panel": "Hide section",
-  "connection_and_configuration": "Connection & Configuration",
-  "language_selection": "Language selection",
-  "switch_to_light_theme": "Switch to the light theme",
-  "switch_to_dark_theme": "Switch to dark mode",
-  "connect_first": "– connect first –",
   "http_error": "HTTP {{status}} at {{method}} {{path}}",
   "no_error_text": "(no error message from the server)",
   "invalid_number": "Invalid number for {{key}}: {{value}}",
   "invalid_json": "Invalid JSON for {{key}}: {{message}}",
+  "wrapper_js": {
+    "no_token": "No bearer token available. Please set `auth_token` in the configuration (strategy_cockpit.env).",
+    "cockpit_title": "Strategy Dashboard",
+    "project": "Project",
+    "show_panel": "Show section",
+    "hide_panel": "Hide section",
+    "connection_and_configuration": "Connection & Configuration",
+    "language_selection": "Language selection",
+    "switch_to_light_theme": "Switch to the light theme",
+    "switch_to_dark_theme": "Switch to dark mode",
+    "connect_first": "– connect first –"
+  },
+  "view_js": {
+    "params_from_wrapper": "Parameters from the wrapper"
+  },
   "base_data": {
     "projects": {
       "view_js": {

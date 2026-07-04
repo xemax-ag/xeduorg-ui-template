@@ -14,29 +14,26 @@ import {BASE_URL, TOKEN, PROJECT_PK, LANGUAGE, t} from './model.js';
 // Shows the connection parameters forwarded by the wrapper (URL query params).
 export function Params() {
     return html`
-        <div class="bg-panel border border-border rounded-card shadow-card p-5 w-full mb-5">
-            <h1 class="text-[15px] font-[650] text-primary mb-3">${t('params_from_wrapper')}</h1>
-            <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
-                <dt class="font-semibold text-[var(--color-text-dim)]">baseUrl</dt>
-                <dd class="font-mono break-all">${BASE_URL || '–'}</dd>
-
-                <dt class="font-semibold text-[var(--color-text-dim)]">token</dt>
-                <dd class="font-mono break-all">${TOKEN || '–'}</dd>
-
-                <dt class="font-semibold text-[var(--color-text-dim)]">projectPk</dt>
-                <dd class="font-mono break-all">${PROJECT_PK || '–'}</dd>
-
-                <dt class="font-semibold text-[var(--color-text-dim)]">language</dt>
-                <dd class="font-mono break-all">${LANGUAGE || '–'}</dd>
-            </dl>
-        </div>
+        <wa-card class="w-full mb-1">
+            <div slot="header" class="wa-cluster wa-gap-xs wa-align-items-center">
+                <wa-icon name="plug"></wa-icon>
+                <h1 class="wa-heading-s m-0">${t('view_js.params_from_wrapper')}</h1>
+            </div>
+            <div class="wa-grid wa-gap-m" style="--min-column-size: 14rem;">
+                <wa-input label="baseUrl" value=${BASE_URL || ''} placeholder="–" readonly></wa-input>
+                <wa-input label="token" value=${TOKEN || ''} placeholder="–" readonly></wa-input>
+                <wa-input label="projectPk" value=${PROJECT_PK || ''} placeholder="–" readonly></wa-input>
+                <wa-input label="language" value=${LANGUAGE || ''} placeholder="–" readonly></wa-input>
+            </div>
+        </wa-card>
     `;
 }
 
 // Error toast (bottom right); the Controller dismisses it after 5 s.
 export function Toast({text}) {
     return text ? html`
-        <div class="fixed bottom-4 right-4 z-50 max-w-md px-4 py-3 rounded-card shadow-card border text-sm whitespace-pre-wrap bg-panel border-[var(--color-err)] text-[var(--color-err)]">
-            ${text}
-        </div>` : null;
+        <wa-callout variant="danger" class="fixed bottom-4 right-4 z-50 max-w-md">
+            <wa-icon slot="icon" name="triangle-exclamation"></wa-icon>
+            <span class="whitespace-pre-wrap">${text}</span>
+        </wa-callout>` : null;
 }
