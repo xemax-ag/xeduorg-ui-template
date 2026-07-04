@@ -27,8 +27,18 @@ a { color: var(--link); }
 <body>
 <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
 <h1>eduxept · Strategie-Cockpit</h1>
-<h2>Installation (Windows)</h2>
-<p>Follow these two steps once before using the cockpit. No prior technical knowledge is required.</p>
+<blockquote>
+<p><strong>Tip:</strong> Rendered HTML versions of this and other documentation files are available in the <strong><code>docs/</code></strong> folder.
+Open them in any web browser for easier reading.</p>
+</blockquote>
+<h2>Installation</h2>
+<blockquote>
+<p><strong>Windows vs. Mac / Linux:</strong> The <code>win_*.bat</code> files in the project root are Windows shortcuts — double-click them in
+Explorer to run the corresponding script. On <strong>Mac or Linux</strong>, open a terminal in the project folder and run the
+Python command shown in each section directly (e.g. <code>python core/devserver/devserver.py …</code>). All other steps are
+identical on both platforms.</p>
+</blockquote>
+<p>Follow these steps once before using the cockpit. No prior technical knowledge is required.</p>
 <h3>Step 1 — Install Python</h3>
 <p>Python is the program that runs the cockpit's tools on your computer.</p>
 <ol>
@@ -42,7 +52,7 @@ a { color: var(--link); }
 <p>The cockpit needs a few add-on packages ("modules"). A ready-made script installs them all for you.</p>
 <ol>
 <li>Open the project folder in the Windows Explorer (the folder that contains this README file).</li>
-<li>Double-click the file <strong><code>run_install_python_modules.bat</code></strong>.</li>
+<li>Double-click the file <strong><code>win_install_python_modules.bat</code></strong>.</li>
 <li>A black window opens and text scrolls by while the modules are downloaded and installed. This can take a minute.</li>
 <li>When you see the message <strong><code>Press any key to continue . . .</code></strong>, the installation is complete. Press any key to close
    the window.</li>
@@ -51,7 +61,7 @@ a { color: var(--link); }
 <p><strong>Note:</strong> If Windows shows a security warning ("Windows protected your PC"), click <strong>More info → Run anyway</strong>. The
 script only installs the packages listed in <code>core/requirements.txt</code>.</p>
 </blockquote>
-<p>You only need to do this once. After that, you can start the cockpit with <code>run_devserver.bat</code>.</p>
+<p>You only need to do this once. After that, you can start the cockpit with <code>win_devserver.bat</code>.</p>
 <h3>Step 3 (optional) — Install a code editor (IDE)</h3>
 <p>You can run and use the cockpit with just the steps above. But if you plan to <strong>look at or change the cockpit's files</strong>,
 a proper code editor — an <strong>IDE</strong> (Integrated Development Environment) — makes this much easier and safer than a plain
@@ -77,7 +87,7 @@ text editor like Notepad.</p>
 finished version. No prior technical knowledge is required.</p>
 <h3>Start the cockpit (local test server)</h3>
 <ol>
-<li>In the project folder, double-click <strong><code>run_devserver.bat</code></strong>.</li>
+<li>In the project folder, double-click <strong><code>win_devserver.bat</code></strong>.</li>
 <li>A black window opens and stays open — leave it running. This is the small web server that shows the cockpit.</li>
 <li>Your web browser opens automatically at the cockpit's start page (<code>wrapper.html</code>). If it doesn't, open your browser
    and go to <strong>http://127.0.0.1:8002/wrapper.html</strong>.</li>
@@ -145,10 +155,10 @@ generous reasoning-effort setting. Cheaper or local models and low effort are fi
 throwaway drafts.</p>
 <p>Practical advice when working with any agent:</p>
 <ul>
-<li><strong>Keep the test server running</strong> (<code>run_devserver.bat</code>) while you work. Because the page reloads by itself, you see the
+<li><strong>Keep the test server running</strong> (<code>win_devserver.bat</code>) while you work. Because the page reloads by itself, you see the
   agent's changes in the browser right away and can judge whether they are correct.</li>
 <li><strong>Review before you publish.</strong> An agent can make mistakes. Always check the result in the local test server before you
-  run <code>run_upload_app.bat</code> to put a version live.</li>
+  run <code>win_upload_app.bat</code> to put a version live.</li>
 <li><strong>Describe one change at a time.</strong> Small, clear requests give better results than one large, vague instruction.</li>
 </ul>
 <h3>Settings: server address and access token</h3>
@@ -171,7 +181,7 @@ check.</p>
 <p>When your changes are ready and tested locally, you can upload them to the live platform so others can use them.</p>
 <ol>
 <li>Make sure your changes look correct in the local test server first.</li>
-<li>In the project folder, double-click <strong><code>run_upload_app.bat</code></strong>.</li>
+<li>In the project folder, double-click <strong><code>win_upload_app.bat</code></strong>.</li>
 <li>A black window opens and lists each file as it is uploaded. Lines marked <strong><code>[OK]</code></strong> were sent successfully; *
    <em><code>[FAIL]</code></em>* means a file could not be uploaded.</li>
 <li>When it finishes, press any key to close the window.</li>
@@ -200,21 +210,169 @@ backend and showing you the answers.</p>
 <p>An API is only useful if you know exactly which addresses exist, what data they expect, and what they return. That
 description is written down in a single file called <strong><code>openapi.json</code></strong> (an <strong>OpenAPI specification</strong>). Think of it as the
 API's complete, machine-readable instruction manual.</p>
-<p>The file lives at <code>core/openapi/openapi.json</code> and serves as the <strong>checked-in contract</strong> for the backend: it documents
+<p>The file lives at <code>app/openapi.json</code> and serves as the <strong>checked-in contract</strong> for the backend: it documents
 every endpoint the cockpit relies on. Keeping a local copy means you can look up how an endpoint behaves without
 guessing, and it makes changes on the server visible when the file is refreshed.</p>
-<h3>Download the OpenAPI specification (<code>run_update_openapi.bat</code>)</h3>
+<h3>Download the OpenAPI specification (<code>win_update_openapi.bat</code>)</h3>
 <p>The backend publishes its current <code>openapi.json</code> at its own address. To refresh the local copy so it matches the live
 server, use the ready-made script:</p>
 <ol>
-<li>Open the folder <strong><code>core/openapi</code></strong> inside the project folder in the Windows Explorer.</li>
-<li>Double-click the file <strong><code>run_update_openapi.bat</code></strong>.</li>
+<li>In the project folder, double-click <strong><code>win_update_openapi.bat</code></strong>.
+   <em>(Mac / Linux: open a terminal and run <code>python core/openapi/build_openapi_models_js.py</code> and
+   <code>python core/openapi/build_openapi_models_python.py</code> separately.)</em></li>
 <li>A black window opens. It downloads the specification from the server (using the address from your settings file), checks
    that the file is valid, and then replaces the local <code>openapi.json</code> with the fresh version. You'll see a <code>Downloading ...</code>
    line followed by a <code>Saved ...</code> confirmation with the file size.</li>
 <li>When you see <strong><code>Press any key to continue . . .</code></strong>, the update is complete. Press any key to close the window.</li>
 </ol>
 <p>Run this whenever the backend has changed and you want the local contract to reflect the latest state of the API.</p>
+<h3>Convert <code>openapi.json</code> to model classes</h3>
+<p>Once <code>openapi.json</code> is up to date, two scripts re-generate the model classes the rest of the code depends on:</p>
+<ul>
+<li><strong><code>app/openapi.js</code></strong> — a single ES module imported by the browser front-end. It contains one JavaScript class per
+  API model, with field names, types, and enum values taken directly from
+  the spec. The front-end constructs and validates API payloads using these classes instead of maintaining the field
+  list by hand.</li>
+<li><strong><code>core/openapi/openapi.py</code></strong> — equivalent Pydantic model classes for the Python tooling in <code>core/</code>. It gives
+  scripts type-safe access to API data and lets your IDE catch field-name typos before they reach the server.</li>
+</ul>
+<p>Both files are <strong>auto-generated — do not edit them by hand</strong>; any manual change is overwritten the next time the
+script runs.</p>
+<p><strong>When to re-generate:</strong> after refreshing <code>openapi.json</code> and the API's models have changed (new fields, renamed enums,
+added endpoints). If only front-end logic changed and the API is the same, you can skip this step.</p>
+<p><strong>How to run</strong> (open a terminal in the project folder):</p>
+<p>Generate <code>app/openapi.js</code> using <a href="https://openapi-generator.tech">OpenAPI Generator</a>:</p>
+<pre><code>python core/openapi/build_openapi_models_js.py
+</code></pre>
+<p>Generate <code>core/openapi/openapi.py</code> using
+<a href="https://koxudaxi.github.io/datamodel-code-generator/">datamodel-code-generator</a>:</p>
+<pre><code>python core/openapi/build_openapi_models_python.py
+</code></pre>
+<p>Both scripts also re-download <code>openapi.json</code> at the start (same as <code>win_update_openapi.bat</code>), so running them is
+sufficient — you do not need to run the download step separately. They invoke <code>uv run</code> internally for the generator
+tools, so <code>uv</code> must be available on your system alongside the Python dependencies from Step 2.</p>
+<p>On Windows, double-clicking <strong><code>win_update_openapi.bat</code></strong> in the project root runs both scripts in one step and is the
+recommended shortcut — you do not need to open a terminal at all.</p>
+<h2>Translation</h2>
+<h3>What i18n is</h3>
+<p><strong>i18n</strong> is shorthand for <strong>internationalisation</strong> — the "i", the next 18 letters, and the "n". It describes the
+practice of building software so that all user-visible text is stored separately from the code, and can be swapped out
+at runtime for a different language. Instead of writing <code>"Kein Projekt geladen."</code> directly inside a component, the code
+refers to a symbolic key (<code>"no_project_loaded"</code>), and a small i18n library replaces that key with the correct string
+for whatever language the user has selected. The result: the same codebase speaks German, English, French, or Italian
+without any code changes — only the locale files differ.</p>
+<p>The cockpit uses a lightweight custom i18n approach: locale files are plain JSON objects loaded once on startup, and a
+<code>t(key)</code> helper resolves any key to the active language's string (falling back to German if a translation is missing).
+Some strings contain <strong>interpolation placeholders</strong> such as <code>{{status}}</code> or <code>{{path}}</code> — these are filled in at runtime
+with actual values and must survive translation verbatim.</p>
+<h3>Locale files</h3>
+<p>All locale files live in <strong><code>app/locales/</code></strong>:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>de.json</code></td>
+<td><strong>Canonical German base</strong> — the single source of truth. Every key and every German string lives here. Edit this file first when adding or changing text.</td>
+</tr>
+<tr>
+<td><code>en.json</code></td>
+<td>English translations.</td>
+</tr>
+<tr>
+<td><code>fr.json</code></td>
+<td>French translations.</td>
+</tr>
+<tr>
+<td><code>it.json</code></td>
+<td>Italian translations.</td>
+</tr>
+</tbody>
+</table>
+<p>Every file is a flat JSON object: string keys map to translated string values. Example from <code>de.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;no_project_loaded&quot;: &quot;Kein Projekt geladen.&quot;,
+  &quot;http_error&quot;: &quot;HTTP {{status}} bei {{method}} {{path}}&quot;
+}
+</code></pre>
+<p>The corresponding <code>en.json</code> entry would be:</p>
+<pre><code class="language-json">{
+  &quot;no_project_loaded&quot;: &quot;No project loaded.&quot;,
+  &quot;http_error&quot;: &quot;HTTP {{status}} at {{method}} {{path}}&quot;
+}
+</code></pre>
+<p>Keys are shared across all files — every language file must contain exactly the same set of keys as <code>de.json</code>. Missing
+keys fall back to German at runtime; surplus keys (present in a target file but not in <code>de.json</code>) are ignored and
+removed on the next sync.</p>
+<p>If a locale file does not exist yet, or is completely empty, the sync script creates it automatically with an empty
+object (<code>{}</code>).</p>
+<h3>Adding or changing a translation entry</h3>
+<ol>
+<li><strong>Open <code>app/locales/de.json</code></strong> in your editor.</li>
+<li><strong>Add or edit the German entry.</strong> Use a descriptive, lowercase, underscore-separated key:
+   <code>json
+   "save_changes": "Änderungen speichern"</code>
+   For strings that embed dynamic values, use <code>{{placeholder_name}}</code> syntax:
+   <code>json
+   "items_selected": "{{count}} Einträge ausgewählt"</code></li>
+<li><strong>Use the key in the code.</strong> Inside a Preact component call <code>t("save_changes")</code> (or whatever the helper is named in
+   the file that sets up i18n). The key is resolved at runtime to the active language.</li>
+<li><strong>Sync the target languages</strong> — see the next section.</li>
+</ol>
+<p>Never add a key to only one locale file — always start from <code>de.json</code> and propagate to the others. This keeps <code>de.json</code>
+as the only place a developer needs to look when searching for where a string originates.</p>
+<h3>Syncing translations</h3>
+<p><strong>Base language: German (<code>de</code>).</strong> <code>sync_translations.py</code> always treats <code>de.json</code> as the authoritative source.
+Every other locale is derived from it — never the other way around. If you need to correct a translation, fix the
+German string in <code>de.json</code> first; the sync script then picks up the change and re-translates the affected key in all
+target languages.</p>
+<p>After editing <code>de.json</code>, the three target files (<code>en.json</code>, <code>fr.json</code>, <code>it.json</code>) are out of date. There are two ways
+to bring them back in sync:</p>
+<h4>Option A — Automatic sync with DeepL (requires a paid API key)</h4>
+<p><code>core/i18n/sync_translations.py</code> automates the entire sync:</p>
+<ul>
+<li><strong>Adds</strong> keys that are in <code>de.json</code> but missing from a target file (translates them via DeepL).</li>
+<li><strong>Re-translates</strong> keys whose German value has changed since the last run.</li>
+<li><strong>Keeps</strong> existing translations whose German source has not changed (no unnecessary API calls).</li>
+<li><strong>Removes</strong> keys that are no longer in <code>de.json</code>.</li>
+</ul>
+<p>The script detects changes by comparing the current <code>de.json</code> against a snapshot stored in
+<strong><code>app/locales/cmp/de_cmp.json</code></strong> (see below). At the end of each successful run the snapshot is updated, so the next
+run only re-translates what actually changed.</p>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>A <strong>paid DeepL API key</strong>. Free-tier accounts do not support the API. The key is stored in the settings file
+  (<code>.env</code>) as <code>DEEPL_AUTH_KEY</code>. Without it the script exits with an authentication error.</li>
+<li>Python dependencies installed (<code>win_install_python_modules.bat</code>).</li>
+</ul>
+<p><strong>Run from a terminal in the project root:</strong></p>
+<pre><code>python core/i18n/sync_translations.py
+</code></pre>
+<p>Add <code>--dry-run</code> to see what would change without writing anything:</p>
+<pre><code>python core/i18n/sync_translations.py --dry-run
+</code></pre>
+<p><strong>Windows shortcut:</strong> double-click <strong><code>win_update_translations_i18n.bat</code></strong> in the project root — it runs the script
+without opening a terminal manually.</p>
+<p><strong>Placeholder protection:</strong> The script wraps each <code>{{...}}</code> token in private-use sentinel characters before sending the
+text to DeepL, then restores them afterwards. If DeepL drops or duplicates a placeholder the script raises an error
+rather than writing a broken string to disk.</p>
+<h4>Option B — Manual sync (no API key needed)</h4>
+<p>Open each target locale file (<code>en.json</code>, <code>fr.json</code>, <code>it.json</code>) and add or update the missing keys by hand, or paste
+the changed keys into an LLM and ask it to translate them. Keep the same key names and preserve any <code>{{placeholder}}</code>
+tokens verbatim. This is the recommended approach when no DeepL key is available, or when only one or two strings
+changed.</p>
+<h3>The comparison snapshot (<code>app/locales/cmp/de_cmp.json</code>)</h3>
+<p><code>de_cmp.json</code> is a <strong>machine-managed snapshot</strong> of <code>de.json</code> as it was at the end of the last <code>sync_translations.py</code>
+run. The script compares the current <code>de.json</code> against this snapshot to identify which keys were added, removed, or
+had their German value changed — and therefore which translations need to be (re-)generated. This avoids re-translating
+strings that are already correct, saving both API cost and time.</p>
+<p>You do not edit <code>de_cmp.json</code> by hand. It is updated automatically by the sync script. If you delete it, the next run
+treats every key as new and re-translates everything — harmless, but wasteful if you have a large number of keys.</p>
+<p>Commit <code>de_cmp.json</code> alongside the locale files so every team member's sync run starts from the same baseline.</p>
 <script>
 (function () {
     var toggle = document.getElementById('theme-toggle');

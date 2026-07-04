@@ -15,6 +15,7 @@ FILES = [
     "CLAUDE.md",
     "README.md",
     "MVC.md",
+    "TECHNOLOGY_DESCRIPTION.md",
 ]
 
 PAGE_TEMPLATE = """<!DOCTYPE html>

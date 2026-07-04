@@ -1,8 +1,16 @@
 # eduxept · Strategie-Cockpit
 
-## Installation (Windows)
+> **Tip:** Rendered HTML versions of this and other documentation files are available in the **`docs/`** folder.
+> Open them in any web browser for easier reading.
 
-Follow these two steps once before using the cockpit. No prior technical knowledge is required.
+## Installation
+
+> **Windows vs. Mac / Linux:** The `win_*.bat` files in the project root are Windows shortcuts — double-click them in
+> Explorer to run the corresponding script. On **Mac or Linux**, open a terminal in the project folder and run the
+> Python command shown in each section directly (e.g. `python core/devserver/devserver.py …`). All other steps are
+> identical on both platforms.
+
+Follow these steps once before using the cockpit. No prior technical knowledge is required.
 
 ### Step 1 — Install Python
 
@@ -19,7 +27,7 @@ Python is the program that runs the cockpit's tools on your computer.
 The cockpit needs a few add-on packages ("modules"). A ready-made script installs them all for you.
 
 1. Open the project folder in the Windows Explorer (the folder that contains this README file).
-2. Double-click the file **`run_install_python_modules.bat`**.
+2. Double-click the file **`win_install_python_modules.bat`**.
 3. A black window opens and text scrolls by while the modules are downloaded and installed. This can take a minute.
 4. When you see the message **`Press any key to continue . . .`**, the installation is complete. Press any key to close
    the window.
@@ -27,7 +35,7 @@ The cockpit needs a few add-on packages ("modules"). A ready-made script install
 > **Note:** If Windows shows a security warning ("Windows protected your PC"), click **More info → Run anyway**. The
 > script only installs the packages listed in `core/requirements.txt`.
 
-You only need to do this once. After that, you can start the cockpit with `run_devserver.bat`.
+You only need to do this once. After that, you can start the cockpit with `win_devserver.bat`.
 
 ### Step 3 (optional) — Install a code editor (IDE)
 
@@ -59,7 +67,7 @@ finished version. No prior technical knowledge is required.
 
 ### Start the cockpit (local test server)
 
-1. In the project folder, double-click **`run_devserver.bat`**.
+1. In the project folder, double-click **`win_devserver.bat`**.
 2. A black window opens and stays open — leave it running. This is the small web server that shows the cockpit.
 3. Your web browser opens automatically at the cockpit's start page (`wrapper.html`). If it doesn't, open your browser
    and go to **http://127.0.0.1:8002/wrapper.html**.
@@ -136,10 +144,10 @@ throwaway drafts.
 
 Practical advice when working with any agent:
 
-- **Keep the test server running** (`run_devserver.bat`) while you work. Because the page reloads by itself, you see the
+- **Keep the test server running** (`win_devserver.bat`) while you work. Because the page reloads by itself, you see the
   agent's changes in the browser right away and can judge whether they are correct.
 - **Review before you publish.** An agent can make mistakes. Always check the result in the local test server before you
-  run `run_upload_app.bat` to put a version live.
+  run `win_upload_app.bat` to put a version live.
 - **Describe one change at a time.** Small, clear requests give better results than one large, vague instruction.
 
 ### Settings: server address and access token
@@ -166,7 +174,7 @@ check.
 When your changes are ready and tested locally, you can upload them to the live platform so others can use them.
 
 1. Make sure your changes look correct in the local test server first.
-2. In the project folder, double-click **`run_upload_app.bat`**.
+2. In the project folder, double-click **`win_upload_app.bat`**.
 3. A black window opens and lists each file as it is uploaded. Lines marked **`[OK]`** were sent successfully; *
    *`[FAIL]`** means a file could not be uploaded.
 4. When it finishes, press any key to close the window.
@@ -207,17 +215,18 @@ The file lives at `app/openapi.json` and serves as the **checked-in contract** f
 every endpoint the cockpit relies on. Keeping a local copy means you can look up how an endpoint behaves without
 guessing, and it makes changes on the server visible when the file is refreshed.
 
-### Download the OpenAPI specification (`run_update_openapi.bat`)
+### Download the OpenAPI specification (`win_update_openapi.bat`)
 
 The backend publishes its current `openapi.json` at its own address. To refresh the local copy so it matches the live
 server, use the ready-made script:
 
-1. Open the folder **`core/openapi`** inside the project folder in the Windows Explorer.
-2. Double-click the file **`run_update_openapi.bat`**.
-3. A black window opens. It downloads the specification from the server (using the address from your settings file), checks
+1. In the project folder, double-click **`win_update_openapi.bat`**.
+   *(Mac / Linux: open a terminal and run `python core/openapi/build_openapi_models_js.py` and
+   `python core/openapi/build_openapi_models_python.py` separately.)*
+2. A black window opens. It downloads the specification from the server (using the address from your settings file), checks
    that the file is valid, and then replaces the local `openapi.json` with the fresh version. You'll see a `Downloading ...`
    line followed by a `Saved ...` confirmation with the file size.
-4. When you see **`Press any key to continue . . .`**, the update is complete. Press any key to close the window.
+3. When you see **`Press any key to continue . . .`**, the update is complete. Press any key to close the window.
 
 Run this whenever the backend has changed and you want the local contract to reflect the latest state of the API.
 
@@ -253,10 +262,253 @@ Generate `core/openapi/openapi.py` using
 python core/openapi/build_openapi_models_python.py
 ```
 
-Both scripts also re-download `openapi.json` at the start (same as `run_update_openapi.bat`), so running them is
+Both scripts also re-download `openapi.json` at the start (same as `win_update_openapi.bat`), so running them is
 sufficient — you do not need to run the download step separately. They invoke `uv run` internally for the generator
 tools, so `uv` must be available on your system alongside the Python dependencies from Step 2.
 
-On Windows, you can also double-click the corresponding `.bat` wrapper in `core/openapi/` (e.g.
-`run_build_openapi_models_js.bat` / `run_build_openapi_models_python.bat`) instead of opening a terminal.
+On Windows, double-clicking **`win_update_openapi.bat`** in the project root runs both scripts in one step and is the
+recommended shortcut — you do not need to open a terminal at all.
+
+## Translation
+
+### What i18n is
+
+**i18n** is shorthand for **internationalisation** — the "i", the next 18 letters, and the "n". It describes the
+practice of building software so that all user-visible text is stored separately from the code, and can be swapped out
+at runtime for a different language. Instead of writing `"Kein Projekt geladen."` directly inside a component, the code
+refers to a symbolic key (`"no_project_loaded"`), and a small i18n library replaces that key with the correct string
+for whatever language the user has selected. The result: the same codebase speaks German, English, French, or Italian
+without any code changes — only the locale files differ.
+
+The cockpit uses a lightweight custom i18n approach: locale files are plain JSON objects loaded once on startup, and a
+`t(key)` helper resolves any key to the active language's string (falling back to German if a translation is missing).
+Some strings contain **interpolation placeholders** such as `{{status}}` or `{{path}}` — these are filled in at runtime
+with actual values and must survive translation verbatim.
+
+### Locale files
+
+All locale files live in **`app/locales/`**:
+
+| File | Role |
+|---|---|
+| `de.json` | **Canonical German base** — the single source of truth. Every key and every German string lives here. Edit this file first when adding or changing text. |
+| `en.json` | English translations. |
+| `fr.json` | French translations. |
+| `it.json` | Italian translations. |
+
+Every file is a flat JSON object: string keys map to translated string values. Example from `de.json`:
+
+```json
+{
+  "no_project_loaded": "Kein Projekt geladen.",
+  "http_error": "HTTP {{status}} bei {{method}} {{path}}"
+}
+```
+
+The corresponding `en.json` entry would be:
+
+```json
+{
+  "no_project_loaded": "No project loaded.",
+  "http_error": "HTTP {{status}} at {{method}} {{path}}"
+}
+```
+
+Keys are shared across all files — every language file must contain exactly the same set of keys as `de.json`. Missing
+keys fall back to German at runtime; surplus keys (present in a target file but not in `de.json`) are ignored and
+removed on the next sync.
+
+If a locale file does not exist yet, or is completely empty, the sync script creates it automatically with an empty
+object (`{}`).
+
+### Adding or changing a translation entry
+
+1. **Open `app/locales/de.json`** in your editor.
+2. **Add or edit the German entry.** Use a descriptive, lowercase, underscore-separated key:
+   ```json
+   "save_changes": "Änderungen speichern"
+   ```
+   For strings that embed dynamic values, use `{{placeholder_name}}` syntax:
+   ```json
+   "items_selected": "{{count}} Einträge ausgewählt"
+   ```
+3. **Use the key in the code.** Inside a Preact component call `t("save_changes")` (or whatever the helper is named in
+   the file that sets up i18n). The key is resolved at runtime to the active language.
+4. **Sync the target languages** — see the next section.
+
+Never add a key to only one locale file — always start from `de.json` and propagate to the others. This keeps `de.json`
+as the only place a developer needs to look when searching for where a string originates.
+
+### Syncing translations
+
+**Base language: German (`de`).** `sync_translations.py` always treats `de.json` as the authoritative source.
+Every other locale is derived from it — never the other way around. If you need to correct a translation, fix the
+German string in `de.json` first; the sync script then picks up the change and re-translates the affected key in all
+target languages.
+
+After editing `de.json`, the three target files (`en.json`, `fr.json`, `it.json`) are out of date. There are two ways
+to bring them back in sync:
+
+#### Option A — Automatic sync with DeepL (requires a paid API key)
+
+`core/i18n/sync_translations.py` automates the entire sync:
+
+- **Adds** keys that are in `de.json` but missing from a target file (translates them via DeepL).
+- **Re-translates** keys whose German value has changed since the last run.
+- **Keeps** existing translations whose German source has not changed (no unnecessary API calls).
+- **Removes** keys that are no longer in `de.json`.
+
+The script detects changes by comparing the current `de.json` against a snapshot stored in
+**`app/locales/cmp/de_cmp.json`** (see below). At the end of each successful run the snapshot is updated, so the next
+run only re-translates what actually changed.
+
+**Prerequisites:**
+
+- A **paid DeepL API key**. Free-tier accounts do not support the API. The key is stored in the settings file
+  (`.env`) as `DEEPL_AUTH_KEY`. Without it the script exits with an authentication error.
+- Python dependencies installed (`win_install_python_modules.bat`).
+
+**Run from a terminal in the project root:**
+
+```
+python core/i18n/sync_translations.py
+```
+
+Add `--dry-run` to see what would change without writing anything:
+
+```
+python core/i18n/sync_translations.py --dry-run
+```
+
+**Windows shortcut:** double-click **`win_update_translations_i18n.bat`** in the project root — it runs the script
+without opening a terminal manually.
+
+**Placeholder protection:** The script wraps each `{{...}}` token in private-use sentinel characters before sending the
+text to DeepL, then restores them afterwards. If DeepL drops or duplicates a placeholder the script raises an error
+rather than writing a broken string to disk.
+
+#### Option B — Manual sync (no API key needed)
+
+Open each target locale file (`en.json`, `fr.json`, `it.json`) and add or update the missing keys by hand, or paste
+the changed keys into an LLM and ask it to translate them. Keep the same key names and preserve any `{{placeholder}}`
+tokens verbatim. This is the recommended approach when no DeepL key is available, or when only one or two strings
+changed.
+
+### The comparison snapshot (`app/locales/cmp/de_cmp.json`)
+
+`de_cmp.json` is a **machine-managed snapshot** of `de.json` as it was at the end of the last `sync_translations.py`
+run. The script compares the current `de.json` against this snapshot to identify which keys were added, removed, or
+had their German value changed — and therefore which translations need to be (re-)generated. This avoids re-translating
+strings that are already correct, saving both API cost and time.
+
+You do not edit `de_cmp.json` by hand. It is updated automatically by the sync script. If you delete it, the next run
+treats every key as new and re-translates everything — harmless, but wasteful if you have a large number of keys.
+
+Commit `de_cmp.json` alongside the locale files so every team member's sync run starts from the same baseline.
+
+## Working with Linux / WSL2
+
+> **For advanced users.** This chapter is aimed at developers who prefer a Linux command-line environment. If you are
+> on Windows and the `win_*.bat` shortcuts cover your needs, you can skip this chapter entirely.
+
+### What WSL2 is
+
+**WSL2** (Windows Subsystem for Linux 2) lets you run a full Linux environment directly inside Windows — no virtual
+machine to manage, no dual boot. You get a real Linux terminal, the Linux file system, and native Linux tools
+(including `make`, `curl`, `rsync`) alongside your normal Windows desktop. For this project that means you can use
+the `Makefile` and `uv` package manager exactly as you would on a native Linux or Mac machine.
+
+**Install WSL2** (one-time, from a Windows PowerShell run as administrator):
+
+```
+wsl --install
+```
+
+This installs Ubuntu by default. After a restart, open the **Ubuntu** app from the Start menu to get a Linux
+terminal. Then navigate to the project folder — WSL2 mounts Windows drives under `/mnt/c/`, so if the project
+lives at `C:\Users\you\strategy_cockpit` it is reachable at:
+
+```
+cd /mnt/c/Users/you/strategy_cockpit
+```
+
+> **Tip:** In Windows Explorer, right-click the project folder and choose **"Open Linux shell here"** if that option
+> is available (requires WSL2 already installed). Alternatively, open the Ubuntu terminal and `cd` to the path above.
+
+### uv — the Python package manager
+
+**uv** is a fast Python package manager and script runner from [Astral](https://astral.sh/uv). It replaces the
+traditional `pip` + `venv` workflow and is the tool this project uses to manage its Python dependencies and run its
+scripts. Everything is declared in `pyproject.toml`; `uv` reads that file and keeps a reproducible `uv.lock`
+lockfile so every machine uses exactly the same package versions.
+
+**Install uv** (Linux / WSL2 / Mac — one-time):
+
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Or via the Makefile shortcut (see below):
+
+```
+make uv_install
+```
+
+After installation, restart the terminal (or run `source ~/.bashrc`) so the `uv` command is on your `PATH`.
+
+Key concepts:
+
+| Command | What it does |
+|---|---|
+| `uv sync` | Creates `.venv` and installs all dependencies from `pyproject.toml`. Run this once after cloning. |
+| `uv sync --all-groups` | Same, but also installs the optional `dev` dependency group (e.g. `headroom-ai`). |
+| `uv run <script>` | Runs a Python script inside the project's virtual environment — without activating it first. This is how the Makefile invokes every script. |
+| `uv self update` | Updates uv itself to the latest version. |
+| `uv cache clean` | Clears the local package cache (frees disk space). |
+
+You do **not** need to activate `.venv` manually. `uv run` handles the environment automatically, which is why
+`source .venv/bin/activate` never appears in any Makefile target.
+
+### The Makefile
+
+A **Makefile** is a standard Unix build file. Each named block is called a **target** and is invoked with
+`make <target>`. Running `make` alone executes the first target in the file (here: `echo`, which prints the project
+name and lists the two most common targets as a reminder).
+
+All targets in this project use `uv run` to execute the scripts, so **uv must be installed** before any target will
+work.
+
+**Available targets:**
+
+| Target | Command to run | What it does |
+|---|---|---|
+| `make` | *(default)* | Prints the project name as a sanity check. |
+| `make md_to_html` | `uv run python core/toolbox/md_to_html.py` | Converts Markdown files to HTML and writes them to `docs/`. |
+| `make sync_translations` | `uv run python core/i18n/sync_translations.py` | Syncs `en/fr/it` locale files against the German base via DeepL (requires API key). |
+| `make update_openapi` | runs both build scripts | Downloads the live OpenAPI spec and re-generates `app/openapi.js` and `core/openapi/openapi.py`. |
+| `make venv_build` | `uv sync --no-group dev` | Rebuilds `.venv` from scratch with production dependencies only (no dev tools). |
+| `make venv_build_dev` | `uv sync --all-groups` | Rebuilds `.venv` with all dependencies including the dev group. Also bumps versions and removes stale egg-info. |
+| `make venv_update` | `uvx uv-bump` + `uv sync` | Bumps outdated packages and syncs the environment without a full rebuild. |
+| `make uv_install` | `curl … astral.sh/uv` | Installs uv for the first time. |
+| `make uv_update` | `uv self update` | Updates uv itself to the latest release. |
+| `make uv_clear_cache` | `uv cache clean` | Clears the uv package cache to free disk space. |
+| `make zone` | `find … Zone.Identifier -delete` | Removes Windows `Zone.Identifier` metadata files that appear on files downloaded from the internet. Harmless on native Linux but useful when working in WSL2 on a Windows-hosted folder. |
+| `make claude` | `uv run headroom wrap claude` | Starts Claude Code with the headroom context wrapper (dev group required). |
+
+**Typical first-time setup in WSL2:**
+
+```bash
+make uv_install   # install uv (if not already installed)
+# restart terminal, then:
+make venv_build   # create .venv and install all dependencies
+make update_openapi   # fetch live API spec and generate model classes
+```
+
+**Day-to-day usage:**
+
+```bash
+make sync_translations   # after editing de.json
+make md_to_html          # after editing any *.md documentation file
+make update_openapi      # after the backend API changes
+```
 

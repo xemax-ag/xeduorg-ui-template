@@ -1,8 +1,11 @@
-echo: md_to_html
+echo: md_to_html sync_translations
 	echo "xedu-org-ui-template"
 
 md_to_html:
 	uv run python core/toolbox/md_to_html.py
+
+sync_translations:
+	uv run python core/i18n/sync_translations.py
 
 update_openapi:
 	uv run python core/openapi/build_openapi_models_js.py

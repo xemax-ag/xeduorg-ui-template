@@ -60,9 +60,11 @@ def _locale_path(lang: Language) -> Path:
 
 def _load(lang: Language) -> dict:
     path = _locale_path(lang)
-    if not path.exists():
+    text = path.read_text(encoding="utf-8").strip() if path.exists() else ""
+    if not text:
+        path.write_text("{}\n", encoding="utf-8")
         return {}
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(text)
 
 
 def _flatten(tree: dict, path: str = "") -> dict[str, str]:
