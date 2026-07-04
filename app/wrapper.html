@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>eduxept · Strategie-Cockpit — Verbindung</title>
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+  <!-- Set the theme (light/dark) as early as possible to avoid a flash on load;
+       the full logic lives in wrapper.js. -->
+  <script>try {
+      var c = JSON.parse(localStorage.getItem('eduxept_cockpit') || '{}');
+      var t = new URLSearchParams(location.search).get('theme') || c.theme || 'dark';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+  } catch (e) {
+  }</script>
+  <!-- Preact + htm via ESM CDN (no build step), pinned to one Preact instance. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "preact": "https://esm.sh/preact@10.24.3",
+        "preact/hooks": "https://esm.sh/preact@10.24.3/hooks",
+        "htm": "https://esm.sh/htm@3.1.1"
+      }
+    }
+  </script>
+  <!-- Tailwind CSS v4 – Play CDN (development). -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- eduxept CI as native Tailwind utilities + :root variables (see app.html). -->
+  <style type="text/tailwindcss">
+      /* Class-based dark mode (html.dark). */
+      @custom-variant dark (&:where(.dark, .dark *));
+      @theme {
+          --color-primary: #09436f;
+          --color-secondary: #0b93d6;
+          --color-bg: #eaf0f5;
+          --color-panel: #f6fbff;
+          --color-panel-2: #e6edf3;
+          --color-border: #c7d4df;
+          --color-text: #0a1c2a;
+          --color-text-dim: #4d6275;
+          --color-text-faint: #8499a8;
+          --color-vision: #09436f;
+          --color-mission: #059669;
+          --color-focus: #d97706;
+          --color-action: #dc2626;
+          --color-ok: #16a34a;
+          --color-err: #dc2626;
+          --color-warn: #d97706;
+          --color-surface: #ffffff;
+          --radius-card: 10px;
+          --shadow-card: 0 1px 2px rgba(16, 24, 40, .04), 0 1px 3px rgba(16, 24, 40, .06);
+          --shadow-header: 0 2px 8px rgba(9, 67, 111, .25);
+      }
+  </style>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="h-screen overflow-hidden">
+<div id="app" class="flex flex-col h-screen overflow-hidden"></div>
+<script type="module" src="wrapper.js"></script>
+</body>
+</html>

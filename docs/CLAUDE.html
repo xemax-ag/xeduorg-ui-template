@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAUDE</title>
+<script>
+/* Seed the theme from the browser default before first paint (no flash). */
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark');
+}
+</script>
+<style>
+:root { color-scheme: light; --bg: #ffffff; --fg: #1f2937; --muted: #4b5563; --surface: #f3f4f6; --border: #d1d5db; --link: #2563eb; }
+html.dark { color-scheme: dark; --bg: #000000; --fg: #e5e7eb; --muted: #9ca3af; --surface: #1f2937; --border: #374151; --link: #60a5fa; }
+body { max-width: 52rem; margin: 2rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; line-height: 1.6; background: var(--bg); color: var(--fg); }
+pre { background: var(--surface); padding: 1rem; overflow-x: auto; border-radius: 6px; }
+code { background: var(--surface); padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.9em; }
+pre code { padding: 0; background: none; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid var(--border); padding: 0.4rem 0.7rem; }
+blockquote { border-left: 4px solid var(--border); margin-left: 0; padding-left: 1rem; color: var(--muted); }
+a { color: var(--link); }
+#theme-toggle { position: fixed; top: 1rem; right: 1rem; background: var(--surface); color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.6rem; font-size: 1rem; cursor: pointer; }
+</style>
+</head>
+<body>
+<button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
+<h1>CLAUDE.md</h1>
+<p>This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.</p>
+<h2>Working guidelines</h2>
+<p>Behavioral guidelines to reduce common LLM coding mistakes. Merge with the project-specific instructions below as
+needed.</p>
+<p><strong>Tradeoff:</strong> These guidelines bias toward caution over speed. For trivial tasks, use judgment.</p>
+<h3>1. Think Before Coding</h3>
+<p><strong>Don't assume. Don't hide confusion. Surface tradeoffs.</strong></p>
+<p>Before implementing:</p>
+<ul>
+<li>State your assumptions explicitly. If uncertain, ask.</li>
+<li>If multiple interpretations exist, present them - don't pick silently.</li>
+<li>If a simpler approach exists, say so. Push back when warranted.</li>
+<li>If something is unclear, stop. Name what's confusing. Ask.</li>
+</ul>
+<h3>2. Simplicity First</h3>
+<p><strong>Minimum code that solves the problem. Nothing speculative.</strong></p>
+<ul>
+<li>No features beyond what was asked.</li>
+<li>No abstractions for single-use code.</li>
+<li>No "flexibility" or "configurability" that wasn't requested.</li>
+<li>No error handling for impossible scenarios.</li>
+<li>If you write 200 lines and it could be 50, rewrite it.</li>
+</ul>
+<p>Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.</p>
+<h3>3. Surgical Changes</h3>
+<p><strong>Touch only what you must. Clean up only your own mess.</strong></p>
+<p>When editing existing code:</p>
+<ul>
+<li>Don't "improve" adjacent code, comments, or formatting.</li>
+<li>Don't refactor things that aren't broken.</li>
+<li>Match existing style, even if you'd do it differently.</li>
+<li>If you notice unrelated dead code, mention it - don't delete it.</li>
+</ul>
+<p>When your changes create orphans:</p>
+<ul>
+<li>Remove imports/variables/functions that YOUR changes made unused.</li>
+<li>Don't remove pre-existing dead code unless asked.</li>
+</ul>
+<p>The test: Every changed line should trace directly to the user's request.</p>
+<h3>4. Goal-Driven Execution</h3>
+<p><strong>Define success criteria. Loop until verified.</strong></p>
+<p>Transform tasks into verifiable goals:</p>
+<ul>
+<li>"Add validation" → "Write tests for invalid inputs, then make them pass"</li>
+<li>"Fix the bug" → "Write a test that reproduces it, then make it pass"</li>
+<li>"Refactor X" → "Ensure tests pass before and after"</li>
+</ul>
+<p>For multi-step tasks, state a brief plan:</p>
+<pre><code>1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+</code></pre>
+<p>Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.</p>
+<p><strong>These guidelines are working if:</strong> fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and
+clarifying questions come before implementation rather than after mistakes.</p>
+<h2>What this is</h2>
+<p>A <strong>Strategie-Cockpit</strong> for the eduxept platform: a browser client that reads and edits a four-level strategy
+hierarchy (Vision → Mission → Focus → Action) stored in an external REST backend (<code>eduxept-api-v1</code>). This repo contains
+<strong>only the frontend client plus Python dev/deploy tooling</strong> — the API is a separate service. There is no local database;
+every data operation is an HTTP call to the configured API.</p>
+<h2>Commands (Windows / PowerShell; <code>.bat</code> launchers at repo root)</h2>
+<ul>
+<li><code>run_install_python_modules.bat</code> — <code>pip install -r core/requirements.txt</code> (run once).</li>
+<li><code>run_devserver.bat</code> — start the live-reload dev server on port 8002, opens <code>wrapper.html</code>. Under the hood:
+  <code>python core/devserver/devserver.py --open wrapper.html --port 8002</code>. Pass-through args: <code>--port</code>, <code>--host</code>, <code>--open</code>,
+  <code>--no-open</code>.</li>
+<li><code>run_upload_app.bat</code> — deploy the <code>app/</code> files to the eduxept file API (<code>core/upload/upload.py</code>).</li>
+<li><code>core/openapi/update_openapi.bat</code> — re-download <code>openapi.json</code> from the live API.</li>
+</ul>
+<p>There is no build step, no linter, and no test suite. Changes to <code>app/*.{html,js,css}</code> are picked up instantly by the
+dev server's live-reload (watchdog + SSE).</p>
+<h2>Frontend architecture (<code>app/</code>)</h2>
+<p><strong>Two-tier, iframe-based.</strong> <code>wrapper.html</code>/<code>wrapper.js</code> is the connection screen: it resolves the API base URL, bearer
+token, and theme, loads the project list, lets the user pick a project, then embeds <code>app.html</code> in an <code>&lt;iframe&gt;</code>,
+forwarding <code>baseUrl</code>, <code>token</code>, <code>projectPk</code>, and <code>theme</code> as <strong>URL query parameters</strong>. <code>app.html</code> reads those params on
+load; if no token is present it redirects back to <code>wrapper.html</code>.</p>
+<p><strong><code>app.html</code> is a strict MVC split</strong> (all ES modules, no bundler).</p>
+<p>The <strong>Model-View-Controller (MVC)</strong> pattern (Trygve Reenskaug, 1970s) separates an application into three interconnected
+components so each can be reasoned about, changed, and tested in isolation:</p>
+<ul>
+<li><strong>Model</strong> — the application's data and business logic. Manages state, answers queries, and performs updates. Knows
+  nothing about the UI.</li>
+<li><strong>View</strong> — the user interface. Renders data from the Model and forwards user commands (button clicks, form submits)
+  onward. Holds no business logic.</li>
+<li><strong>Controller</strong> — the intermediary. Receives user input from the View, drives the Model to read/modify data, and
+  selects which View to render.</li>
+</ul>
+<p>Flow: user interacts with the <strong>View</strong> → the <strong>Controller</strong> handles the input and calls the <strong>Model</strong> → the <strong>Model</strong>
+updates its state → the <strong>Controller</strong> re-renders the appropriate <strong>View</strong> with the new data. The payoff is separation
+of concerns, scalability (many Views over one Model), reusability of Models/Controllers, and testability (each component
+in isolation).</p>
+<p>How this repo maps onto that pattern:</p>
+<ul>
+<li><code>controller.js</code> (<strong>Controller</strong>) — the only script <code>app.html</code> loads. Owns all Preact state (<code>useState</code>), wires user
+  actions to the Model, selects the active View, and calls <code>render()</code>. Views: <code>tree</code>, <code>tiles</code>, <code>split</code>, <code>mosaic</code>,
+  <code>graph</code>, <code>table</code>.</li>
+<li><code>model.js</code> (<strong>Model</strong>) — pure data + API. No Preact, no DOM. Holds the level configuration, CRUD payload builders, the
+  n:m link index, and delete planning. Exports live bindings (<code>linkIndex</code>, <code>allEntities</code>, <code>parentCandidates</code>) that are
+  rebuilt on each project load via <code>buildLinkIndex()</code>.</li>
+<li><code>view.js</code> (<strong>View</strong>) — Preact presentational components. Reads Model helpers, receives action callbacks as props,
+  delegates mutations back to the Model.</li>
+</ul>
+<p><strong>No build step by design.</strong> Preact, <code>preact/hooks</code>, and <code>htm</code> are loaded from <code>esm.sh</code> via an
+<code>&lt;script type="importmap"&gt;</code> (pinned versions, single Preact instance). Tailwind v4 comes from the Play CDN; the eduxept
+color/spacing tokens live in an inline <code>&lt;style type="text/tailwindcss"&gt;</code> <code>@theme</code> block <strong>duplicated in
+both <code>app.html</code> and <code>wrapper.html</code></strong> — keep them in sync. Dark mode is a class on <code>&lt;html&gt;</code> set from the <code>?theme=</code>
+param before first paint to avoid a flash.</p>
+<h2>Domain model &amp; the n:m link index (the non-obvious part)</h2>
+<p>The hierarchy is <strong>not a tree</strong> — it's four entity tables (<code>visions</code>, <code>missions</code>, <code>focuses</code>, <code>actions</code>) joined by *
+<em>junction tables</em>* (<code>mis-2-vis</code>, <code>foc-2-mis</code>, <code>act-2-foc</code>), so the same entity can have multiple parents (shared nodes).
+<code>model.js</code> centralizes this in lookup maps: <code>ENT</code>, <code>CHILD</code>, <code>JUNC</code>, <code>PARENTFK</code>, <code>SELFFK</code>, <code>JUNC_ARR</code>, <code>JUNC_CHILD_ARR</code>,
+<code>PARENT_LEVEL</code>. When adding/changing a level, update these maps together — the rest of the code is driven by them.</p>
+<p><code>buildLinkIndex()</code> walks the nested <code>/strategies-views/read</code> response and builds
+<code>linkIndex[level][pk] → [{junctionPk, parentLevel, parentPk, parentObj}]</code>. Because nodes are shared, <strong>delete is
+shared-aware</strong>: <code>collectDescendant</code>/<code>collectSelfDelete</code> only delete an entity when it has a single parent link;
+otherwise they remove just the junction row. Always go through these planners rather than deleting entities directly.</p>
+<h2>API access</h2>
+<p>All calls go through <code>api(path, body, method)</code> in <code>model.js</code> (and a mirror in <code>wrapper.js</code>). Reads are <code>POST .../read</code>
+with a SQL-ish <code>{where: '...'}</code> filter; writes are <code>create</code>/<code>update</code> (PUT)/<code>delete</code> (DELETE) under
+<code>/strategies-tables/{entity}/</code>. The full hierarchy is fetched from <code>/strategies-views/read</code>. <code>core/openapi/openapi.json</code>
+is the checked-in contract for these endpoints.</p>
+<p><strong>If you hit problems with entity attributes</strong> (missing/renamed/unexpected fields, payload validation errors), sync the
+data models against the live spec at <a href="https://eduxept-api-v1.xemax.ch/openapi.json">https://eduxept-api-v1.xemax.ch/openapi.json</a> — the checked-in
+<code>core/openapi/openapi.json</code> may be stale. Refresh it with <code>core/openapi/update_openapi.bat</code> and reconcile <code>model.js</code>
+against the updated schema.</p>
+<p><strong>Known backend quirks the code deliberately works around</strong> (preserve these unless the API is fixed):</p>
+<ul>
+<li>State/enum fields (<code>implementation_state</code>, <code>validity_state</code>, <code>priority_state</code>, <code>traffic_light</code>) are intentionally
+  <strong>not</strong> sent on create (server enum-view bug).</li>
+<li>Entity field <code>update</code> used to return HTTP 400 (server bug); verified fixed on 2026-07-02 (no-op PUTs return 200 for
+  all four entities). <code>updateEntity</code> still catches field-update errors and reports them without failing the whole
+  operation (link changes are applied independently).</li>
+<li>TLS certificate verification is <strong>disabled everywhere</strong> (<code>verify=False</code> in httpx, <code>_create_unverified_context()</code> in
+  urllib scripts) because the API uses an internal/self-signed cert.</li>
+</ul>
+<h2>Configuration (<code>core/config.py</code>)</h2>
+<p>Pydantic-settings <code>Config</code> exposes <code>api_base_url</code> and <code>auth_token</code>, loaded from a <code>.env</code> file <strong>one directory above the
+repo root</strong> (<code>parents[2]</code>) — the token is kept out of the repo. The dev server injects these into <code>wrapper.html</code> via
+query params so no token is hardcoded in the source. <code>get_computer_id()</code> reads the Windows <code>MachineGuid</code>; if the current
+machine is in <code>COMPUTER_IDS_DEV</code>, <code>strategy_cockpit_dev.env</code> is loaded instead of <code>strategy_cockpit.env</code>.</p>
+<h2>Python tooling (<code>core/</code>)</h2>
+<ul>
+<li><code>devserver/devserver.py</code> — stdlib <code>http.server</code> + watchdog. Serves <code>app/</code> as web root; injects an SSE live-reload
+  snippet into every HTML response; sends no-cache headers on everything; routes <code>/static/*</code> to
+  <code>core/devserver/static/</code>; and 302-redirects the wrapper entry page to attach the <code>baseUrl</code>/<code>token</code> connection params.</li>
+<li><code>upload/upload.py</code> — multipart upload of the <code>app/</code> files to <code>/files/upload</code> via httpx.</li>
+<li><code>openapi/update_openapi.py</code> — refresh the local OpenAPI spec.</li>
+<li><code>toolbox/render_jinja.py</code> — standalone Jinja2 render helper (not wired into the app).</li>
+</ul>
+<p>Every Python entry point appends the repo root (<code>parents[2]</code>) to <code>sys.path</code> so <code>from core.config import config</code> works
+when run directly from a <code>.bat</code>.</p>
+<h2>Language note</h2>
+<p>The UI, comments, and user-facing strings are in <strong>German</strong> (Vision/Mission/Fokus/Aktion). Entity display labels are
+overridable per project and persisted in <code>localStorage</code> under <code>eduxept_cockpit_labels</code>.</p>
+<script>
+(function () {
+    var toggle = document.getElementById('theme-toggle');
+    function setIcon() {
+        toggle.textContent = document.documentElement.classList.contains('dark') ? '\u2600\ufe0f' : '\ud83c\udf19';
+    }
+    toggle.addEventListener('click', function () {
+        document.documentElement.classList.toggle('dark');
+        setIcon();
+    });
+    setIcon();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>eduxept · Strategie-Cockpit</title>
+  <!-- Single source of truth for the theme (light/dark): resolves ?theme= URL
+       param (injected by the wrapper) → localStorage fallback → default light,
+       and applies it here, before first paint, to avoid a flash on load.
+       model.js reads the result off <html> rather than re-resolving it. -->
+  <script>(function(){var qp=new URLSearchParams(location.search),g=window.__COCKPIT_PARAMS__||{},c={};try{c=JSON.parse(localStorage.getItem('eduxept_cockpit')||'{}')}catch(e){}document.documentElement.classList.toggle('dark',(qp.get('theme')||g.theme||c.theme||'light').toLowerCase()==='dark');})();</script>
+  <!-- Preact + htm via ESM CDN (no build step), pinned to one Preact instance. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "preact": "https://esm.sh/preact@10.24.3",
+      "preact/hooks": "https://esm.sh/preact@10.24.3/hooks",
+      "htm": "https://esm.sh/htm@3.1.1"
+    }
+  }
+  </script>
+  <!-- Tailwind CSS v4 – Play CDN (development). Provides the utility framework. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- eduxept CI as native Tailwind utilities (bg-primary, text-vision, rounded-card,
+       shadow-card …). The Play CDN only processes inline <style type="text/tailwindcss">,
+       so the @theme lives here; it also emits the tokens as :root variables, which
+       app.css and the JS-generated markup consume. -->
+  <style type="text/tailwindcss">
+    /* Class-based dark mode (html.dark), set from the ?theme= parameter. */
+    @custom-variant dark (&:where(.dark, .dark *));
+    @theme {
+      --color-primary:    #09436f;
+      --color-secondary:  #0b93d6;
+      --color-bg:         #eaf0f5;
+      --color-panel:      #f6fbff;
+      --color-panel-2:    #e6edf3;
+      --color-border:     #c7d4df;
+      --color-text:       #0a1c2a;
+      --color-text-dim:   #4d6275;
+      --color-text-faint: #8499a8;
+      --color-vision:     #09436f;
+      --color-mission:    #059669;
+      --color-focus:      #d97706;
+      --color-action:     #dc2626;
+      --color-ok:         #16a34a;
+      --color-err:        #dc2626;
+      --color-warn:       #d97706;
+      --color-surface:    #ffffff;
+      --radius-card:      10px;
+      --shadow-card:      0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+      --shadow-header:    0 2px 8px rgba(9,67,111,.25);
+    }
+  </style>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app"></div>
+<!-- MVC: controller.js (Controller) imports model.js (Model) and view.js (View). -->
+<script type="module" src="controller.js"></script>
+</body>
+</html>

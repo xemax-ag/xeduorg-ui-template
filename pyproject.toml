@@ -1,0 +1,47 @@
+[project]
+name = "xedu-org-ui-template"
+version = "0.0.1"
+description = ""
+authors = [
+    { name = "Pascal Helfenstein", email = "pascal.helfenstein@xemax.ch" },
+    { name = "Thomas Ruoss", email = "thomas.ruoss@xemax.ch" },
+]
+requires-python = ">=3.13"
+readme = "README.md"
+dependencies = [
+    "datamodel-code-generator[ruff]>=0.67.0",
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "openapi-generator-cli[jdk4py]>=7.23.0",
+    "openpyxl>=3.1.5",
+    "pyclean>=3.7.0",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.2",
+    "python-docx>=1.2.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "watchdog>=6.0.0",
+    "markdown>=3.10.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+
+# Install the project as a package so `uv run` puts the project root on
+# sys.path. Without this, `uv run app/i18n/sync_translations.py` runs with only
+# the script's own directory importable and `import app` fails.
+# Example: uv run app/i18n/sync_translations.py
+[tool.uv]
+package = true
+required-environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+# uv add --dev ....
+[dependency-groups]
+dev = [
+    "headroom-ai[all]>=0.30.0",
+]
