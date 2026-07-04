@@ -15,7 +15,7 @@ The technology stack used in this project is deliberately simple and browser-foc
 pages, while JavaScript controls behavior and user interaction. Preact organizes the interface into reusable components
 without requiring a heavy setup, and Tailwind CSS provides a consistent way to style layout, spacing, colors, and
 responsive behavior. Web Awesome adds ready-made interface components where standard controls are useful. Python is used
-outside the browser for supporting tools, such as the local development server, documentation generation, OpenAPI model
+outside the browser for supporting tools, such as the local web server, documentation generation, OpenAPI model
 generation, translation synchronization, and upload scripts. Together, these technologies keep the project
 understandable, practical, and easy to run locally.
 
@@ -119,7 +119,7 @@ There are a few integration details to keep in mind when using Web Awesome toget
 - Many AI and data tools are based on Python. It is widely used for machine learning, data analysis, automation, and
   connecting different systems.
 - In this project, Python is the basis for the **`core/`** module.
-- The `core/` module contains supporting tools around the web application, for example the local development server,
+- The `core/` module contains supporting tools around the web application, for example the local web server,
   upload scripts, OpenAPI model generation, Markdown-to-HTML documentation generation, and translation synchronization.
 - This separation is useful: the browser application is built with HTML, JavaScript, Preact, and Tailwind, while Python
   handles the background tooling that helps develop, document, and publish the project.

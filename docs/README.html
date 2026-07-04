@@ -27,6 +27,14 @@ a { color: var(--link); }
 <body>
 <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
 <h1>eduxept · Strategie-Cockpit</h1>
+<p>Related documentation:</p>
+<ul>
+<li><a href="CLAUDE.md">CLAUDE.md</a> — project-specific instructions for AI coding agents and developers who work on the source
+  code.</li>
+<li><a href="TECHNOLOGY_DESCRIPTION.md">TECHNOLOGY_DESCRIPTION.md</a> — a non-technical explanation of the main technologies used in
+  this project.</li>
+<li><a href="MVC.md">MVC.md</a> — a short explanation of the Model-View-Controller pattern used to structure the application.</li>
+</ul>
 <blockquote>
 <p><strong>Tip:</strong> Rendered HTML versions of this and other documentation files are available in the <strong><code>docs/</code></strong> folder.
 Open them in any web browser for easier reading.</p>
@@ -35,7 +43,7 @@ Open them in any web browser for easier reading.</p>
 <blockquote>
 <p><strong>Windows vs. Mac / Linux:</strong> The <code>win_*.bat</code> files in the project root are Windows shortcuts — double-click them in
 Explorer to run the corresponding script. On <strong>Mac or Linux</strong>, open a terminal in the project folder and run the
-Python command shown in each section directly (e.g. <code>python core/devserver/devserver.py …</code>). All other steps are
+Python command shown in each section directly (e.g. <code>python core/webserver/webserver.py …</code>). All other steps are
 identical on both platforms.</p>
 </blockquote>
 <p>Follow these steps once before using the cockpit. No prior technical knowledge is required.</p>
@@ -61,9 +69,9 @@ identical on both platforms.</p>
 <p><strong>Note:</strong> If Windows shows a security warning ("Windows protected your PC"), click <strong>More info → Run anyway</strong>. The
 script only installs the packages listed in <code>core/requirements.txt</code>.</p>
 </blockquote>
-<p>You only need to do this once. After that, you can start the cockpit with <code>win_devserver.bat</code>.</p>
+<p>You only need to do this once. After that, you can start the cockpit with <code>win_webserver.bat</code>.</p>
 <h3>Step 3 (optional) — Install a code editor (IDE)</h3>
-<p>You can run and use the cockpit with just the steps above. But if you plan to <strong>look at or change the cockpit's files</strong>,
+<p>You can run and use the app with just the steps above. But if you plan to <strong>look at or change the cockpit's files</strong>,
 a proper code editor — an <strong>IDE</strong> (Integrated Development Environment) — makes this much easier and safer than a plain
 text editor like Notepad.</p>
 <p>Two recommended, free options:</p>
@@ -85,9 +93,9 @@ text editor like Notepad.</p>
 <h2>Development Workflow</h2>
 <p>This chapter explains the everyday routine: starting the cockpit on your own computer, making changes, and publishing a
 finished version. No prior technical knowledge is required.</p>
-<h3>Start the cockpit (local test server)</h3>
+<h3>Start the cockpit (local web server)</h3>
 <ol>
-<li>In the project folder, double-click <strong><code>win_devserver.bat</code></strong>.</li>
+<li>In the project folder, double-click <strong><code>win_webserver.bat</code></strong>.</li>
 <li>A black window opens and stays open — leave it running. This is the small web server that shows the cockpit.</li>
 <li>Your web browser opens automatically at the cockpit's start page (<code>wrapper.html</code>). If it doesn't, open your browser
    and go to <strong>http://127.0.0.1:8002/wrapper.html</strong>.</li>
@@ -103,7 +111,7 @@ browser, and immediately see the result.</p>
 <p>To load pages faster, browsers sometimes keep an old copy of a file in memory (the "cache"). During development this can
 be confusing: you change something, but the browser still shows the <strong>previous</strong> version.</p>
 <ul>
-<li>The test server is set up to tell the browser <strong>not</strong> to cache anything, so this usually doesn't happen.</li>
+<li>The web server is set up to tell the browser <strong>not</strong> to cache anything, so this usually doesn't happen.</li>
 <li>If you still see an outdated page, force a fresh load with <strong>Ctrl + F5</strong> (hold Ctrl and press F5). This tells the
   browser to ignore its cache and download everything again.</li>
 <li>If it still looks wrong, close the browser tab completely and open the address again.</li>
@@ -155,9 +163,9 @@ generous reasoning-effort setting. Cheaper or local models and low effort are fi
 throwaway drafts.</p>
 <p>Practical advice when working with any agent:</p>
 <ul>
-<li><strong>Keep the test server running</strong> (<code>win_devserver.bat</code>) while you work. Because the page reloads by itself, you see the
+<li><strong>Keep the web server running</strong> (<code>win_webserver.bat</code>) while you work. Because the page reloads by itself, you see the
   agent's changes in the browser right away and can judge whether they are correct.</li>
-<li><strong>Review before you publish.</strong> An agent can make mistakes. Always check the result in the local test server before you
+<li><strong>Review before you publish.</strong> An agent can make mistakes. Always check the result in the local web server before you
   run <code>win_upload_app.bat</code> to put a version live.</li>
 <li><strong>Describe one change at a time.</strong> Small, clear requests give better results than one large, vague instruction.</li>
 </ul>
@@ -168,7 +176,7 @@ settings file named <strong><code>strategy_cockpit.env</code></strong>, located 
 token out of the project itself.</p>
 <p>You normally don't touch this file by hand — it is prepared once. What's useful to understand:</p>
 <ul>
-<li>When you start the test server, it reads these settings and <strong>passes them automatically to the cockpit</strong> by attaching
+<li>When you start the web server, it reads these settings and <strong>passes them automatically to the cockpit</strong> by attaching
   them to the web address (as so-called URL parameters). That's why you don't have to type an address or token into the
   cockpit yourself.</li>
 <li>Developer computers can use a second file, <code>strategy_cockpit_dev.env</code>, so that testing points at a different (
@@ -180,7 +188,7 @@ check.</p>
 <h3>Publish a version to the hosting platform</h3>
 <p>When your changes are ready and tested locally, you can upload them to the live platform so others can use them.</p>
 <ol>
-<li>Make sure your changes look correct in the local test server first.</li>
+<li>Make sure your changes look correct in the local web server first.</li>
 <li>In the project folder, double-click <strong><code>win_upload_app.bat</code></strong>.</li>
 <li>A black window opens and lists each file as it is uploaded. Lines marked <strong><code>[OK]</code></strong> were sent successfully; *
    <em><code>[FAIL]</code></em>* means a file could not be uploaded.</li>
@@ -375,39 +383,26 @@ treats every key as new and re-translates everything — harmless, but wasteful 
 <p>Commit <code>de_cmp.json</code> alongside the locale files so every team member's sync run starts from the same baseline.</p>
 <h2>Working with Linux / WSL2</h2>
 <blockquote>
-<p><strong>For advanced users.</strong> This chapter is aimed at developers who prefer a Linux command-line environment. If you are
-on Windows and the <code>win_*.bat</code> shortcuts cover your needs, you can skip this chapter entirely.</p>
+<p><strong>For advanced users.</strong> This chapter is only needed if you want to work from a Linux terminal. If the Windows
+<code>win_*.bat</code> shortcuts cover your needs, you can skip it.</p>
 </blockquote>
-<h3>What WSL2 is</h3>
-<p><strong>WSL2</strong> (Windows Subsystem for Linux 2) lets you run a full Linux environment directly inside Windows — no virtual
-machine to manage, no dual boot. You get a real Linux terminal, the Linux file system, and native Linux tools
-(including <code>make</code>, <code>curl</code>, <code>rsync</code>) alongside your normal Windows desktop. For this project that means you can use
-the <code>Makefile</code> and <code>uv</code> package manager exactly as you would on a native Linux or Mac machine.</p>
-<p><strong>Install WSL2</strong> (one-time, from a Windows PowerShell run as administrator):</p>
+<p><strong>WSL2</strong> (Windows Subsystem for Linux 2) lets you run Linux directly inside Windows. This is useful for this project
+because the <code>Makefile</code> and the <code>uv</code> Python package manager work there in the same way as on Linux or Mac.</p>
+<p>Install WSL2 once from a Windows PowerShell opened as administrator:</p>
 <pre><code>wsl --install
 </code></pre>
-<p>This installs Ubuntu by default. After a restart, open the <strong>Ubuntu</strong> app from the Start menu to get a Linux
-terminal. Then navigate to the project folder — WSL2 mounts Windows drives under <code>/mnt/c/</code>, so if the project
-lives at <code>C:\Users\you\strategy_cockpit</code> it is reachable at:</p>
-<pre><code>cd /mnt/c/Users/you/strategy_cockpit
+<p>After the installation, restart Windows if asked, open the <strong>Ubuntu</strong> app, and go to the project folder. Windows drives
+are available below <code>/mnt/</code>, for example:</p>
+<pre><code>cd /mnt/c/Users/you/xeduorg-ui-template
 </code></pre>
-<blockquote>
-<p><strong>Tip:</strong> In Windows Explorer, right-click the project folder and choose <strong>"Open Linux shell here"</strong> if that option
-is available (requires WSL2 already installed). Alternatively, open the Ubuntu terminal and <code>cd</code> to the path above.</p>
-</blockquote>
-<h3>uv — the Python package manager</h3>
-<p><strong>uv</strong> is a fast Python package manager and script runner from <a href="https://astral.sh/uv">Astral</a>. It replaces the
-traditional <code>pip</code> + <code>venv</code> workflow and is the tool this project uses to manage its Python dependencies and run its
-scripts. Everything is declared in <code>pyproject.toml</code>; <code>uv</code> reads that file and keeps a reproducible <code>uv.lock</code>
-lockfile so every machine uses exactly the same package versions.</p>
-<p><strong>Install uv</strong> (Linux / WSL2 / Mac — one-time):</p>
+<h3>Install uv</h3>
+<p><code>uv</code> installs the Python dependencies and runs project scripts inside the correct environment. You do not need to
+activate <code>.venv</code> manually.</p>
 <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh
 </code></pre>
-<p>Or via the Makefile shortcut (see below):</p>
-<pre><code>make uv_install
-</code></pre>
-<p>After installation, restart the terminal (or run <code>source ~/.bashrc</code>) so the <code>uv</code> command is on your <code>PATH</code>.</p>
-<p>Key concepts:</p>
+<p>Restart the terminal afterwards, or run <code>source ~/.bashrc</code>, so the <code>uv</code> command is available.</p>
+<h3>Important Make Commands</h3>
+<p>The <code>Makefile</code> contains shortcuts for common development tasks. The most important ones are:</p>
 <table>
 <thead>
 <tr>
@@ -417,116 +412,34 @@ lockfile so every machine uses exactly the same package versions.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>uv sync</code></td>
-<td>Creates <code>.venv</code> and installs all dependencies from <code>pyproject.toml</code>. Run this once after cloning.</td>
-</tr>
-<tr>
-<td><code>uv sync --all-groups</code></td>
-<td>Same, but also installs the optional <code>dev</code> dependency group (e.g. <code>headroom-ai</code>).</td>
-</tr>
-<tr>
-<td><code>uv run &lt;script&gt;</code></td>
-<td>Runs a Python script inside the project's virtual environment — without activating it first. This is how the Makefile invokes every script.</td>
-</tr>
-<tr>
-<td><code>uv self update</code></td>
-<td>Updates uv itself to the latest version.</td>
-</tr>
-<tr>
-<td><code>uv cache clean</code></td>
-<td>Clears the local package cache (frees disk space).</td>
-</tr>
-</tbody>
-</table>
-<p>You do <strong>not</strong> need to activate <code>.venv</code> manually. <code>uv run</code> handles the environment automatically, which is why
-<code>source .venv/bin/activate</code> never appears in any Makefile target.</p>
-<h3>The Makefile</h3>
-<p>A <strong>Makefile</strong> is a standard Unix build file. Each named block is called a <strong>target</strong> and is invoked with
-<code>make &lt;target&gt;</code>. Running <code>make</code> alone executes the first target in the file (here: <code>echo</code>, which prints the project
-name and lists the two most common targets as a reminder).</p>
-<p>All targets in this project use <code>uv run</code> to execute the scripts, so <strong>uv must be installed</strong> before any target will
-work.</p>
-<p><strong>Available targets:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Target</th>
-<th>Command to run</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>make</code></td>
-<td><em>(default)</em></td>
-<td>Prints the project name as a sanity check.</td>
+<td><code>make venv_build</code></td>
+<td>Creates a fresh <code>.venv</code> and installs the Python dependencies.</td>
 </tr>
 <tr>
 <td><code>make md_to_html</code></td>
-<td><code>uv run python core/toolbox/md_to_html.py</code></td>
-<td>Converts Markdown files to HTML and writes them to <code>docs/</code>.</td>
+<td>Converts Markdown documentation files to HTML files in <code>docs/</code>.</td>
 </tr>
 <tr>
 <td><code>make sync_translations</code></td>
-<td><code>uv run python core/i18n/sync_translations.py</code></td>
-<td>Syncs <code>en/fr/it</code> locale files against the German base via DeepL (requires API key).</td>
+<td>Updates translated locale files from the German base file. Requires a DeepL API key.</td>
 </tr>
 <tr>
 <td><code>make update_openapi</code></td>
-<td>runs both build scripts</td>
-<td>Downloads the live OpenAPI spec and re-generates <code>app/openapi.js</code> and <code>core/openapi/openapi.py</code>.</td>
-</tr>
-<tr>
-<td><code>make venv_build</code></td>
-<td><code>uv sync --no-group dev</code></td>
-<td>Rebuilds <code>.venv</code> from scratch with production dependencies only (no dev tools).</td>
-</tr>
-<tr>
-<td><code>make venv_build_dev</code></td>
-<td><code>uv sync --all-groups</code></td>
-<td>Rebuilds <code>.venv</code> with all dependencies including the dev group. Also bumps versions and removes stale egg-info.</td>
-</tr>
-<tr>
-<td><code>make venv_update</code></td>
-<td><code>uvx uv-bump</code> + <code>uv sync</code></td>
-<td>Bumps outdated packages and syncs the environment without a full rebuild.</td>
-</tr>
-<tr>
-<td><code>make uv_install</code></td>
-<td><code>curl … astral.sh/uv</code></td>
-<td>Installs uv for the first time.</td>
-</tr>
-<tr>
-<td><code>make uv_update</code></td>
-<td><code>uv self update</code></td>
-<td>Updates uv itself to the latest release.</td>
-</tr>
-<tr>
-<td><code>make uv_clear_cache</code></td>
-<td><code>uv cache clean</code></td>
-<td>Clears the uv package cache to free disk space.</td>
+<td>Refreshes the OpenAPI models used by the frontend and Python tooling.</td>
 </tr>
 <tr>
 <td><code>make zone</code></td>
-<td><code>find … Zone.Identifier -delete</code></td>
-<td>Removes Windows <code>Zone.Identifier</code> metadata files that appear on files downloaded from the internet. Harmless on native Linux but useful when working in WSL2 on a Windows-hosted folder.</td>
-</tr>
-<tr>
-<td><code>make claude</code></td>
-<td><code>uv run headroom wrap claude</code></td>
-<td>Starts Claude Code with the headroom context wrapper (dev group required).</td>
+<td>Removes Windows <code>Zone.Identifier</code> metadata files that can appear in WSL2 folders.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Typical first-time setup in WSL2:</strong></p>
-<pre><code class="language-bash">make uv_install   # install uv (if not already installed)
-# restart terminal, then:
-make venv_build   # create .venv and install all dependencies
-make update_openapi   # fetch live API spec and generate model classes
+<p>Typical first-time setup:</p>
+<pre><code class="language-bash">make venv_build
+make update_openapi
 </code></pre>
-<p><strong>Day-to-day usage:</strong></p>
-<pre><code class="language-bash">make sync_translations   # after editing de.json
-make md_to_html          # after editing any *.md documentation file
+<p>Typical day-to-day commands:</p>
+<pre><code class="language-bash">make md_to_html          # after editing any *.md documentation file
+make sync_translations   # after editing de.json
 make update_openapi      # after the backend API changes
 </code></pre>
 <script>

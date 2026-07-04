@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Local dev server with live-reload for the eduxept Strategie-Cockpit.
+Local web server with live-reload for the eduxept Strategie-Cockpit.
 
 File watching via *watchdog* (OS events, no polling); serving and browser
 reload via the Python standard library (http.server + SSE).
@@ -16,10 +16,10 @@ What it does:
     SSE connection to /__livereload and calls location.reload().
 
 Usage:
-    python devserver.py                 # port 8000, opens app.html
-    python devserver.py --port 5500
-    python devserver.py --open app.html
-    python devserver.py --no-open
+    python webserver.py                 # port 8000, opens app.html
+    python webserver.py --port 5500
+    python webserver.py --open app.html
+    python webserver.py --no-open
 """
 
 import argparse
@@ -118,7 +118,7 @@ class Handler(SimpleHTTPRequestHandler):
         super().log_message(fmt, *args)
 
     def end_headers(self):
-        # Dev server: never let the browser cache anything. Without this, edited
+        # Web server: never let the browser cache anything. Without this, edited
         # .js/.css survive in the browser cache and stale code runs (e.g. an old
         # index.js referencing DOM elements that have since moved). Applies to
         # every response (static files, 404s, etc.).
@@ -212,7 +212,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Dev server with live-reload (watchdog).")
+    parser = argparse.ArgumentParser(description="Web server with live-reload (watchdog).")
     parser.add_argument("--port", type=int, default=8000, help="Port (default: 8000)")
     parser.add_argument("--host", default="127.0.0.1", help="Host (default: 127.0.0.1)")
     parser.add_argument("--open", default="wrapper.html",
@@ -220,7 +220,7 @@ def main():
     parser.add_argument("--no-open", action="store_true", help="Do not open the browser automatically")
     args = parser.parse_args()
 
-    # This script lives in toolbox/devserver/; the repo root is two levels up.
+    # This script lives in core/webserver/; the repo root is two levels up.
     repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     src = os.path.join(repo_root, "app")
     if not os.path.isdir(src):
@@ -233,7 +233,7 @@ def main():
 
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     url = f"http://{args.host}:{args.port}/{args.open}"
-    print(f"Dev server running at http://{args.host}:{args.port}/  (Ctrl+C to stop)")
+    print(f"Web server running at http://{args.host}:{args.port}/  (Ctrl+C to stop)")
     print(f"Watching (watchdog): {', '.join(WATCH_EXTS)}  ->  {url}")
 
     if not args.no_open:

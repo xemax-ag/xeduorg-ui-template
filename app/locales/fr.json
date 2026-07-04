@@ -14,5 +14,27 @@
   "http_error": "HTTP {{status}} sur {{method}} {{path}}",
   "no_error_text": "(pas de message d'erreur du serveur)",
   "invalid_number": "Nombre invalide pour {{key}} : {{value}}",
-  "invalid_json": "JSON invalide pour {{key}} : {{message}}"
+  "invalid_json": "JSON invalide pour {{key}} : {{message}}",
+  "base_data": {
+    "projects": {
+      "view_js": {
+        "pk": "PK",
+        "id": "ID",
+        "name": "Nom",
+        "description": "Description",
+        "icon": "Symbole",
+        "traffic_light": "feux de signalisation",
+        "traffic_light_quality": "Feu tricolore (qualité)",
+        "traffic_light_cost": "Feux tricolores (coûts)",
+        "traffic_light_time": "Feu tricolore (temps)",
+        "data_state": "Statut des données",
+        "mcp_data_state": "État des données MCP",
+        "comments": "Commentaires",
+        "notes": "Notes",
+        "metadatas": "métadonnées",
+        "created_at": "Créé le",
+        "updated_at": "Mis à jour le"
+      }
+    }
+  }
 }

@@ -83,14 +83,14 @@ every data operation is an HTTP call to the configured API.
 ## Commands (Windows / PowerShell; `.bat` launchers at repo root)
 
 - `run_install_python_modules.bat` — `pip install -r core/requirements.txt` (run once).
-- `run_devserver.bat` — start the live-reload dev server on port 8002, opens `wrapper.html`. Under the hood:
-  `python core/devserver/devserver.py --open wrapper.html --port 8002`. Pass-through args: `--port`, `--host`, `--open`,
+- `win_webserver.bat` — start the live-reload web server on port 8002, opens `wrapper.html`. Under the hood:
+  `python core/webserver/webserver.py --open wrapper.html --port 8002`. Pass-through args: `--port`, `--host`, `--open`,
   `--no-open`.
 - `run_upload_app.bat` — deploy the `app/` files to the eduxept file API (`core/upload/upload.py`).
 - `core/openapi/update_openapi.bat` — re-download `openapi.json` from the live API.
 
 There is no build step, no linter, and no test suite. Changes to `app/*.{html,js,css}` are picked up instantly by the
-dev server's live-reload (watchdog + SSE).
+web server's live-reload (watchdog + SSE).
 
 ## Frontend architecture (`app/`)
 
@@ -171,15 +171,15 @@ against the updated schema.
 ## Configuration (`core/config.py`)
 
 Pydantic-settings `Config` exposes `api_base_url` and `auth_token`, loaded from a `.env` file **one directory above the
-repo root** (`parents[2]`) — the token is kept out of the repo. The dev server injects these into `wrapper.html` via
+repo root** (`parents[2]`) — the token is kept out of the repo. The web server injects these into `wrapper.html` via
 query params so no token is hardcoded in the source. `get_computer_id()` reads the Windows `MachineGuid`; if the current
 machine is in `COMPUTER_IDS_DEV`, `strategy_cockpit_dev.env` is loaded instead of `strategy_cockpit.env`.
 
 ## Python tooling (`core/`)
 
-- `devserver/devserver.py` — stdlib `http.server` + watchdog. Serves `app/` as web root; injects an SSE live-reload
+- `webserver/webserver.py` — stdlib `http.server` + watchdog. Serves `app/` as web root; injects an SSE live-reload
   snippet into every HTML response; sends no-cache headers on everything; routes `/static/*` to
-  `core/devserver/static/`; and 302-redirects the wrapper entry page to attach the `baseUrl`/`token` connection params.
+  `core/webserver/static/`; and 302-redirects the wrapper entry page to attach the `baseUrl`/`token` connection params.
 - `upload/upload.py` — multipart upload of the `app/` files to `/files/upload` via httpx.
 - `openapi/update_openapi.py` — refresh the local OpenAPI spec.
 - `toolbox/render_jinja.py` — standalone Jinja2 render helper (not wired into the app).

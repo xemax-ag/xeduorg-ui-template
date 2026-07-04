@@ -14,5 +14,27 @@
   "http_error": "HTTP {{status}} bei {{method}} {{path}}",
   "no_error_text": "(kein Fehlertext vom Server)",
   "invalid_number": "Ungültige Zahl für {{key}}: {{value}}",
-  "invalid_json": "Ungültiges JSON für {{key}}: {{message}}"
+  "invalid_json": "Ungültiges JSON für {{key}}: {{message}}",
+  "base_data": {
+    "projects": {
+      "view_js": {
+        "pk": "PK",
+        "id": "ID",
+        "name": "Name",
+        "description": "Beschreibung",
+        "icon": "Symbol",
+        "traffic_light": "Ampel",
+        "traffic_light_quality": "Ampel (Qualität)",
+        "traffic_light_cost": "Ampel (Kosten)",
+        "traffic_light_time": "Ampel (Zeit)",
+        "data_state": "Datenstatus",
+        "mcp_data_state": "MCP-Datenstatus",
+        "comments": "Kommentare",
+        "notes": "Notizen",
+        "metadatas": "Metadaten",
+        "created_at": "Erstellt am",
+        "updated_at": "Aktualisiert am"
+      }
+    }
+  }
 }

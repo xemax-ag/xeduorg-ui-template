@@ -14,5 +14,27 @@
   "http_error": "HTTP {{status}} su {{method}} {{path}}",
   "no_error_text": "(nessun testo di errore dal server)",
   "invalid_number": "Numero non valido per {{key}}: {{value}}",
-  "invalid_json": "JSON non valido per {{key}}: {{message}}"
+  "invalid_json": "JSON non valido per {{key}}: {{message}}",
+  "base_data": {
+    "projects": {
+      "view_js": {
+        "pk": "PK",
+        "id": "ID",
+        "name": "Nome",
+        "description": "Descrizione",
+        "icon": "Simbolo",
+        "traffic_light": "Semaforo",
+        "traffic_light_quality": "Semaforo (qualità)",
+        "traffic_light_cost": "Semaforo (costi)",
+        "traffic_light_time": "Semaforo (tempo)",
+        "data_state": "Stato dei dati",
+        "mcp_data_state": "Stato dei dati MCP",
+        "comments": "Commenti",
+        "notes": "Appunti",
+        "metadatas": "Metadati",
+        "created_at": "Creato il",
+        "updated_at": "Aggiornato il"
+      }
+    }
+  }
 }

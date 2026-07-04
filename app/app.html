@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="wa-theme-default wa-palette-default">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
        param (injected by the wrapper) → localStorage fallback → default light,
        and applies it here, before first paint, to avoid a flash on load.
        model.js reads the result off <html> rather than re-resolving it. -->
-  <script>(function(){var qp=new URLSearchParams(location.search),g=window.__COCKPIT_PARAMS__||{},c={};try{c=JSON.parse(localStorage.getItem('eduxept_cockpit')||'{}')}catch(e){}document.documentElement.classList.toggle('dark',(qp.get('theme')||g.theme||c.theme||'light').toLowerCase()==='dark');})();</script>
+  <script>(function(){var qp=new URLSearchParams(location.search),g=window.__COCKPIT_PARAMS__||{},c={};try{c=JSON.parse(localStorage.getItem('eduxept_cockpit')||'{}')}catch(e){}var dark=(qp.get('theme')||g.theme||c.theme||'light').toLowerCase()==='dark';document.documentElement.classList.toggle('dark',dark);document.documentElement.classList.toggle('wa-dark',dark);document.documentElement.classList.toggle('wa-light',!dark);})();</script>
   <!-- i18next via CDN (UMD, no build step): core + http-backend (lädt
        locales/{lng}.json per fetch) + browser-languagedetector. Die Erkennung
        nutzt den ?language=-URL-Parameter (gleiche Quelle wie LANGUAGE in
@@ -44,6 +44,9 @@
     }
   }
   </script>
+  <!-- Web Awesome via CDN (no build step): form/layout components (wa-input, wa-select, wa-card, …). -->
+  <link rel="stylesheet" href="https://ka-f.webawesome.com/webawesome@3.10.0/styles/webawesome.css">
+  <script type="module" src="https://ka-f.webawesome.com/webawesome@3.10.0/webawesome.loader.js"></script>
   <!-- Tailwind CSS v4 – Play CDN (development). Provides the utility framework. -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- eduxept CI as native Tailwind utilities (bg-primary, text-vision, rounded-card,

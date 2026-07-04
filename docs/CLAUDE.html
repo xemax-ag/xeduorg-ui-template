@@ -90,14 +90,14 @@ every data operation is an HTTP call to the configured API.</p>
 <h2>Commands (Windows / PowerShell; <code>.bat</code> launchers at repo root)</h2>
 <ul>
 <li><code>run_install_python_modules.bat</code> — <code>pip install -r core/requirements.txt</code> (run once).</li>
-<li><code>run_devserver.bat</code> — start the live-reload dev server on port 8002, opens <code>wrapper.html</code>. Under the hood:
-  <code>python core/devserver/devserver.py --open wrapper.html --port 8002</code>. Pass-through args: <code>--port</code>, <code>--host</code>, <code>--open</code>,
+<li><code>win_webserver.bat</code> — start the live-reload web server on port 8002, opens <code>wrapper.html</code>. Under the hood:
+  <code>python core/webserver/webserver.py --open wrapper.html --port 8002</code>. Pass-through args: <code>--port</code>, <code>--host</code>, <code>--open</code>,
   <code>--no-open</code>.</li>
 <li><code>run_upload_app.bat</code> — deploy the <code>app/</code> files to the eduxept file API (<code>core/upload/upload.py</code>).</li>
 <li><code>core/openapi/update_openapi.bat</code> — re-download <code>openapi.json</code> from the live API.</li>
 </ul>
 <p>There is no build step, no linter, and no test suite. Changes to <code>app/*.{html,js,css}</code> are picked up instantly by the
-dev server's live-reload (watchdog + SSE).</p>
+web server's live-reload (watchdog + SSE).</p>
 <h2>Frontend architecture (<code>app/</code>)</h2>
 <p><strong>Two-tier, iframe-based.</strong> <code>wrapper.html</code>/<code>wrapper.js</code> is the connection screen: it resolves the API base URL, bearer
 token, and theme, loads the project list, lets the user pick a project, then embeds <code>app.html</code> in an <code>&lt;iframe&gt;</code>,
@@ -105,7 +105,7 @@ forwarding <code>baseUrl</code>, <code>token</code>, <code>projectPk</code>, and
 load; if no token is present it redirects back to <code>wrapper.html</code>.</p>
 <p><strong><code>app.html</code> is a strict MVC split</strong> (all ES modules, no bundler).</p>
 <p>The <strong>Model-View-Controller (MVC)</strong> pattern separates an application into three interconnected
-components so each can be reasoned about, changed, and tested in isolation. See <a href="MVC.md">MVC.md</a> or <a href="MVC.html">MVC.html</a> for a more detailed
+components so each can be reasoned about, changed, and tested in isolation. See <a href="MVC.md">MVC.md</a> for a more detailed
 description.</p>
 <ul>
 <li><strong>Model</strong> — the application's data and business logic. Manages state, answers queries, and performs updates. Knows
@@ -165,14 +165,14 @@ against the updated schema.</p>
 </ul>
 <h2>Configuration (<code>core/config.py</code>)</h2>
 <p>Pydantic-settings <code>Config</code> exposes <code>api_base_url</code> and <code>auth_token</code>, loaded from a <code>.env</code> file <strong>one directory above the
-repo root</strong> (<code>parents[2]</code>) — the token is kept out of the repo. The dev server injects these into <code>wrapper.html</code> via
+repo root</strong> (<code>parents[2]</code>) — the token is kept out of the repo. The web server injects these into <code>wrapper.html</code> via
 query params so no token is hardcoded in the source. <code>get_computer_id()</code> reads the Windows <code>MachineGuid</code>; if the current
 machine is in <code>COMPUTER_IDS_DEV</code>, <code>strategy_cockpit_dev.env</code> is loaded instead of <code>strategy_cockpit.env</code>.</p>
 <h2>Python tooling (<code>core/</code>)</h2>
 <ul>
-<li><code>devserver/devserver.py</code> — stdlib <code>http.server</code> + watchdog. Serves <code>app/</code> as web root; injects an SSE live-reload
+<li><code>webserver/webserver.py</code> — stdlib <code>http.server</code> + watchdog. Serves <code>app/</code> as web root; injects an SSE live-reload
   snippet into every HTML response; sends no-cache headers on everything; routes <code>/static/*</code> to
-  <code>core/devserver/static/</code>; and 302-redirects the wrapper entry page to attach the <code>baseUrl</code>/<code>token</code> connection params.</li>
+  <code>core/webserver/static/</code>; and 302-redirects the wrapper entry page to attach the <code>baseUrl</code>/<code>token</code> connection params.</li>
 <li><code>upload/upload.py</code> — multipart upload of the <code>app/</code> files to <code>/files/upload</code> via httpx.</li>
 <li><code>openapi/update_openapi.py</code> — refresh the local OpenAPI spec.</li>
 <li><code>toolbox/render_jinja.py</code> — standalone Jinja2 render helper (not wired into the app).</li>

@@ -14,5 +14,27 @@
   "http_error": "HTTP {{status}} at {{method}} {{path}}",
   "no_error_text": "(no error message from the server)",
   "invalid_number": "Invalid number for {{key}}: {{value}}",
-  "invalid_json": "Invalid JSON for {{key}}: {{message}}"
+  "invalid_json": "Invalid JSON for {{key}}: {{message}}",
+  "base_data": {
+    "projects": {
+      "view_js": {
+        "pk": "PK",
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "icon": "Symbol",
+        "traffic_light": "Traffic lights",
+        "traffic_light_quality": "Traffic lights (quality)",
+        "traffic_light_cost": "Traffic lights (costs)",
+        "traffic_light_time": "Traffic lights (time)",
+        "data_state": "Data status",
+        "mcp_data_state": "MCP data status",
+        "comments": "Comments",
+        "notes": "Notes",
+        "metadatas": "Metadata",
+        "created_at": "Created on",
+        "updated_at": "Updated on"
+      }
+    }
+  }
 }
