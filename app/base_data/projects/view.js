@@ -50,14 +50,14 @@ function Field({f, label, project, onChangeField}) {
     const v = raw == null ? '' : (typeof raw === 'object' ? JSON.stringify(raw) : String(raw));
     const commit = e => { if (e.target.value !== v) onChangeField(f.key, e.target.value); };
     if (f.type === 'ro') return html`
-        <wa-input label=${label} value=${v} placeholder="–" readonly></wa-input>`;
+        <wa-input size="s" label=${label} value=${v} placeholder="–" readonly></wa-input>`;
     if (f.type === 'enum') return html`
-        <wa-select label=${label} value=${v} onChange=${commit}>
+        <wa-select size="s" label=${label} value=${v} onChange=${commit}>
             <wa-option value="">–</wa-option>
             ${f.options.map(o => html`
                 <wa-option value=${o}>${o}</wa-option>`)}
         </wa-select>`;
     return html`
-        <wa-input label=${label} type=${f.type === 'number' ? 'number' : 'text'} value=${v}
+        <wa-input size="s" label=${label} type=${f.type === 'number' ? 'number' : 'text'} value=${v}
                   onChange=${commit}></wa-input>`;
 }

@@ -20,10 +20,10 @@ export function Params() {
                 <h1 class="wa-heading-s m-0">${t('view_js.params_from_wrapper')}</h1>
             </div>
             <div class="wa-grid wa-gap-m" style="--min-column-size: 14rem;">
-                <wa-input label="baseUrl" value=${BASE_URL || ''} placeholder="–" readonly></wa-input>
-                <wa-input label="token" value=${TOKEN || ''} placeholder="–" readonly></wa-input>
-                <wa-input label="projectPk" value=${PROJECT_PK || ''} placeholder="–" readonly></wa-input>
-                <wa-input label="language" value=${LANGUAGE || ''} placeholder="–" readonly></wa-input>
+                <wa-input size="s" label="baseUrl" value=${BASE_URL || ''} placeholder="–" readonly></wa-input>
+                <wa-input size="s" label="token" value=${TOKEN || ''} placeholder="–" readonly></wa-input>
+                <wa-input size="s" label="projectPk" value=${PROJECT_PK || ''} placeholder="–" readonly></wa-input>
+                <wa-input size="s" label="language" value=${LANGUAGE || ''} placeholder="–" readonly></wa-input>
             </div>
         </wa-card>
     `;
