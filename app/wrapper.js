@@ -8,9 +8,11 @@ import {h, render} from 'preact';
 import {useState, useEffect} from 'preact/hooks';
 import htm from 'htm';
 
+import {ProjectsStrategies} from './openapi.js';
+
 const html = htm.bind(h);
 
-const LS = 'eduxept_cockpit';
+const LS = 'xedu_org_template';
 const cfg = JSON.parse(localStorage.getItem(LS) || '{}');
 const qp = new URLSearchParams(location.search);
 
@@ -51,7 +53,9 @@ function App() {
     const [theme, setTheme] = useState(INIT_THEME);
     const [language, setLanguage] = useState(INIT_LANGUAGE);
     const [topbarHidden, setTopbarHidden] = useState(false);
-    const [projects, setProjects] = useState([]);
+    // Data provider for the project dropdown: a ProjectsStrategies envelope
+    // (generated model, openapi.js) — carries the query and, once loaded, the rows.
+    const [projects, setProjects] = useState(new ProjectsStrategies());
     const [projectPk, setProjectPk] = useState(String(cfg.projectPk || ''));
     const [err, setErr] = useState('');
     const [iframeSrc, setIframeSrc] = useState('');
@@ -60,6 +64,12 @@ function App() {
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
     }, [theme]);
+
+    // Reflect the selected language on <html lang> (initial value is set
+    // before first paint by the inline script in wrapper.html).
+    useEffect(() => {
+        document.documentElement.lang = language;
+    }, [language]);
 
     // Persist the connection config; `over` overrides state values that are
     // not yet committed when called from an event handler (theme/language).
@@ -93,9 +103,14 @@ function App() {
         }
         saveCfg();
         try {
-            const data = await api('/strategies-tables/projects/read', {where: 'pk > 0'});
-            const rows = data.rows || [];
-            setProjects(rows);
+            // The ProjectsStrategies instance is both the request payload (its
+            // `where`, default 'pk > 0', serializes as the JSON body) and — after
+            // constructFromObject — the typed result (rows of ProjectStrategies).
+            const query = new ProjectsStrategies();
+            const data = await api('/strategies-tables/projects/read', query);
+            const provider = ProjectsStrategies.constructFromObject(data, query);
+            setProjects(provider);
+            const rows = provider.rows || [];
             let want = String(cfg.projectPk || 3);
             if (!rows.some(p => String(p.pk) === want)) want = rows.length ? String(rows[0].pk) : '';
             setProjectPk(want);
@@ -120,8 +135,8 @@ function App() {
         if (pk) setIframeSrc(buildSrc(pk, theme, language));
     }
 
-    function onToggleTheme(e) {
-        const t = e.target.checked ? 'dark' : 'light';
+    function onToggleTheme() {
+        const t = theme === 'dark' ? 'light' : 'dark';
         setTheme(t);
         saveCfg(projectPk, {theme: t});
         if (projectPk) setIframeSrc(buildSrc(projectPk, t, language));  // reload the cockpit with the new theme
@@ -134,8 +149,7 @@ function App() {
         if (projectPk) setIframeSrc(buildSrc(projectPk, theme, lang));  // reload the cockpit with the new language
     }
 
-    const panelCls = 'group bg-panel border border-border rounded-card shadow-card mb-4 overflow-hidden';
-    const summaryCls = 'cursor-pointer select-none px-4 py-3 text-sm font-semibold text-text-dim group-open:border-b group-open:border-border';
+    const projectRows = projects.rows || [];
 
     // Top-right toggle: collapse/expand the topbar to give the cockpit the full viewport.
     return html`
@@ -147,46 +161,41 @@ function App() {
 
       <div class=${'w-full shrink-0 max-w-[1920px] mx-auto px-5 pt-5 pb-2' + (topbarHidden ? ' hidden' : '')}>
         <header
-            class="flex items-center gap-3.5 px-5 py-4 mb-4 bg-primary border border-primary rounded-card shadow-header">
+            class="flex items-center gap-3.5 pl-5 pr-5 py-4 mb-4 bg-primary border border-primary rounded-card shadow-header">
           <div>
-            <h1 class="m-0 text-lg font-semibold tracking-tight text-white">Wrapper Strategie-Cockpit</h1>
+            <h1 class="m-0 text-lg font-semibold tracking-tight text-white">Wrapper xEduOrg Template</h1>
             <div class="text-xs text-white/70">eduxept-api-v1 · Verbindung & Konfiguration</div>
           </div>
-        </header>
-
-        <details class=${panelCls}>
-          <summary class=${summaryCls}>🎨 Darstellung</summary>
-          <div class="p-4 flex items-center gap-3 flex-wrap">
-            <label class=${'switch' + (theme === 'dark' ? ' on' : '')}>
-              <input type="checkbox" checked=${theme === 'dark'} onChange=${onToggleTheme}/> Dunkles Design
-            </label>
-            <label class="flex items-center gap-1.5">
-              Sprache
-              <select value=${language} onChange=${onSelectLanguage}>
+          <div class="ml-auto mr-2 flex items-center gap-3"
+               title="Sprachauswahl">
+            <label class="flex items-center gap-1.5 text-white/80">
+              <select class="w-auto" value=${language} onChange=${onSelectLanguage}>
                 <option value="de">DE</option>
                 <option value="fr">FR</option>
                 <option value="it">IT</option>
                 <option value="en">EN</option>
               </select>
             </label>
-            <span class="text-xs text-text-faint">Gilt für den Wrapper und das eingebettete Cockpit.</span>
+            <button type="button"
+                    title=${theme === 'dark' ? 'Zum hellen Design wechseln' : 'Zum dunklen Design wechseln'}
+                    onClick=${onToggleTheme}
+                    class="h-9 w-9 p-0 flex items-center justify-center text-base leading-none rounded-card 
+                      bg-panel-2 border border-border shadow-card hover:border-secondary">
+              ${theme === 'dark' ? '🌙' : '☀️'}
+            </button>
           </div>
-        </details>
 
-        <details class= ${'group bg-panel border border-border rounded-card shadow-card overflow-hidden'} open>
-          <summary class=${summaryCls}>📁 Projekt</summary>
-          <div class="p-4 grid grid-cols-2 gap-3">
-            <div class="col-span-2 flex flex-col gap-1.5">
-              <label>Projekt</label>
-              <select disabled=${!projects.length} value=${projectPk} onChange=${onSelectProject}>
-                ${!projects.length && html`
-                  <option>– zuerst verbinden –</option>`}
-                ${projects.map(p => html`
-                  <option value=${p.pk}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
-              </select>
-            </div>
-          </div>
-        </details>
+        </header>
+
+        <div class="bg-panel border border-border rounded-card shadow-card p-4 flex flex-col gap-1.5 mb-3">
+          <label>Projekt</label>
+          <select disabled=${!projectRows.length} value=${projectPk} onChange=${onSelectProject}>
+            ${!projectRows.length && html`
+              <option>– zuerst verbinden –</option>`}
+            ${projectRows.map(p => html`
+              <option value=${p.pk}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
+          </select>
+        </div>
 
         ${err && html`
           <div

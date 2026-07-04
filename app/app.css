@@ -125,7 +125,7 @@ input:focus, select:focus, textarea:focus {
    sets normal casing for its rows via utilities in the markup. */
 label {
     font-size: 11px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     letter-spacing: .5px;
     color: var(--color-text-faint);
 }

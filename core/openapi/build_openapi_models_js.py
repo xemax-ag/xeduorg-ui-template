@@ -20,6 +20,7 @@ def download_openapi_json() -> None:
         response = client.get(url=url, headers={'Accept': 'application/json'}, timeout=60.0)
         response.raise_for_status()
     (Path(__file__).parents[0] / 'openapi.json').write_bytes(response.content)
+    # (Path(__file__).parents[2] / 'app' / 'openapi.json').write_bytes(response.content)
 
 
 def extract_api_client(api_client_path: Path) -> str:
@@ -68,4 +69,4 @@ def generate_models_openapi() -> None:
 
 if __name__ == '__main__':
     download_openapi_json()
-    generate_models_openapi()
+    # generate_models_openapi()

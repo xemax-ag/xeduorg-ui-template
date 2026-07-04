@@ -9,12 +9,14 @@
   <title>eduxept · Strategie-Cockpit — Verbindung</title>
   <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-  <!-- Set the theme (light/dark) as early as possible to avoid a flash on load;
-       the full logic lives in wrapper.js. -->
+  <!-- Set the theme (light/dark) and language as early as possible to avoid a
+       flash on load; the full logic lives in wrapper.js. -->
   <script>try {
       var c = JSON.parse(localStorage.getItem('eduxept_cockpit') || '{}');
-      var t = new URLSearchParams(location.search).get('theme') || c.theme || 'dark';
+      var q = new URLSearchParams(location.search);
+      var t = q.get('theme') || c.theme || 'dark';
       if (t === 'dark') document.documentElement.classList.add('dark');
+      document.documentElement.lang = (q.get('language') || c.language || 'de').toLowerCase();
   } catch (e) {
   }</script>
   <!-- Preact + htm via ESM CDN (no build step), pinned to one Preact instance. -->

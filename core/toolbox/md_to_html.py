@@ -11,7 +11,11 @@ import markdown
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DOCS_DIR = REPO_ROOT / "docs"
-FILES = ["CLAUDE.md", "README.md"]
+FILES = [
+    "CLAUDE.md",
+    "README.md",
+    "MVC.md",
+]
 
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">

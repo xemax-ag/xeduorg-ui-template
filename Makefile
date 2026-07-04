@@ -4,6 +4,11 @@ echo: md_to_html
 md_to_html:
 	uv run python core/toolbox/md_to_html.py
 
+update_openapi:
+	uv run python core/openapi/build_openapi_models_js.py
+	uv run python core/openapi/build_openapi_models_python.py
+
+
 venv_build:
 	rm -rf .venv && rm -rf uv.lock && uv sync --no-group dev
 
