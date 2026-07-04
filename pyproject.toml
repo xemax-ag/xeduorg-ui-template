@@ -22,6 +22,7 @@ dependencies = [
     "pytest-asyncio>=1.4.0",
     "watchdog>=6.0.0",
     "markdown>=3.10.2",
+    "deepl>=1.30.0",
 ]
 
 [tool.pytest.ini_options]

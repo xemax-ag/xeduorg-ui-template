@@ -1,0 +1,18 @@
+{
+  "master_data": "Dati di base",
+  "project": "Progetto",
+  "project_settings": "Impostazioni del progetto",
+  "params_from_wrapper": "Parametri dal wrapper",
+  "no_project_loaded": "Nessun progetto caricato.",
+  "show_panel": "Mostra pannello",
+  "hide_panel": "Nascondi pannello",
+  "connection_and_configuration": "Connessione & configurazione",
+  "language_selection": "Selezione della lingua",
+  "switch_to_light_theme": "Passa al tema chiaro",
+  "switch_to_dark_theme": "Passa al tema scuro",
+  "connect_first": "– connettersi prima –",
+  "http_error": "HTTP {{status}} su {{method}} {{path}}",
+  "no_error_text": "(nessun testo di errore dal server)",
+  "invalid_number": "Numero non valido per {{key}}: {{value}}",
+  "invalid_json": "JSON non valido per {{key}}: {{message}}"
+}

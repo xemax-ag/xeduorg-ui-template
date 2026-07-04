@@ -32,7 +32,10 @@ _VERIFY = False
 SUBFOLDER = "strategies/cockpit"
 FILES = [
     "app.html", "app.css", "model.js", "view.js", "controller.js",
-    "wrapper.html", "wrapper.js"
+    "openapi.js",
+    "wrapper.html", "wrapper.js",
+    "base_data/projects/model.js", "base_data/projects/view.js",
+    "locales/de.json", "locales/fr.json", "locales/it.json", "locales/en.json",
 ]
 
 
@@ -93,11 +96,15 @@ def upload_cockpit_files(
 
     for name in files:
         path = name if os.path.isabs(name) else os.path.join(base_dir, name)
+        # Preserve subdirectories (e.g. base_data/projects/) on the server —
+        # upload_file() only keeps the basename.
+        rel_dir = "" if os.path.isabs(name) else os.path.dirname(name).replace("\\", "/")
+        sub = f"{subfolder}/{rel_dir}" if rel_dir else subfolder
         try:
             results[name] = upload_file(
-                path, api_url=api_url, token=token, subfolder=subfolder
+                path, api_url=api_url, token=token, subfolder=sub
             )
-            print(f"[OK]   {name} -> {api_url} ({subfolder})")
+            print(f"[OK]   {name} -> {api_url} ({sub})")
         except FileNotFoundError:
             results[name] = {"error": "file not found", "path": path}
             print(f"[SKIP] {name}: not found at {path}")

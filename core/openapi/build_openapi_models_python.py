@@ -21,7 +21,7 @@ def download_openapi_json() -> None:
         print(config.api_base_url)
         response = client.get(url=url, headers={'Accept': 'application/json'}, timeout=60.0)
         response.raise_for_status()
-    (Path(__file__).parents[0] / 'openapi.json').write_bytes(response.content)
+    (Path(__file__).parents[2] / 'app' / 'openapi.json').write_bytes(response.content)
 
 
 def fix_enum_defaults(file_path: Path) -> None:
@@ -64,7 +64,7 @@ def fix_enum_defaults(file_path: Path) -> None:
 def generate_models(scope: str) -> None:
     output_path = Path(__file__).parents[0] / scope.replace('-', '_') / 'models.py'
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[0]}/openapi.json --input-file-type openapi '
+    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[2]}/app/openapi.json --input-file-type openapi '
            f'--include-path-parameters --openapi-scopes paths --openapi-include-paths /{scope}/* '
            f'--output {output_path} '
            f'--formatters ruff-format --formatters ruff-check')
@@ -75,7 +75,7 @@ def generate_models(scope: str) -> None:
 
 def generate_models_openapi() -> None:
     output_path = Path(__file__).parents[0] / 'openapi.py'
-    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[0]}/openapi.json --input-file-type openapi '
+    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[2]}/app/openapi.json --input-file-type openapi '
            f'--include-path-parameters --openapi-scopes paths '
            f'--output {output_path} '
            f'--formatters ruff-format --formatters ruff-check')

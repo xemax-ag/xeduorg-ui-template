@@ -12,6 +12,28 @@
        and applies it here, before first paint, to avoid a flash on load.
        model.js reads the result off <html> rather than re-resolving it. -->
   <script>(function(){var qp=new URLSearchParams(location.search),g=window.__COCKPIT_PARAMS__||{},c={};try{c=JSON.parse(localStorage.getItem('eduxept_cockpit')||'{}')}catch(e){}document.documentElement.classList.toggle('dark',(qp.get('theme')||g.theme||c.theme||'light').toLowerCase()==='dark');})();</script>
+  <!-- i18next via CDN (UMD, no build step): core + http-backend (lädt
+       locales/{lng}.json per fetch) + browser-languagedetector. Die Erkennung
+       nutzt den ?language=-URL-Parameter (gleiche Quelle wie LANGUAGE in
+       model.js), dann localStorage/navigator; Fallback de.
+       Verwendung: await window.i18nReady; i18next.t('key') -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@26.3.4/i18next.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@4.0.0/i18nextHttpBackend.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.2.1/i18nextBrowserLanguageDetector.min.js"></script>
+  <script type="module">
+    window.i18nReady = i18next
+        .use(i18nextHttpBackend)
+        .use(i18nextBrowserLanguageDetector)
+        .init({
+          fallbackLng: 'de',
+          supportedLngs: ['de', 'fr', 'it', 'en'],
+          load: 'languageOnly',
+          detection: {order: ['querystring', 'localStorage', 'navigator'], lookupQuerystring: 'language'},
+          backend: {loadPath: 'locales/{{lng}}.json'},
+          interpolation: {escapeValue: false}
+        });
+    window.i18nReady.then(() => console.log('i18next ready:', i18next.language, '·', i18next.t('master_data')));
+  </script>
   <!-- Preact + htm via ESM CDN (no build step), pinned to one Preact instance. -->
   <script type="importmap">
   {

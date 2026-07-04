@@ -27,12 +27,19 @@ elif system == 'Linux':
         dotenv_path = Path(__file__).resolve().parents[2] / 'config' / 'xeduorg_ui_template.env'
 
 print('dotenv_path:', dotenv_path)
+if not dotenv_path.exists():
+    print(f'WARNING: dotenv file not found: {dotenv_path} -> config values stay empty', file=sys.stderr)
 load_dotenv(dotenv_path=dotenv_path)
 
 
 class Config(BaseSettings):
+    # API
     api_base_url: str = ''
     auth_token: str = ''
+
+    # DeepL
+    deepl_auth_key: str = ''
+    deepl_server_url: str = ''
 
 config = Config()
 

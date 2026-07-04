@@ -12,6 +12,11 @@ import {ProjectsStrategies} from './openapi.js';
 
 const html = htm.bind(h);
 
+// i18next is loaded & initialized in wrapper.html (CDN, UMD globals); t()
+// falls back to the raw key until the translations are ready (the initial
+// render is gated on i18nReady at the bottom of this file).
+const t = (key, opts) => window.i18next ? window.i18next.t(key, opts) : key;
+
 const LS = 'xedu_org_template';
 const cfg = JSON.parse(localStorage.getItem(LS) || '{}');
 const qp = new URLSearchParams(location.search);
@@ -39,7 +44,7 @@ async function api(path, body, method = 'POST') {
             detail = j.detail ? JSON.stringify(j.detail) : JSON.stringify(j);
         } catch (e) {
         }
-        throw new Error('HTTP ' + res.status + ' bei ' + method + ' ' + path + (detail ? '\n' + detail : ' (kein Fehlertext vom Server)'));
+        throw new Error(t('http_error', {status: res.status, method, path}) + (detail ? '\n' + detail : ' ' + t('no_error_text')));
     }
     if (res.status === 204) return null;
     try {
@@ -70,6 +75,16 @@ function App() {
     useEffect(() => {
         document.documentElement.lang = language;
     }, [language]);
+
+    // Re-render when i18next switches language, so t() output updates
+    // without a page reload (triggered by onSelectLanguage below).
+    const [, setI18nTick] = useState(0);
+    useEffect(() => {
+        if (!window.i18next) return;
+        const rerender = () => setI18nTick(n => n + 1);
+        window.i18next.on('languageChanged', rerender);
+        return () => window.i18next.off('languageChanged', rerender);
+    }, []);
 
     // Persist the connection config; `over` overrides state values that are
     // not yet committed when called from an event handler (theme/language).
@@ -146,6 +161,9 @@ function App() {
         const lang = e.target.value;
         setLanguage(lang);
         saveCfg(projectPk, {language: lang});
+        // Keep the wrapper's i18next instance in sync (the iframe reloads and
+        // re-detects; the wrapper page itself does not reload).
+        if (window.i18nReady) window.i18nReady.then(() => i18next.changeLanguage(lang));
         if (projectPk) setIframeSrc(buildSrc(projectPk, theme, lang));  // reload the cockpit with the new language
     }
 
@@ -153,7 +171,7 @@ function App() {
 
     // Top-right toggle: collapse/expand the topbar to give the cockpit the full viewport.
     return html`
-      <button type="button" title=${topbarHidden ? 'Bereich einblenden' : 'Bereich ausblenden'}
+      <button type="button" title=${topbarHidden ? t('show_panel') : t('hide_panel')}
               onClick=${() => setTopbarHidden(v => !v)}
               class="fixed top-2 right-2 z-50 h-9 w-9 p-0 flex items-center justify-center text-base leading-none rounded-card bg-panel border border-border text-text-dim shadow-card hover:border-secondary hover:text-text">
         ${topbarHidden ? '☰' : '✕'}
@@ -164,10 +182,10 @@ function App() {
             class="flex items-center gap-3.5 pl-5 pr-5 py-4 mb-4 bg-primary border border-primary rounded-card shadow-header">
           <div>
             <h1 class="m-0 text-lg font-semibold tracking-tight text-white">Wrapper xEduOrg Template</h1>
-            <div class="text-xs text-white/70">eduxept-api-v1 · Verbindung & Konfiguration</div>
+            <div class="text-xs text-white/70">eduxept-api-v1 · ${t('connection_and_configuration')}</div>
           </div>
           <div class="ml-auto mr-2 flex items-center gap-3"
-               title="Sprachauswahl">
+               title=${t('language_selection')}>
             <label class="flex items-center gap-1.5 text-white/80">
               <select class="w-auto" value=${language} onChange=${onSelectLanguage}>
                 <option value="de">DE</option>
@@ -177,7 +195,7 @@ function App() {
               </select>
             </label>
             <button type="button"
-                    title=${theme === 'dark' ? 'Zum hellen Design wechseln' : 'Zum dunklen Design wechseln'}
+                    title=${theme === 'dark' ? t('switch_to_light_theme') : t('switch_to_dark_theme')}
                     onClick=${onToggleTheme}
                     class="h-9 w-9 p-0 flex items-center justify-center text-base leading-none rounded-card 
                       bg-panel-2 border border-border shadow-card hover:border-secondary">
@@ -188,10 +206,10 @@ function App() {
         </header>
 
         <div class="bg-panel border border-border rounded-card shadow-card p-4 flex flex-col gap-1.5 mb-3">
-          <label>Projekt</label>
+          <label>${t('project')}</label>
           <select disabled=${!projectRows.length} value=${projectPk} onChange=${onSelectProject}>
             ${!projectRows.length && html`
-              <option>– zuerst verbinden –</option>`}
+              <option>${t('connect_first')}</option>`}
             ${projectRows.map(p => html`
               <option value=${p.pk}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
           </select>
@@ -210,5 +228,11 @@ function App() {
     `;
 }
 
+// Render after the translations are ready (avoids a flash of raw keys) and
+// pin i18next to the resolved wrapper language (same source as the UI state).
+if (window.i18nReady) {
+    await window.i18nReady;
+    if (window.i18next && window.i18next.language !== INIT_LANGUAGE) await window.i18next.changeLanguage(INIT_LANGUAGE);
+}
 render(html`
   <${App}/>`, document.getElementById('app'));

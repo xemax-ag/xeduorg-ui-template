@@ -9,8 +9,10 @@ import htm from 'htm';
 
 const html = htm.bind(h);
 
-import {TOKEN, saveCfg, readProject, updateProjectField} from './model.js';
-import {Params, ProjectSettings, Toast} from './view.js';
+import {TOKEN, saveCfg, i18nReady} from './model.js';
+import {Params, Toast} from './view.js';
+import {readProject, updateProjectField} from './base_data/projects/model.js';
+import {ProjectSettings} from './base_data/projects/view.js';
 
 function App() {
     const [project, setProject] = useState(null);
@@ -62,5 +64,8 @@ function App() {
     `;
 }
 
+// Wait for the translations before the first render (no flash of raw keys);
+// this also pins i18next to the LANGUAGE parameter (see model.js).
+await i18nReady;
 render(html`
     <${App}/>`, document.getElementById('app'));

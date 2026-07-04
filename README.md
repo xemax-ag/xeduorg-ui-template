@@ -203,7 +203,7 @@ An API is only useful if you know exactly which addresses exist, what data they 
 description is written down in a single file called **`openapi.json`** (an **OpenAPI specification**). Think of it as the
 API's complete, machine-readable instruction manual.
 
-The file lives at `core/openapi/openapi.json` and serves as the **checked-in contract** for the backend: it documents
+The file lives at `app/openapi.json` and serves as the **checked-in contract** for the backend: it documents
 every endpoint the cockpit relies on. Keeping a local copy means you can look up how an endpoint behaves without
 guessing, and it makes changes on the server visible when the file is refreshed.
 
@@ -220,4 +220,43 @@ server, use the ready-made script:
 4. When you see **`Press any key to continue . . .`**, the update is complete. Press any key to close the window.
 
 Run this whenever the backend has changed and you want the local contract to reflect the latest state of the API.
+
+### Convert `openapi.json` to model classes
+
+Once `openapi.json` is up to date, two scripts re-generate the model classes the rest of the code depends on:
+
+- **`app/openapi.js`** — a single ES module imported by the browser front-end. It contains one JavaScript class per
+  API model, with field names, types, and enum values taken directly from
+  the spec. The front-end constructs and validates API payloads using these classes instead of maintaining the field
+  list by hand.
+- **`core/openapi/openapi.py`** — equivalent Pydantic model classes for the Python tooling in `core/`. It gives
+  scripts type-safe access to API data and lets your IDE catch field-name typos before they reach the server.
+
+Both files are **auto-generated — do not edit them by hand**; any manual change is overwritten the next time the
+script runs.
+
+**When to re-generate:** after refreshing `openapi.json` and the API's models have changed (new fields, renamed enums,
+added endpoints). If only front-end logic changed and the API is the same, you can skip this step.
+
+**How to run** (open a terminal in the project folder):
+
+Generate `app/openapi.js` using [OpenAPI Generator](https://openapi-generator.tech):
+
+```
+python core/openapi/build_openapi_models_js.py
+```
+
+Generate `core/openapi/openapi.py` using
+[datamodel-code-generator](https://koxudaxi.github.io/datamodel-code-generator/):
+
+```
+python core/openapi/build_openapi_models_python.py
+```
+
+Both scripts also re-download `openapi.json` at the start (same as `run_update_openapi.bat`), so running them is
+sufficient — you do not need to run the download step separately. They invoke `uv run` internally for the generator
+tools, so `uv` must be available on your system alongside the Python dependencies from Step 2.
+
+On Windows, you can also double-click the corresponding `.bat` wrapper in `core/openapi/` (e.g.
+`run_build_openapi_models_js.bat` / `run_build_openapi_models_python.bat`) instead of opening a terminal.
 
