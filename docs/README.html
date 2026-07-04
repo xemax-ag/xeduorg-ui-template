@@ -26,7 +26,7 @@ a { color: var(--link); }
 </head>
 <body>
 <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
-<h1>eduxept · Strategie-Cockpit</h1>
+<h1>eduxept · Strategy Cockpit</h1>
 <p>Related documentation:</p>
 <ul>
 <li><a href="CLAUDE.md">CLAUDE.md</a> — project-specific instructions for AI coding agents and developers who work on the source
@@ -265,7 +265,7 @@ recommended shortcut — you do not need to open a terminal at all.</p>
 <h3>What i18n is</h3>
 <p><strong>i18n</strong> is shorthand for <strong>internationalisation</strong> — the "i", the next 18 letters, and the "n". It describes the
 practice of building software so that all user-visible text is stored separately from the code, and can be swapped out
-at runtime for a different language. Instead of writing <code>"Kein Projekt geladen."</code> directly inside a component, the code
+at runtime for a different language. Instead of writing <code>"No project loaded."</code> directly inside a component, the code
 refers to a symbolic key (<code>"no_project_loaded"</code>), and a small i18n library replaces that key with the correct string
 for whatever language the user has selected. The result: the same codebase speaks German, English, French, or Italian
 without any code changes — only the locale files differ.</p>
@@ -301,13 +301,13 @@ with actual values and must survive translation verbatim.</p>
 </tr>
 </tbody>
 </table>
-<p>Every file is a flat JSON object: string keys map to translated string values. Example from <code>de.json</code>:</p>
+<p>Every file is a flat JSON object: string keys map to translated string values. Example entry:</p>
 <pre><code class="language-json">{
-  &quot;no_project_loaded&quot;: &quot;Kein Projekt geladen.&quot;,
-  &quot;http_error&quot;: &quot;HTTP {{status}} bei {{method}} {{path}}&quot;
+  &quot;no_project_loaded&quot;: &quot;No project loaded.&quot;,
+  &quot;http_error&quot;: &quot;HTTP {{status}} at {{method}} {{path}}&quot;
 }
 </code></pre>
-<p>The corresponding <code>en.json</code> entry would be:</p>
+<p>The same keys must exist in every locale file:</p>
 <pre><code class="language-json">{
   &quot;no_project_loaded&quot;: &quot;No project loaded.&quot;,
   &quot;http_error&quot;: &quot;HTTP {{status}} at {{method}} {{path}}&quot;
@@ -323,10 +323,10 @@ object (<code>{}</code>).</p>
 <li><strong>Open <code>app/locales/de.json</code></strong> in your editor.</li>
 <li><strong>Add or edit the German entry.</strong> Use a descriptive, lowercase, underscore-separated key:
    <code>json
-   "save_changes": "Änderungen speichern"</code>
+   "save_changes": "Save changes"</code>
    For strings that embed dynamic values, use <code>{{placeholder_name}}</code> syntax:
    <code>json
-   "items_selected": "{{count}} Einträge ausgewählt"</code></li>
+   "items_selected": "{{count}} entries selected"</code></li>
 <li><strong>Use the key in the code.</strong> Inside a Preact component call <code>t("save_changes")</code> (or whatever the helper is named in
    the file that sets up i18n). The key is resolved at runtime to the active language.</li>
 <li><strong>Sync the target languages</strong> — see the next section.</li>

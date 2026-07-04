@@ -1,4 +1,4 @@
-# eduxept · Strategie-Cockpit
+# eduxept · Strategy Cockpit
 
 Related documentation:
 
@@ -283,7 +283,7 @@ recommended shortcut — you do not need to open a terminal at all.
 
 **i18n** is shorthand for **internationalisation** — the "i", the next 18 letters, and the "n". It describes the
 practice of building software so that all user-visible text is stored separately from the code, and can be swapped out
-at runtime for a different language. Instead of writing `"Kein Projekt geladen."` directly inside a component, the code
+at runtime for a different language. Instead of writing `"No project loaded."` directly inside a component, the code
 refers to a symbolic key (`"no_project_loaded"`), and a small i18n library replaces that key with the correct string
 for whatever language the user has selected. The result: the same codebase speaks German, English, French, or Italian
 without any code changes — only the locale files differ.
@@ -304,16 +304,16 @@ All locale files live in **`app/locales/`**:
 | `fr.json` | French translations. |
 | `it.json` | Italian translations. |
 
-Every file is a flat JSON object: string keys map to translated string values. Example from `de.json`:
+Every file is a flat JSON object: string keys map to translated string values. Example entry:
 
 ```json
 {
-  "no_project_loaded": "Kein Projekt geladen.",
-  "http_error": "HTTP {{status}} bei {{method}} {{path}}"
+  "no_project_loaded": "No project loaded.",
+  "http_error": "HTTP {{status}} at {{method}} {{path}}"
 }
 ```
 
-The corresponding `en.json` entry would be:
+The same keys must exist in every locale file:
 
 ```json
 {
@@ -334,11 +334,11 @@ object (`{}`).
 1. **Open `app/locales/de.json`** in your editor.
 2. **Add or edit the German entry.** Use a descriptive, lowercase, underscore-separated key:
    ```json
-   "save_changes": "Änderungen speichern"
+   "save_changes": "Save changes"
    ```
    For strings that embed dynamic values, use `{{placeholder_name}}` syntax:
    ```json
-   "items_selected": "{{count}} Einträge ausgewählt"
+   "items_selected": "{{count}} entries selected"
    ```
 3. **Use the key in the code.** Inside a Preact component call `t("save_changes")` (or whatever the helper is named in
    the file that sets up i18n). The key is resolved at runtime to the active language.
