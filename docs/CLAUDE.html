@@ -104,8 +104,9 @@ token, and theme, loads the project list, lets the user pick a project, then emb
 forwarding <code>baseUrl</code>, <code>token</code>, <code>projectPk</code>, and <code>theme</code> as <strong>URL query parameters</strong>. <code>app.html</code> reads those params on
 load; if no token is present it redirects back to <code>wrapper.html</code>.</p>
 <p><strong><code>app.html</code> is a strict MVC split</strong> (all ES modules, no bundler).</p>
-<p>The <strong>Model-View-Controller (MVC)</strong> pattern (Trygve Reenskaug, 1970s) separates an application into three interconnected
-components so each can be reasoned about, changed, and tested in isolation:</p>
+<p>The <strong>Model-View-Controller (MVC)</strong> pattern separates an application into three interconnected
+components so each can be reasoned about, changed, and tested in isolation. See <a href="MVC.md">MVC.md</a> or <a href="MVC.html">MVC.html</a> for a more detailed
+description.</p>
 <ul>
 <li><strong>Model</strong> — the application's data and business logic. Manages state, answers queries, and performs updates. Knows
   nothing about the UI.</li>

@@ -373,6 +373,162 @@ strings that are already correct, saving both API cost and time.</p>
 <p>You do not edit <code>de_cmp.json</code> by hand. It is updated automatically by the sync script. If you delete it, the next run
 treats every key as new and re-translates everything — harmless, but wasteful if you have a large number of keys.</p>
 <p>Commit <code>de_cmp.json</code> alongside the locale files so every team member's sync run starts from the same baseline.</p>
+<h2>Working with Linux / WSL2</h2>
+<blockquote>
+<p><strong>For advanced users.</strong> This chapter is aimed at developers who prefer a Linux command-line environment. If you are
+on Windows and the <code>win_*.bat</code> shortcuts cover your needs, you can skip this chapter entirely.</p>
+</blockquote>
+<h3>What WSL2 is</h3>
+<p><strong>WSL2</strong> (Windows Subsystem for Linux 2) lets you run a full Linux environment directly inside Windows — no virtual
+machine to manage, no dual boot. You get a real Linux terminal, the Linux file system, and native Linux tools
+(including <code>make</code>, <code>curl</code>, <code>rsync</code>) alongside your normal Windows desktop. For this project that means you can use
+the <code>Makefile</code> and <code>uv</code> package manager exactly as you would on a native Linux or Mac machine.</p>
+<p><strong>Install WSL2</strong> (one-time, from a Windows PowerShell run as administrator):</p>
+<pre><code>wsl --install
+</code></pre>
+<p>This installs Ubuntu by default. After a restart, open the <strong>Ubuntu</strong> app from the Start menu to get a Linux
+terminal. Then navigate to the project folder — WSL2 mounts Windows drives under <code>/mnt/c/</code>, so if the project
+lives at <code>C:\Users\you\strategy_cockpit</code> it is reachable at:</p>
+<pre><code>cd /mnt/c/Users/you/strategy_cockpit
+</code></pre>
+<blockquote>
+<p><strong>Tip:</strong> In Windows Explorer, right-click the project folder and choose <strong>"Open Linux shell here"</strong> if that option
+is available (requires WSL2 already installed). Alternatively, open the Ubuntu terminal and <code>cd</code> to the path above.</p>
+</blockquote>
+<h3>uv — the Python package manager</h3>
+<p><strong>uv</strong> is a fast Python package manager and script runner from <a href="https://astral.sh/uv">Astral</a>. It replaces the
+traditional <code>pip</code> + <code>venv</code> workflow and is the tool this project uses to manage its Python dependencies and run its
+scripts. Everything is declared in <code>pyproject.toml</code>; <code>uv</code> reads that file and keeps a reproducible <code>uv.lock</code>
+lockfile so every machine uses exactly the same package versions.</p>
+<p><strong>Install uv</strong> (Linux / WSL2 / Mac — one-time):</p>
+<pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh
+</code></pre>
+<p>Or via the Makefile shortcut (see below):</p>
+<pre><code>make uv_install
+</code></pre>
+<p>After installation, restart the terminal (or run <code>source ~/.bashrc</code>) so the <code>uv</code> command is on your <code>PATH</code>.</p>
+<p>Key concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv sync</code></td>
+<td>Creates <code>.venv</code> and installs all dependencies from <code>pyproject.toml</code>. Run this once after cloning.</td>
+</tr>
+<tr>
+<td><code>uv sync --all-groups</code></td>
+<td>Same, but also installs the optional <code>dev</code> dependency group (e.g. <code>headroom-ai</code>).</td>
+</tr>
+<tr>
+<td><code>uv run &lt;script&gt;</code></td>
+<td>Runs a Python script inside the project's virtual environment — without activating it first. This is how the Makefile invokes every script.</td>
+</tr>
+<tr>
+<td><code>uv self update</code></td>
+<td>Updates uv itself to the latest version.</td>
+</tr>
+<tr>
+<td><code>uv cache clean</code></td>
+<td>Clears the local package cache (frees disk space).</td>
+</tr>
+</tbody>
+</table>
+<p>You do <strong>not</strong> need to activate <code>.venv</code> manually. <code>uv run</code> handles the environment automatically, which is why
+<code>source .venv/bin/activate</code> never appears in any Makefile target.</p>
+<h3>The Makefile</h3>
+<p>A <strong>Makefile</strong> is a standard Unix build file. Each named block is called a <strong>target</strong> and is invoked with
+<code>make &lt;target&gt;</code>. Running <code>make</code> alone executes the first target in the file (here: <code>echo</code>, which prints the project
+name and lists the two most common targets as a reminder).</p>
+<p>All targets in this project use <code>uv run</code> to execute the scripts, so <strong>uv must be installed</strong> before any target will
+work.</p>
+<p><strong>Available targets:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Command to run</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>make</code></td>
+<td><em>(default)</em></td>
+<td>Prints the project name as a sanity check.</td>
+</tr>
+<tr>
+<td><code>make md_to_html</code></td>
+<td><code>uv run python core/toolbox/md_to_html.py</code></td>
+<td>Converts Markdown files to HTML and writes them to <code>docs/</code>.</td>
+</tr>
+<tr>
+<td><code>make sync_translations</code></td>
+<td><code>uv run python core/i18n/sync_translations.py</code></td>
+<td>Syncs <code>en/fr/it</code> locale files against the German base via DeepL (requires API key).</td>
+</tr>
+<tr>
+<td><code>make update_openapi</code></td>
+<td>runs both build scripts</td>
+<td>Downloads the live OpenAPI spec and re-generates <code>app/openapi.js</code> and <code>core/openapi/openapi.py</code>.</td>
+</tr>
+<tr>
+<td><code>make venv_build</code></td>
+<td><code>uv sync --no-group dev</code></td>
+<td>Rebuilds <code>.venv</code> from scratch with production dependencies only (no dev tools).</td>
+</tr>
+<tr>
+<td><code>make venv_build_dev</code></td>
+<td><code>uv sync --all-groups</code></td>
+<td>Rebuilds <code>.venv</code> with all dependencies including the dev group. Also bumps versions and removes stale egg-info.</td>
+</tr>
+<tr>
+<td><code>make venv_update</code></td>
+<td><code>uvx uv-bump</code> + <code>uv sync</code></td>
+<td>Bumps outdated packages and syncs the environment without a full rebuild.</td>
+</tr>
+<tr>
+<td><code>make uv_install</code></td>
+<td><code>curl … astral.sh/uv</code></td>
+<td>Installs uv for the first time.</td>
+</tr>
+<tr>
+<td><code>make uv_update</code></td>
+<td><code>uv self update</code></td>
+<td>Updates uv itself to the latest release.</td>
+</tr>
+<tr>
+<td><code>make uv_clear_cache</code></td>
+<td><code>uv cache clean</code></td>
+<td>Clears the uv package cache to free disk space.</td>
+</tr>
+<tr>
+<td><code>make zone</code></td>
+<td><code>find … Zone.Identifier -delete</code></td>
+<td>Removes Windows <code>Zone.Identifier</code> metadata files that appear on files downloaded from the internet. Harmless on native Linux but useful when working in WSL2 on a Windows-hosted folder.</td>
+</tr>
+<tr>
+<td><code>make claude</code></td>
+<td><code>uv run headroom wrap claude</code></td>
+<td>Starts Claude Code with the headroom context wrapper (dev group required).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Typical first-time setup in WSL2:</strong></p>
+<pre><code class="language-bash">make uv_install   # install uv (if not already installed)
+# restart terminal, then:
+make venv_build   # create .venv and install all dependencies
+make update_openapi   # fetch live API spec and generate model classes
+</code></pre>
+<p><strong>Day-to-day usage:</strong></p>
+<pre><code class="language-bash">make sync_translations   # after editing de.json
+make md_to_html          # after editing any *.md documentation file
+make update_openapi      # after the backend API changes
+</code></pre>
 <script>
 (function () {
     var toggle = document.getElementById('theme-toggle');

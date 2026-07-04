@@ -101,8 +101,9 @@ load; if no token is present it redirects back to `wrapper.html`.
 
 **`app.html` is a strict MVC split** (all ES modules, no bundler).
 
-The **Model-View-Controller (MVC)** pattern (Trygve Reenskaug, 1970s) separates an application into three interconnected
-components so each can be reasoned about, changed, and tested in isolation:
+The **Model-View-Controller (MVC)** pattern separates an application into three interconnected
+components so each can be reasoned about, changed, and tested in isolation. See [MVC.md](MVC.md) for a more detailed
+description.
 
 - **Model** — the application's data and business logic. Manages state, answers queries, and performs updates. Knows
   nothing about the UI.
