@@ -12,14 +12,14 @@ from core.toolbox.machine_os_type import get_computer_id, COMPUTER_IDS_DEV
 system = platform.system()
 if platform.system() == 'Windows':
     if get_computer_id() in COMPUTER_IDS_DEV:
-        dotenv_path = Path(__file__).resolve().parents[1] / 'xeduorg_ui_template_dev.env'
+        dotenv_path = Path(__file__).resolve().parents[2] / 'xeduorg_ui_template_dev.env'
     else:
-        dotenv_path = Path(__file__).resolve().parents[1] / 'xeduorg_ui_template.env'
+        dotenv_path = Path(__file__).resolve().parents[2] / 'xeduorg_ui_template.env'
 elif system == 'Darwin':  # Mac Osx
     if get_computer_id() in COMPUTER_IDS_DEV:
-        dotenv_path = Path(__file__).resolve().parents[1] / 'xeduorg_ui_template_dev.env'
+        dotenv_path = Path(__file__).resolve().parents[2] / 'xeduorg_ui_template_dev.env'
     else:
-        dotenv_path = Path(__file__).resolve().parents[1] / 'xeduorg_ui_template.env'
+        dotenv_path = Path(__file__).resolve().parents[2] / 'xeduorg_ui_template.env'
 elif system == 'Linux':
     if get_computer_id() in COMPUTER_IDS_DEV:
         dotenv_path = Path(__file__).resolve().parents[2] / 'config' / 'xeduorg_ui_template_dev.env'

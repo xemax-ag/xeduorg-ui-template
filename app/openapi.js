@@ -378,6 +378,130 @@ Act2FocQuery.prototype['offset'] = undefined;
 export { Act2FocQuery };
 
 /**
+ * The Act2Focs model module.
+ * @module model/Act2Focs
+ * @version 0.0.1
+ */
+class Act2Focs {
+    /**
+     * Constructs a new <code>Act2Focs</code>.
+     * @alias module:model/Act2Focs
+     */
+    constructor() { 
+        
+        Act2Focs.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Act2Focs</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Act2Focs} obj Optional instance to populate.
+     * @return {module:model/Act2Focs} The populated <code>Act2Focs</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Act2Focs();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Act2Foc]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Act2Focs</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Act2Focs</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Act2Foc.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Act2Focs.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Act2Focs.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Act2Focs.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Act2Focs.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Act2Focs.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Act2Foc>} rows
+ */
+Act2Focs.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Act2Focs };
+
+/**
  * The Act2FocView model module.
  * @module model/Act2FocView
  * @version 0.0.1
@@ -597,130 +721,6 @@ Act2FocView.prototype['actions'] = undefined;
 
 
 export { Act2FocView };
-
-/**
- * The Act2Focs model module.
- * @module model/Act2Focs
- * @version 0.0.1
- */
-class Act2Focs {
-    /**
-     * Constructs a new <code>Act2Focs</code>.
-     * @alias module:model/Act2Focs
-     */
-    constructor() { 
-        
-        Act2Focs.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Act2Focs</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Act2Focs} obj Optional instance to populate.
-     * @return {module:model/Act2Focs} The populated <code>Act2Focs</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Act2Focs();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Act2Foc]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Act2Focs</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Act2Focs</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Act2Foc.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Act2Focs.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Act2Focs.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Act2Focs.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Act2Focs.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Act2Focs.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Act2Foc>} rows
- */
-Act2Focs.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Act2Focs };
 
 /**
  * The Action model module.
@@ -1656,6 +1656,138 @@ Aoe2CurQuery.prototype['language'] = undefined;
 export { Aoe2CurQuery };
 
 /**
+ * The Aoe2Curs model module.
+ * @module model/Aoe2Curs
+ * @version 0.0.1
+ */
+class Aoe2Curs {
+    /**
+     * Constructs a new <code>Aoe2Curs</code>.
+     * @alias module:model/Aoe2Curs
+     */
+    constructor() { 
+        
+        Aoe2Curs.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Aoe2Curs</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Aoe2Curs} obj Optional instance to populate.
+     * @return {module:model/Aoe2Curs} The populated <code>Aoe2Curs</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Aoe2Curs();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('language')) {
+                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Aoe2Cur]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Aoe2Curs</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Aoe2Curs</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Aoe2Cur.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Aoe2Curs.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Aoe2Curs.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Aoe2Curs.prototype['offset'] = undefined;
+
+/**
+ * @member {module:model/TslLanguageType} language
+ */
+Aoe2Curs.prototype['language'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Aoe2Curs.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Aoe2Curs.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Aoe2Cur>} rows
+ */
+Aoe2Curs.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Aoe2Curs };
+
+/**
  * The Aoe2CurView model module.
  * @module model/Aoe2CurView
  * @version 0.0.1
@@ -1913,138 +2045,6 @@ Aoe2CurView.prototype['area_of_operational_expertises'] = undefined;
 
 
 export { Aoe2CurView };
-
-/**
- * The Aoe2Curs model module.
- * @module model/Aoe2Curs
- * @version 0.0.1
- */
-class Aoe2Curs {
-    /**
-     * Constructs a new <code>Aoe2Curs</code>.
-     * @alias module:model/Aoe2Curs
-     */
-    constructor() { 
-        
-        Aoe2Curs.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Aoe2Curs</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Aoe2Curs} obj Optional instance to populate.
-     * @return {module:model/Aoe2Curs} The populated <code>Aoe2Curs</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Aoe2Curs();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('language')) {
-                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Aoe2Cur]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Aoe2Curs</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Aoe2Curs</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Aoe2Cur.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Aoe2Curs.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Aoe2Curs.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Aoe2Curs.prototype['offset'] = undefined;
-
-/**
- * @member {module:model/TslLanguageType} language
- */
-Aoe2Curs.prototype['language'] = undefined;
-
-/**
- * @member {Number} total
- */
-Aoe2Curs.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Aoe2Curs.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Aoe2Cur>} rows
- */
-Aoe2Curs.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Aoe2Curs };
 
 /**
  * The AppApiSkillsTablesLogEntriesModelsLogEntries model module.
@@ -3282,234 +3282,6 @@ AreaOfOperationalExpertise.prototype['tsl_language'] = undefined;
 export { AreaOfOperationalExpertise };
 
 /**
- * The AreaOfOperationalExpertiseView model module.
- * @module model/AreaOfOperationalExpertiseView
- * @version 0.0.1
- */
-class AreaOfOperationalExpertiseView {
-    /**
-     * Constructs a new <code>AreaOfOperationalExpertiseView</code>.
-     * @alias module:model/AreaOfOperationalExpertiseView
-     * @param fkProject {Number} Reference to the owning project this vision belongs to; cascades on delete.
-     */
-    constructor(fkProject) { 
-        
-        AreaOfOperationalExpertiseView.initialize(this, fkProject);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj, fkProject) { 
-        obj['fk_project'] = fkProject;
-    }
-
-    /**
-     * Constructs a <code>AreaOfOperationalExpertiseView</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AreaOfOperationalExpertiseView} obj Optional instance to populate.
-     * @return {module:model/AreaOfOperationalExpertiseView} The populated <code>AreaOfOperationalExpertiseView</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new AreaOfOperationalExpertiseView();
-
-            if (data.hasOwnProperty('pk')) {
-                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
-            }
-            if (data.hasOwnProperty('fk_project')) {
-                obj['fk_project'] = ApiClient.convertToType(data['fk_project'], 'Number');
-            }
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'String');
-            }
-            if (data.hasOwnProperty('tsl_title')) {
-                obj['tsl_title'] = ApiClient.convertToType(data['tsl_title'], 'Number');
-            }
-            if (data.hasOwnProperty('data_state')) {
-                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
-            }
-            if (data.hasOwnProperty('mcp_data_state')) {
-                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
-            }
-            if (data.hasOwnProperty('comments')) {
-                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
-            }
-            if (data.hasOwnProperty('notes')) {
-                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
-            }
-            if (data.hasOwnProperty('metadatas')) {
-                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
-            }
-            if (data.hasOwnProperty('created_at')) {
-                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
-            }
-            if (data.hasOwnProperty('updated_at')) {
-                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
-            }
-            if (data.hasOwnProperty('pk_fm')) {
-                obj['pk_fm'] = ApiClient.convertToType(data['pk_fm'], 'String');
-            }
-            if (data.hasOwnProperty('tsl_title_txt')) {
-                obj['tsl_title_txt'] = ApiClient.convertToType(data['tsl_title_txt'], 'String');
-            }
-            if (data.hasOwnProperty('tsl_language')) {
-                obj['tsl_language'] = ApiClient.convertToType(data['tsl_language'], TslLanguageType);
-            }
-            if (data.hasOwnProperty('ops_2_aoe')) {
-                obj['ops_2_aoe'] = ApiClient.convertToType(data['ops_2_aoe'], [Ops2AoeView]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>AreaOfOperationalExpertiseView</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>AreaOfOperationalExpertiseView</code>.
-     */
-    static validateJSON(data) {
-        // check to make sure all required properties are present in the JSON string
-        for (const property of AreaOfOperationalExpertiseView.RequiredProperties) {
-            if (!data.hasOwnProperty(property)) {
-                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
-            }
-        }
-        // ensure the json data is a string
-        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
-            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
-        }
-        // ensure the json data is a string
-        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
-            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
-        }
-        // ensure the json data is a string
-        if (data['pk_fm'] && !(typeof data['pk_fm'] === 'string' || data['pk_fm'] instanceof String)) {
-            throw new Error("Expected the field `pk_fm` to be a primitive type in the JSON string but got " + data['pk_fm']);
-        }
-        // ensure the json data is a string
-        if (data['tsl_title_txt'] && !(typeof data['tsl_title_txt'] === 'string' || data['tsl_title_txt'] instanceof String)) {
-            throw new Error("Expected the field `tsl_title_txt` to be a primitive type in the JSON string but got " + data['tsl_title_txt']);
-        }
-        if (data['ops_2_aoe']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['ops_2_aoe'])) {
-                throw new Error("Expected the field `ops_2_aoe` to be an array in the JSON data but got " + data['ops_2_aoe']);
-            }
-            // validate the optional field `ops_2_aoe` (array)
-            for (const item of data['ops_2_aoe']) {
-                Ops2AoeView.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-AreaOfOperationalExpertiseView.RequiredProperties = ["fk_project"];
-
-/**
- * Auto-generated surrogate primary key uniquely identifying the area of operational expertise row.
- * @member {Number} pk
- */
-AreaOfOperationalExpertiseView.prototype['pk'] = undefined;
-
-/**
- * Reference to the owning project this vision belongs to; cascades on delete.
- * @member {Number} fk_project
- */
-AreaOfOperationalExpertiseView.prototype['fk_project'] = undefined;
-
-/**
- * Human-readable business identifier of the area of operational expertise, unique per project.
- * @member {String} id
- */
-AreaOfOperationalExpertiseView.prototype['id'] = undefined;
-
-/**
- * Reference to the tsl_translations row holding the multilingual title of the area of operational expertise; logical reference, not a database foreign key.
- * @member {Number} tsl_title
- */
-AreaOfOperationalExpertiseView.prototype['tsl_title'] = undefined;
-
-/**
- * Marking the row as written by an Endpoint and pending human review.
- * @member {module:model/DataStateType} data_state
- */
-AreaOfOperationalExpertiseView.prototype['data_state'] = undefined;
-
-/**
- * Marking the row as written by an MCP agent and pending human review.
- * @member {module:model/McpDataStateType} mcp_data_state
- */
-AreaOfOperationalExpertiseView.prototype['mcp_data_state'] = undefined;
-
-/**
- * Free-form comments about the row.
- * @member {String} comments
- */
-AreaOfOperationalExpertiseView.prototype['comments'] = undefined;
-
-/**
- * Arbitrary structured notes stored as JSONB.
- * @member {Object.<String, Object>} notes
- */
-AreaOfOperationalExpertiseView.prototype['notes'] = undefined;
-
-/**
- * Arbitrary structured metadata stored as JSONB.
- * @member {Object.<String, Object>} metadatas
- */
-AreaOfOperationalExpertiseView.prototype['metadatas'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created.
- * @member {Date} created_at
- */
-AreaOfOperationalExpertiseView.prototype['created_at'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
- * @member {Date} updated_at
- */
-AreaOfOperationalExpertiseView.prototype['updated_at'] = undefined;
-
-/**
- * Primary key for FileMaker data migration.
- * @member {String} pk_fm
- */
-AreaOfOperationalExpertiseView.prototype['pk_fm'] = undefined;
-
-/**
- * Reference to the tsl_translations row holding the multilingual title of the area of operational expertise; logical reference, not a database foreign key.
- * @member {String} tsl_title_txt
- */
-AreaOfOperationalExpertiseView.prototype['tsl_title_txt'] = undefined;
-
-/**
- * Language used to resolve the `tsl_*_txt` fields.
- * @member {module:model/TslLanguageType} tsl_language
- */
-AreaOfOperationalExpertiseView.prototype['tsl_language'] = undefined;
-
-/**
- * @member {Array.<module:model/Ops2AoeView>} ops_2_aoe
- */
-AreaOfOperationalExpertiseView.prototype['ops_2_aoe'] = undefined;
-
-
-
-
-
-
-export { AreaOfOperationalExpertiseView };
-
-/**
  * The AreaOfOperationalExpertises model module.
  * @module model/AreaOfOperationalExpertises
  * @version 0.0.1
@@ -3738,6 +3510,234 @@ AreaOfOperationalExpertisesQuery.prototype['language'] = undefined;
 
 
 export { AreaOfOperationalExpertisesQuery };
+
+/**
+ * The AreaOfOperationalExpertiseView model module.
+ * @module model/AreaOfOperationalExpertiseView
+ * @version 0.0.1
+ */
+class AreaOfOperationalExpertiseView {
+    /**
+     * Constructs a new <code>AreaOfOperationalExpertiseView</code>.
+     * @alias module:model/AreaOfOperationalExpertiseView
+     * @param fkProject {Number} Reference to the owning project this vision belongs to; cascades on delete.
+     */
+    constructor(fkProject) { 
+        
+        AreaOfOperationalExpertiseView.initialize(this, fkProject);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj, fkProject) { 
+        obj['fk_project'] = fkProject;
+    }
+
+    /**
+     * Constructs a <code>AreaOfOperationalExpertiseView</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/AreaOfOperationalExpertiseView} obj Optional instance to populate.
+     * @return {module:model/AreaOfOperationalExpertiseView} The populated <code>AreaOfOperationalExpertiseView</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new AreaOfOperationalExpertiseView();
+
+            if (data.hasOwnProperty('pk')) {
+                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
+            }
+            if (data.hasOwnProperty('fk_project')) {
+                obj['fk_project'] = ApiClient.convertToType(data['fk_project'], 'Number');
+            }
+            if (data.hasOwnProperty('id')) {
+                obj['id'] = ApiClient.convertToType(data['id'], 'String');
+            }
+            if (data.hasOwnProperty('tsl_title')) {
+                obj['tsl_title'] = ApiClient.convertToType(data['tsl_title'], 'Number');
+            }
+            if (data.hasOwnProperty('data_state')) {
+                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
+            }
+            if (data.hasOwnProperty('mcp_data_state')) {
+                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
+            }
+            if (data.hasOwnProperty('comments')) {
+                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
+            }
+            if (data.hasOwnProperty('notes')) {
+                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
+            }
+            if (data.hasOwnProperty('metadatas')) {
+                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
+            }
+            if (data.hasOwnProperty('created_at')) {
+                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
+            }
+            if (data.hasOwnProperty('updated_at')) {
+                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
+            }
+            if (data.hasOwnProperty('pk_fm')) {
+                obj['pk_fm'] = ApiClient.convertToType(data['pk_fm'], 'String');
+            }
+            if (data.hasOwnProperty('tsl_title_txt')) {
+                obj['tsl_title_txt'] = ApiClient.convertToType(data['tsl_title_txt'], 'String');
+            }
+            if (data.hasOwnProperty('tsl_language')) {
+                obj['tsl_language'] = ApiClient.convertToType(data['tsl_language'], TslLanguageType);
+            }
+            if (data.hasOwnProperty('ops_2_aoe')) {
+                obj['ops_2_aoe'] = ApiClient.convertToType(data['ops_2_aoe'], [Ops2AoeView]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>AreaOfOperationalExpertiseView</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>AreaOfOperationalExpertiseView</code>.
+     */
+    static validateJSON(data) {
+        // check to make sure all required properties are present in the JSON string
+        for (const property of AreaOfOperationalExpertiseView.RequiredProperties) {
+            if (!data.hasOwnProperty(property)) {
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
+            }
+        }
+        // ensure the json data is a string
+        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
+            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
+        }
+        // ensure the json data is a string
+        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
+            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
+        }
+        // ensure the json data is a string
+        if (data['pk_fm'] && !(typeof data['pk_fm'] === 'string' || data['pk_fm'] instanceof String)) {
+            throw new Error("Expected the field `pk_fm` to be a primitive type in the JSON string but got " + data['pk_fm']);
+        }
+        // ensure the json data is a string
+        if (data['tsl_title_txt'] && !(typeof data['tsl_title_txt'] === 'string' || data['tsl_title_txt'] instanceof String)) {
+            throw new Error("Expected the field `tsl_title_txt` to be a primitive type in the JSON string but got " + data['tsl_title_txt']);
+        }
+        if (data['ops_2_aoe']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['ops_2_aoe'])) {
+                throw new Error("Expected the field `ops_2_aoe` to be an array in the JSON data but got " + data['ops_2_aoe']);
+            }
+            // validate the optional field `ops_2_aoe` (array)
+            for (const item of data['ops_2_aoe']) {
+                Ops2AoeView.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+AreaOfOperationalExpertiseView.RequiredProperties = ["fk_project"];
+
+/**
+ * Auto-generated surrogate primary key uniquely identifying the area of operational expertise row.
+ * @member {Number} pk
+ */
+AreaOfOperationalExpertiseView.prototype['pk'] = undefined;
+
+/**
+ * Reference to the owning project this vision belongs to; cascades on delete.
+ * @member {Number} fk_project
+ */
+AreaOfOperationalExpertiseView.prototype['fk_project'] = undefined;
+
+/**
+ * Human-readable business identifier of the area of operational expertise, unique per project.
+ * @member {String} id
+ */
+AreaOfOperationalExpertiseView.prototype['id'] = undefined;
+
+/**
+ * Reference to the tsl_translations row holding the multilingual title of the area of operational expertise; logical reference, not a database foreign key.
+ * @member {Number} tsl_title
+ */
+AreaOfOperationalExpertiseView.prototype['tsl_title'] = undefined;
+
+/**
+ * Marking the row as written by an Endpoint and pending human review.
+ * @member {module:model/DataStateType} data_state
+ */
+AreaOfOperationalExpertiseView.prototype['data_state'] = undefined;
+
+/**
+ * Marking the row as written by an MCP agent and pending human review.
+ * @member {module:model/McpDataStateType} mcp_data_state
+ */
+AreaOfOperationalExpertiseView.prototype['mcp_data_state'] = undefined;
+
+/**
+ * Free-form comments about the row.
+ * @member {String} comments
+ */
+AreaOfOperationalExpertiseView.prototype['comments'] = undefined;
+
+/**
+ * Arbitrary structured notes stored as JSONB.
+ * @member {Object.<String, Object>} notes
+ */
+AreaOfOperationalExpertiseView.prototype['notes'] = undefined;
+
+/**
+ * Arbitrary structured metadata stored as JSONB.
+ * @member {Object.<String, Object>} metadatas
+ */
+AreaOfOperationalExpertiseView.prototype['metadatas'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created.
+ * @member {Date} created_at
+ */
+AreaOfOperationalExpertiseView.prototype['created_at'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
+ * @member {Date} updated_at
+ */
+AreaOfOperationalExpertiseView.prototype['updated_at'] = undefined;
+
+/**
+ * Primary key for FileMaker data migration.
+ * @member {String} pk_fm
+ */
+AreaOfOperationalExpertiseView.prototype['pk_fm'] = undefined;
+
+/**
+ * Reference to the tsl_translations row holding the multilingual title of the area of operational expertise; logical reference, not a database foreign key.
+ * @member {String} tsl_title_txt
+ */
+AreaOfOperationalExpertiseView.prototype['tsl_title_txt'] = undefined;
+
+/**
+ * Language used to resolve the `tsl_*_txt` fields.
+ * @member {module:model/TslLanguageType} tsl_language
+ */
+AreaOfOperationalExpertiseView.prototype['tsl_language'] = undefined;
+
+/**
+ * @member {Array.<module:model/Ops2AoeView>} ops_2_aoe
+ */
+AreaOfOperationalExpertiseView.prototype['ops_2_aoe'] = undefined;
+
+
+
+
+
+
+export { AreaOfOperationalExpertiseView };
 
 /**
  * The Curricula model module.
@@ -5213,6 +5213,130 @@ Foc2Mis.prototype['updated_at'] = undefined;
 export { Foc2Mis };
 
 /**
+ * The Foc2Mises model module.
+ * @module model/Foc2Mises
+ * @version 0.0.1
+ */
+class Foc2Mises {
+    /**
+     * Constructs a new <code>Foc2Mises</code>.
+     * @alias module:model/Foc2Mises
+     */
+    constructor() { 
+        
+        Foc2Mises.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Foc2Mises</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Foc2Mises} obj Optional instance to populate.
+     * @return {module:model/Foc2Mises} The populated <code>Foc2Mises</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Foc2Mises();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Foc2Mis]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Foc2Mises</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Foc2Mises</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Foc2Mis.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Foc2Mises.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Foc2Mises.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Foc2Mises.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Foc2Mises.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Foc2Mises.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Foc2Mis>} rows
+ */
+Foc2Mises.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Foc2Mises };
+
+/**
  * The Foc2MisQuery model module.
  * @module model/Foc2MisQuery
  * @version 0.0.1
@@ -5524,130 +5648,6 @@ Foc2MisView.prototype['focuses'] = undefined;
 export { Foc2MisView };
 
 /**
- * The Foc2Mises model module.
- * @module model/Foc2Mises
- * @version 0.0.1
- */
-class Foc2Mises {
-    /**
-     * Constructs a new <code>Foc2Mises</code>.
-     * @alias module:model/Foc2Mises
-     */
-    constructor() { 
-        
-        Foc2Mises.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Foc2Mises</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Foc2Mises} obj Optional instance to populate.
-     * @return {module:model/Foc2Mises} The populated <code>Foc2Mises</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Foc2Mises();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Foc2Mis]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Foc2Mises</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Foc2Mises</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Foc2Mis.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Foc2Mises.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Foc2Mises.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Foc2Mises.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Foc2Mises.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Foc2Mises.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Foc2Mis>} rows
- */
-Foc2Mises.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Foc2Mises };
-
-/**
  * The Focus model module.
  * @module model/Focus
  * @version 0.0.1
@@ -5921,6 +5921,130 @@ Focus.prototype['updated_at'] = undefined;
 
 
 export { Focus };
+
+/**
+ * The Focuses model module.
+ * @module model/Focuses
+ * @version 0.0.1
+ */
+class Focuses {
+    /**
+     * Constructs a new <code>Focuses</code>.
+     * @alias module:model/Focuses
+     */
+    constructor() { 
+        
+        Focuses.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Focuses</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Focuses} obj Optional instance to populate.
+     * @return {module:model/Focuses} The populated <code>Focuses</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Focuses();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Focus]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Focuses</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Focuses</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Focus.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Focuses.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Focuses.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Focuses.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Focuses.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Focuses.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Focus>} rows
+ */
+Focuses.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Focuses };
 
 /**
  * The FocusQuery model module.
@@ -6304,130 +6428,6 @@ FocusView.prototype['act_2_foc'] = undefined;
 
 
 export { FocusView };
-
-/**
- * The Focuses model module.
- * @module model/Focuses
- * @version 0.0.1
- */
-class Focuses {
-    /**
-     * Constructs a new <code>Focuses</code>.
-     * @alias module:model/Focuses
-     */
-    constructor() { 
-        
-        Focuses.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Focuses</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Focuses} obj Optional instance to populate.
-     * @return {module:model/Focuses} The populated <code>Focuses</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Focuses();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Focus]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Focuses</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Focuses</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Focus.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Focuses.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Focuses.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Focuses.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Focuses.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Focuses.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Focus>} rows
- */
-Focuses.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Focuses };
 
 /**
  * The HTTPValidationError model module.
@@ -6895,6 +6895,130 @@ Mis2Vis.prototype['updated_at'] = undefined;
 export { Mis2Vis };
 
 /**
+ * The Mis2Vises model module.
+ * @module model/Mis2Vises
+ * @version 0.0.1
+ */
+class Mis2Vises {
+    /**
+     * Constructs a new <code>Mis2Vises</code>.
+     * @alias module:model/Mis2Vises
+     */
+    constructor() { 
+        
+        Mis2Vises.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Mis2Vises</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Mis2Vises} obj Optional instance to populate.
+     * @return {module:model/Mis2Vises} The populated <code>Mis2Vises</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Mis2Vises();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Mis2Vis]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Mis2Vises</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Mis2Vises</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Mis2Vis.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Mis2Vises.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Mis2Vises.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Mis2Vises.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Mis2Vises.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Mis2Vises.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Mis2Vis>} rows
+ */
+Mis2Vises.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Mis2Vises };
+
+/**
  * The Mis2VisQuery model module.
  * @module model/Mis2VisQuery
  * @version 0.0.1
@@ -7204,130 +7328,6 @@ Mis2VisView.prototype['missions'] = undefined;
 
 
 export { Mis2VisView };
-
-/**
- * The Mis2Vises model module.
- * @module model/Mis2Vises
- * @version 0.0.1
- */
-class Mis2Vises {
-    /**
-     * Constructs a new <code>Mis2Vises</code>.
-     * @alias module:model/Mis2Vises
-     */
-    constructor() { 
-        
-        Mis2Vises.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Mis2Vises</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Mis2Vises} obj Optional instance to populate.
-     * @return {module:model/Mis2Vises} The populated <code>Mis2Vises</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Mis2Vises();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Mis2Vis]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Mis2Vises</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Mis2Vises</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Mis2Vis.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Mis2Vises.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Mis2Vises.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Mis2Vises.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Mis2Vises.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Mis2Vises.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Mis2Vis>} rows
- */
-Mis2Vises.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Mis2Vises };
 
 /**
  * The Mission model module.
@@ -7695,6 +7695,130 @@ MissionQuery.prototype['offset'] = undefined;
 export { MissionQuery };
 
 /**
+ * The Missions model module.
+ * @module model/Missions
+ * @version 0.0.1
+ */
+class Missions {
+    /**
+     * Constructs a new <code>Missions</code>.
+     * @alias module:model/Missions
+     */
+    constructor() { 
+        
+        Missions.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Missions</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Missions} obj Optional instance to populate.
+     * @return {module:model/Missions} The populated <code>Missions</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Missions();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Mission]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Missions</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Missions</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Mission.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Missions.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Missions.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Missions.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Missions.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Missions.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Mission>} rows
+ */
+Missions.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Missions };
+
+/**
  * The MissionView model module.
  * @module model/MissionView
  * @version 0.0.1
@@ -7988,130 +8112,6 @@ MissionView.prototype['foc_2_mis'] = undefined;
 export { MissionView };
 
 /**
- * The Missions model module.
- * @module model/Missions
- * @version 0.0.1
- */
-class Missions {
-    /**
-     * Constructs a new <code>Missions</code>.
-     * @alias module:model/Missions
-     */
-    constructor() { 
-        
-        Missions.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Missions</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Missions} obj Optional instance to populate.
-     * @return {module:model/Missions} The populated <code>Missions</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Missions();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Mission]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Missions</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Missions</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Mission.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Missions.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Missions.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Missions.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Missions.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Missions.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Mission>} rows
- */
-Missions.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Missions };
-
-/**
  * The OperationalSkill model module.
  * @module model/OperationalSkill
  * @version 0.0.1
@@ -8320,6 +8320,138 @@ OperationalSkill.prototype['tsl_language'] = undefined;
 
 
 export { OperationalSkill };
+
+/**
+ * The OperationalSkills model module.
+ * @module model/OperationalSkills
+ * @version 0.0.1
+ */
+class OperationalSkills {
+    /**
+     * Constructs a new <code>OperationalSkills</code>.
+     * @alias module:model/OperationalSkills
+     */
+    constructor() { 
+        
+        OperationalSkills.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>OperationalSkills</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/OperationalSkills} obj Optional instance to populate.
+     * @return {module:model/OperationalSkills} The populated <code>OperationalSkills</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new OperationalSkills();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('language')) {
+                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [OperationalSkill]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>OperationalSkills</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>OperationalSkills</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                OperationalSkill.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+OperationalSkills.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+OperationalSkills.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+OperationalSkills.prototype['offset'] = undefined;
+
+/**
+ * @member {module:model/TslLanguageType} language
+ */
+OperationalSkills.prototype['language'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+OperationalSkills.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+OperationalSkills.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/OperationalSkill>} rows
+ */
+OperationalSkills.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { OperationalSkills };
 
 /**
  * The OperationalSkillView model module.
@@ -8548,138 +8680,6 @@ OperationalSkillView.prototype['pec_2_ops'] = undefined;
 
 
 export { OperationalSkillView };
-
-/**
- * The OperationalSkills model module.
- * @module model/OperationalSkills
- * @version 0.0.1
- */
-class OperationalSkills {
-    /**
-     * Constructs a new <code>OperationalSkills</code>.
-     * @alias module:model/OperationalSkills
-     */
-    constructor() { 
-        
-        OperationalSkills.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>OperationalSkills</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/OperationalSkills} obj Optional instance to populate.
-     * @return {module:model/OperationalSkills} The populated <code>OperationalSkills</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new OperationalSkills();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('language')) {
-                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [OperationalSkill]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>OperationalSkills</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>OperationalSkills</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                OperationalSkill.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-OperationalSkills.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-OperationalSkills.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-OperationalSkills.prototype['offset'] = undefined;
-
-/**
- * @member {module:model/TslLanguageType} language
- */
-OperationalSkills.prototype['language'] = undefined;
-
-/**
- * @member {Number} total
- */
-OperationalSkills.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-OperationalSkills.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/OperationalSkill>} rows
- */
-OperationalSkills.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { OperationalSkills };
 
 /**
  * The Ops2Aoe model module.
@@ -9008,6 +9008,138 @@ Ops2AoeQuery.prototype['language'] = undefined;
 export { Ops2AoeQuery };
 
 /**
+ * The Ops2Aoes model module.
+ * @module model/Ops2Aoes
+ * @version 0.0.1
+ */
+class Ops2Aoes {
+    /**
+     * Constructs a new <code>Ops2Aoes</code>.
+     * @alias module:model/Ops2Aoes
+     */
+    constructor() { 
+        
+        Ops2Aoes.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Ops2Aoes</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Ops2Aoes} obj Optional instance to populate.
+     * @return {module:model/Ops2Aoes} The populated <code>Ops2Aoes</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Ops2Aoes();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('language')) {
+                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Ops2Aoe]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Ops2Aoes</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Ops2Aoes</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Ops2Aoe.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Ops2Aoes.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Ops2Aoes.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Ops2Aoes.prototype['offset'] = undefined;
+
+/**
+ * @member {module:model/TslLanguageType} language
+ */
+Ops2Aoes.prototype['language'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Ops2Aoes.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Ops2Aoes.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Ops2Aoe>} rows
+ */
+Ops2Aoes.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Ops2Aoes };
+
+/**
  * The Ops2AoeView model module.
  * @module model/Ops2AoeView
  * @version 0.0.1
@@ -9252,138 +9384,6 @@ Ops2AoeView.prototype['operational_skills'] = undefined;
 
 
 export { Ops2AoeView };
-
-/**
- * The Ops2Aoes model module.
- * @module model/Ops2Aoes
- * @version 0.0.1
- */
-class Ops2Aoes {
-    /**
-     * Constructs a new <code>Ops2Aoes</code>.
-     * @alias module:model/Ops2Aoes
-     */
-    constructor() { 
-        
-        Ops2Aoes.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Ops2Aoes</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Ops2Aoes} obj Optional instance to populate.
-     * @return {module:model/Ops2Aoes} The populated <code>Ops2Aoes</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Ops2Aoes();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('language')) {
-                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Ops2Aoe]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Ops2Aoes</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Ops2Aoes</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Ops2Aoe.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Ops2Aoes.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Ops2Aoes.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Ops2Aoes.prototype['offset'] = undefined;
-
-/**
- * @member {module:model/TslLanguageType} language
- */
-Ops2Aoes.prototype['language'] = undefined;
-
-/**
- * @member {Number} total
- */
-Ops2Aoes.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Ops2Aoes.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Ops2Aoe>} rows
- */
-Ops2Aoes.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Ops2Aoes };
 
 /**
  * The OpsFocus model module.
@@ -9632,104 +9632,6 @@ OpsFocus.prototype['tsl_language'] = undefined;
 export { OpsFocus };
 
 /**
- * The OpsFocusQuery model module.
- * @module model/OpsFocusQuery
- * @version 0.0.1
- */
-class OpsFocusQuery {
-    /**
-     * Constructs a new <code>OpsFocusQuery</code>.
-     * @alias module:model/OpsFocusQuery
-     */
-    constructor() { 
-        
-        OpsFocusQuery.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>OpsFocusQuery</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/OpsFocusQuery} obj Optional instance to populate.
-     * @return {module:model/OpsFocusQuery} The populated <code>OpsFocusQuery</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new OpsFocusQuery();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('language')) {
-                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>OpsFocusQuery</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>OpsFocusQuery</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-OpsFocusQuery.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-OpsFocusQuery.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-OpsFocusQuery.prototype['offset'] = undefined;
-
-/**
- * @member {module:model/TslLanguageType} language
- */
-OpsFocusQuery.prototype['language'] = undefined;
-
-
-
-
-
-
-export { OpsFocusQuery };
-
-/**
  * The OpsFocuses model module.
  * @module model/OpsFocuses
  * @version 0.0.1
@@ -9860,6 +9762,104 @@ OpsFocuses.prototype['rows'] = undefined;
 
 
 export { OpsFocuses };
+
+/**
+ * The OpsFocusQuery model module.
+ * @module model/OpsFocusQuery
+ * @version 0.0.1
+ */
+class OpsFocusQuery {
+    /**
+     * Constructs a new <code>OpsFocusQuery</code>.
+     * @alias module:model/OpsFocusQuery
+     */
+    constructor() { 
+        
+        OpsFocusQuery.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>OpsFocusQuery</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/OpsFocusQuery} obj Optional instance to populate.
+     * @return {module:model/OpsFocusQuery} The populated <code>OpsFocusQuery</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new OpsFocusQuery();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('language')) {
+                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>OpsFocusQuery</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>OpsFocusQuery</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+OpsFocusQuery.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+OpsFocusQuery.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+OpsFocusQuery.prototype['offset'] = undefined;
+
+/**
+ * @member {module:model/TslLanguageType} language
+ */
+OpsFocusQuery.prototype['language'] = undefined;
+
+
+
+
+
+
+export { OpsFocusQuery };
 
 /**
 * Enum class OpsLevelType.
@@ -10280,6 +10280,138 @@ Pec2Ops.prototype['fk_fm_ops'] = undefined;
 export { Pec2Ops };
 
 /**
+ * The Pec2Opses model module.
+ * @module model/Pec2Opses
+ * @version 0.0.1
+ */
+class Pec2Opses {
+    /**
+     * Constructs a new <code>Pec2Opses</code>.
+     * @alias module:model/Pec2Opses
+     */
+    constructor() { 
+        
+        Pec2Opses.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Pec2Opses</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Pec2Opses} obj Optional instance to populate.
+     * @return {module:model/Pec2Opses} The populated <code>Pec2Opses</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Pec2Opses();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('language')) {
+                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Pec2Ops]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Pec2Opses</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Pec2Opses</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Pec2Ops.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Pec2Opses.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Pec2Opses.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Pec2Opses.prototype['offset'] = undefined;
+
+/**
+ * @member {module:model/TslLanguageType} language
+ */
+Pec2Opses.prototype['language'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Pec2Opses.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Pec2Opses.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Pec2Ops>} rows
+ */
+Pec2Opses.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Pec2Opses };
+
+/**
  * The Pec2OpsQuery model module.
  * @module model/Pec2OpsQuery
  * @version 0.0.1
@@ -10622,138 +10754,6 @@ Pec2OpsView.prototype['performance_criteria'] = undefined;
 
 
 export { Pec2OpsView };
-
-/**
- * The Pec2Opses model module.
- * @module model/Pec2Opses
- * @version 0.0.1
- */
-class Pec2Opses {
-    /**
-     * Constructs a new <code>Pec2Opses</code>.
-     * @alias module:model/Pec2Opses
-     */
-    constructor() { 
-        
-        Pec2Opses.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Pec2Opses</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Pec2Opses} obj Optional instance to populate.
-     * @return {module:model/Pec2Opses} The populated <code>Pec2Opses</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Pec2Opses();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('language')) {
-                obj['language'] = ApiClient.convertToType(data['language'], TslLanguageType);
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Pec2Ops]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Pec2Opses</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Pec2Opses</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Pec2Ops.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Pec2Opses.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Pec2Opses.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Pec2Opses.prototype['offset'] = undefined;
-
-/**
- * @member {module:model/TslLanguageType} language
- */
-Pec2Opses.prototype['language'] = undefined;
-
-/**
- * @member {Number} total
- */
-Pec2Opses.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Pec2Opses.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Pec2Ops>} rows
- */
-Pec2Opses.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Pec2Opses };
 
 /**
 * Enum class PecLearningLocationType.
@@ -11690,235 +11690,6 @@ Prj2UsrQueryStrategies.prototype['offset'] = undefined;
 export { Prj2UsrQueryStrategies };
 
 /**
- * The Prj2UsrStrategies model module.
- * @module model/Prj2UsrStrategies
- * @version 0.0.1
- */
-class Prj2UsrStrategies {
-    /**
-     * Constructs a new <code>Prj2UsrStrategies</code>.
-     * @alias module:model/Prj2UsrStrategies
-     */
-    constructor() { 
-        
-        Prj2UsrStrategies.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-    }
-
-    /**
-     * Constructs a <code>Prj2UsrStrategies</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Prj2UsrStrategies} obj Optional instance to populate.
-     * @return {module:model/Prj2UsrStrategies} The populated <code>Prj2UsrStrategies</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Prj2UsrStrategies();
-
-            if (data.hasOwnProperty('pk')) {
-                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
-            }
-            if (data.hasOwnProperty('fk_project')) {
-                obj['fk_project'] = ApiClient.convertToType(data['fk_project'], 'Number');
-            }
-            if (data.hasOwnProperty('fk_user')) {
-                obj['fk_user'] = ApiClient.convertToType(data['fk_user'], 'Number');
-            }
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'String');
-            }
-            if (data.hasOwnProperty('title')) {
-                obj['title'] = ApiClient.convertToType(data['title'], 'String');
-            }
-            if (data.hasOwnProperty('description')) {
-                obj['description'] = ApiClient.convertToType(data['description'], 'String');
-            }
-            if (data.hasOwnProperty('traffic_light')) {
-                obj['traffic_light'] = ApiClient.convertToType(data['traffic_light'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_quality')) {
-                obj['traffic_light_quality'] = ApiClient.convertToType(data['traffic_light_quality'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_cost')) {
-                obj['traffic_light_cost'] = ApiClient.convertToType(data['traffic_light_cost'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_time')) {
-                obj['traffic_light_time'] = ApiClient.convertToType(data['traffic_light_time'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('data_state')) {
-                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
-            }
-            if (data.hasOwnProperty('mcp_data_state')) {
-                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
-            }
-            if (data.hasOwnProperty('comments')) {
-                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
-            }
-            if (data.hasOwnProperty('notes')) {
-                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
-            }
-            if (data.hasOwnProperty('metadatas')) {
-                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
-            }
-            if (data.hasOwnProperty('created_at')) {
-                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
-            }
-            if (data.hasOwnProperty('updated_at')) {
-                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Prj2UsrStrategies</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Prj2UsrStrategies</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
-            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
-        }
-        // ensure the json data is a string
-        if (data['title'] && !(typeof data['title'] === 'string' || data['title'] instanceof String)) {
-            throw new Error("Expected the field `title` to be a primitive type in the JSON string but got " + data['title']);
-        }
-        // ensure the json data is a string
-        if (data['description'] && !(typeof data['description'] === 'string' || data['description'] instanceof String)) {
-            throw new Error("Expected the field `description` to be a primitive type in the JSON string but got " + data['description']);
-        }
-        // ensure the json data is a string
-        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
-            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * Auto-generated surrogate primary key uniquely identifying this project-to-user link row.
- * @member {Number} pk
- */
-Prj2UsrStrategies.prototype['pk'] = undefined;
-
-/**
- * Reference to the linked project; cascades on delete.
- * @member {Number} fk_project
- */
-Prj2UsrStrategies.prototype['fk_project'] = undefined;
-
-/**
- * Reference to the linked user (logical reference into the system schema user table).
- * @member {Number} fk_user
- */
-Prj2UsrStrategies.prototype['fk_user'] = undefined;
-
-/**
- * Optional human-readable unique business identifier for the row, distinct from the surrogate primary key.
- * @member {String} id
- */
-Prj2UsrStrategies.prototype['id'] = undefined;
-
-/**
- * Short human-readable title of the project-to-user link.
- * @member {String} title
- */
-Prj2UsrStrategies.prototype['title'] = undefined;
-
-/**
- * Free-form textual description of the project-to-user link.
- * @member {String} description
- */
-Prj2UsrStrategies.prototype['description'] = undefined;
-
-/**
- * RAG traffic-light indicator of overall project health: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light
- */
-Prj2UsrStrategies.prototype['traffic_light'] = undefined;
-
-/**
- * RAG traffic-light indicator of project quality: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_quality
- */
-Prj2UsrStrategies.prototype['traffic_light_quality'] = undefined;
-
-/**
- * RAG traffic-light indicator of project cost: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_cost
- */
-Prj2UsrStrategies.prototype['traffic_light_cost'] = undefined;
-
-/**
- * RAG traffic-light indicator of project schedule/time: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_time
- */
-Prj2UsrStrategies.prototype['traffic_light_time'] = undefined;
-
-/**
- * Marking the row as written by an Endpoint and pending human review.
- * @member {module:model/DataStateType} data_state
- */
-Prj2UsrStrategies.prototype['data_state'] = undefined;
-
-/**
- * Marking the row as written by an MCP agent and pending human review.
- * @member {module:model/McpDataStateType} mcp_data_state
- */
-Prj2UsrStrategies.prototype['mcp_data_state'] = undefined;
-
-/**
- * Free-form comments about the row.
- * @member {String} comments
- */
-Prj2UsrStrategies.prototype['comments'] = undefined;
-
-/**
- * Arbitrary structured notes stored as JSONB.
- * @member {Object.<String, Object>} notes
- */
-Prj2UsrStrategies.prototype['notes'] = undefined;
-
-/**
- * Arbitrary structured metadata stored as JSONB.
- * @member {Object.<String, Object>} metadatas
- */
-Prj2UsrStrategies.prototype['metadatas'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created.
- * @member {Date} created_at
- */
-Prj2UsrStrategies.prototype['created_at'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
- * @member {Date} updated_at
- */
-Prj2UsrStrategies.prototype['updated_at'] = undefined;
-
-
-
-
-
-
-export { Prj2UsrStrategies };
-
-/**
  * The Prj2Usrs model module.
  * @module model/Prj2Usrs
  * @version 0.0.1
@@ -12165,6 +11936,235 @@ Prj2UsrsStrategies.prototype['rows'] = undefined;
 
 
 export { Prj2UsrsStrategies };
+
+/**
+ * The Prj2UsrStrategies model module.
+ * @module model/Prj2UsrStrategies
+ * @version 0.0.1
+ */
+class Prj2UsrStrategies {
+    /**
+     * Constructs a new <code>Prj2UsrStrategies</code>.
+     * @alias module:model/Prj2UsrStrategies
+     */
+    constructor() { 
+        
+        Prj2UsrStrategies.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>Prj2UsrStrategies</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Prj2UsrStrategies} obj Optional instance to populate.
+     * @return {module:model/Prj2UsrStrategies} The populated <code>Prj2UsrStrategies</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Prj2UsrStrategies();
+
+            if (data.hasOwnProperty('pk')) {
+                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
+            }
+            if (data.hasOwnProperty('fk_project')) {
+                obj['fk_project'] = ApiClient.convertToType(data['fk_project'], 'Number');
+            }
+            if (data.hasOwnProperty('fk_user')) {
+                obj['fk_user'] = ApiClient.convertToType(data['fk_user'], 'Number');
+            }
+            if (data.hasOwnProperty('id')) {
+                obj['id'] = ApiClient.convertToType(data['id'], 'String');
+            }
+            if (data.hasOwnProperty('title')) {
+                obj['title'] = ApiClient.convertToType(data['title'], 'String');
+            }
+            if (data.hasOwnProperty('description')) {
+                obj['description'] = ApiClient.convertToType(data['description'], 'String');
+            }
+            if (data.hasOwnProperty('traffic_light')) {
+                obj['traffic_light'] = ApiClient.convertToType(data['traffic_light'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_quality')) {
+                obj['traffic_light_quality'] = ApiClient.convertToType(data['traffic_light_quality'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_cost')) {
+                obj['traffic_light_cost'] = ApiClient.convertToType(data['traffic_light_cost'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_time')) {
+                obj['traffic_light_time'] = ApiClient.convertToType(data['traffic_light_time'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('data_state')) {
+                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
+            }
+            if (data.hasOwnProperty('mcp_data_state')) {
+                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
+            }
+            if (data.hasOwnProperty('comments')) {
+                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
+            }
+            if (data.hasOwnProperty('notes')) {
+                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
+            }
+            if (data.hasOwnProperty('metadatas')) {
+                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
+            }
+            if (data.hasOwnProperty('created_at')) {
+                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
+            }
+            if (data.hasOwnProperty('updated_at')) {
+                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Prj2UsrStrategies</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Prj2UsrStrategies</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
+            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
+        }
+        // ensure the json data is a string
+        if (data['title'] && !(typeof data['title'] === 'string' || data['title'] instanceof String)) {
+            throw new Error("Expected the field `title` to be a primitive type in the JSON string but got " + data['title']);
+        }
+        // ensure the json data is a string
+        if (data['description'] && !(typeof data['description'] === 'string' || data['description'] instanceof String)) {
+            throw new Error("Expected the field `description` to be a primitive type in the JSON string but got " + data['description']);
+        }
+        // ensure the json data is a string
+        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
+            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * Auto-generated surrogate primary key uniquely identifying this project-to-user link row.
+ * @member {Number} pk
+ */
+Prj2UsrStrategies.prototype['pk'] = undefined;
+
+/**
+ * Reference to the linked project; cascades on delete.
+ * @member {Number} fk_project
+ */
+Prj2UsrStrategies.prototype['fk_project'] = undefined;
+
+/**
+ * Reference to the linked user (logical reference into the system schema user table).
+ * @member {Number} fk_user
+ */
+Prj2UsrStrategies.prototype['fk_user'] = undefined;
+
+/**
+ * Optional human-readable unique business identifier for the row, distinct from the surrogate primary key.
+ * @member {String} id
+ */
+Prj2UsrStrategies.prototype['id'] = undefined;
+
+/**
+ * Short human-readable title of the project-to-user link.
+ * @member {String} title
+ */
+Prj2UsrStrategies.prototype['title'] = undefined;
+
+/**
+ * Free-form textual description of the project-to-user link.
+ * @member {String} description
+ */
+Prj2UsrStrategies.prototype['description'] = undefined;
+
+/**
+ * RAG traffic-light indicator of overall project health: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light
+ */
+Prj2UsrStrategies.prototype['traffic_light'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project quality: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_quality
+ */
+Prj2UsrStrategies.prototype['traffic_light_quality'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project cost: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_cost
+ */
+Prj2UsrStrategies.prototype['traffic_light_cost'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project schedule/time: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_time
+ */
+Prj2UsrStrategies.prototype['traffic_light_time'] = undefined;
+
+/**
+ * Marking the row as written by an Endpoint and pending human review.
+ * @member {module:model/DataStateType} data_state
+ */
+Prj2UsrStrategies.prototype['data_state'] = undefined;
+
+/**
+ * Marking the row as written by an MCP agent and pending human review.
+ * @member {module:model/McpDataStateType} mcp_data_state
+ */
+Prj2UsrStrategies.prototype['mcp_data_state'] = undefined;
+
+/**
+ * Free-form comments about the row.
+ * @member {String} comments
+ */
+Prj2UsrStrategies.prototype['comments'] = undefined;
+
+/**
+ * Arbitrary structured notes stored as JSONB.
+ * @member {Object.<String, Object>} notes
+ */
+Prj2UsrStrategies.prototype['notes'] = undefined;
+
+/**
+ * Arbitrary structured metadata stored as JSONB.
+ * @member {Object.<String, Object>} metadatas
+ */
+Prj2UsrStrategies.prototype['metadatas'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created.
+ * @member {Date} created_at
+ */
+Prj2UsrStrategies.prototype['created_at'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
+ * @member {Date} updated_at
+ */
+Prj2UsrStrategies.prototype['updated_at'] = undefined;
+
+
+
+
+
+
+export { Prj2UsrStrategies };
 
 /**
  * The Project model module.
@@ -12557,239 +12557,6 @@ ProjectQueryStrategies.prototype['offset'] = undefined;
 export { ProjectQueryStrategies };
 
 /**
- * The ProjectStrategies model module.
- * @module model/ProjectStrategies
- * @version 0.0.1
- */
-class ProjectStrategies {
-    /**
-     * Constructs a new <code>ProjectStrategies</code>.
-     * @alias module:model/ProjectStrategies
-     */
-    constructor() { 
-        
-        ProjectStrategies.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-    }
-
-    /**
-     * Constructs a <code>ProjectStrategies</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ProjectStrategies} obj Optional instance to populate.
-     * @return {module:model/ProjectStrategies} The populated <code>ProjectStrategies</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new ProjectStrategies();
-
-            if (data.hasOwnProperty('pk')) {
-                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
-            }
-            if (data.hasOwnProperty('fk_user')) {
-                obj['fk_user'] = ApiClient.convertToType(data['fk_user'], 'Number');
-            }
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'String');
-            }
-            if (data.hasOwnProperty('name')) {
-                obj['name'] = ApiClient.convertToType(data['name'], 'String');
-            }
-            if (data.hasOwnProperty('description')) {
-                obj['description'] = ApiClient.convertToType(data['description'], 'String');
-            }
-            if (data.hasOwnProperty('icon')) {
-                obj['icon'] = ApiClient.convertToType(data['icon'], 'String');
-            }
-            if (data.hasOwnProperty('traffic_light')) {
-                obj['traffic_light'] = ApiClient.convertToType(data['traffic_light'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_quality')) {
-                obj['traffic_light_quality'] = ApiClient.convertToType(data['traffic_light_quality'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_cost')) {
-                obj['traffic_light_cost'] = ApiClient.convertToType(data['traffic_light_cost'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('traffic_light_time')) {
-                obj['traffic_light_time'] = ApiClient.convertToType(data['traffic_light_time'], TrafficLightType);
-            }
-            if (data.hasOwnProperty('data_state')) {
-                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
-            }
-            if (data.hasOwnProperty('mcp_data_state')) {
-                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
-            }
-            if (data.hasOwnProperty('comments')) {
-                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
-            }
-            if (data.hasOwnProperty('notes')) {
-                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
-            }
-            if (data.hasOwnProperty('metadatas')) {
-                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
-            }
-            if (data.hasOwnProperty('created_at')) {
-                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
-            }
-            if (data.hasOwnProperty('updated_at')) {
-                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>ProjectStrategies</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ProjectStrategies</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
-            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
-        }
-        // ensure the json data is a string
-        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
-            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
-        }
-        // ensure the json data is a string
-        if (data['description'] && !(typeof data['description'] === 'string' || data['description'] instanceof String)) {
-            throw new Error("Expected the field `description` to be a primitive type in the JSON string but got " + data['description']);
-        }
-        // ensure the json data is a string
-        if (data['icon'] && !(typeof data['icon'] === 'string' || data['icon'] instanceof String)) {
-            throw new Error("Expected the field `icon` to be a primitive type in the JSON string but got " + data['icon']);
-        }
-        // ensure the json data is a string
-        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
-            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * Auto-generated surrogate primary key uniquely identifying the project row.
- * @member {Number} pk
- */
-ProjectStrategies.prototype['pk'] = undefined;
-
-/**
- * Reference to the linked user (logical reference into the system schema user table).
- * @member {Number} fk_user
- */
-ProjectStrategies.prototype['fk_user'] = undefined;
-
-/**
- * Optional human-readable unique business identifier for the row, distinct from the surrogate primary key.
- * @member {String} id
- */
-ProjectStrategies.prototype['id'] = undefined;
-
-/**
- * Human-readable name of the project.
- * @member {String} name
- */
-ProjectStrategies.prototype['name'] = undefined;
-
-/**
- * Free-form textual description of the row.
- * @member {String} description
- */
-ProjectStrategies.prototype['description'] = undefined;
-
-/**
- * Name of icon to be displayed.
- * @member {String} icon
- */
-ProjectStrategies.prototype['icon'] = undefined;
-
-/**
- * RAG traffic-light indicator of overall project health: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light
- */
-ProjectStrategies.prototype['traffic_light'] = undefined;
-
-/**
- * RAG traffic-light indicator of project quality: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_quality
- */
-ProjectStrategies.prototype['traffic_light_quality'] = undefined;
-
-/**
- * RAG traffic-light indicator of project cost: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_cost
- */
-ProjectStrategies.prototype['traffic_light_cost'] = undefined;
-
-/**
- * RAG traffic-light indicator of project schedule/time: green (on track), amber (at risk, needs attention) or red (critical, off track).
- * @member {module:model/TrafficLightType} traffic_light_time
- */
-ProjectStrategies.prototype['traffic_light_time'] = undefined;
-
-/**
- * Marking the row as written by an Endpoint and pending human review.
- * @member {module:model/DataStateType} data_state
- */
-ProjectStrategies.prototype['data_state'] = undefined;
-
-/**
- * Marking the row as written by an MCP agent and pending human review.
- * @member {module:model/McpDataStateType} mcp_data_state
- */
-ProjectStrategies.prototype['mcp_data_state'] = undefined;
-
-/**
- * Free-form comments about the row.
- * @member {String} comments
- */
-ProjectStrategies.prototype['comments'] = undefined;
-
-/**
- * Arbitrary structured notes stored as JSONB.
- * @member {Object.<String, Object>} notes
- */
-ProjectStrategies.prototype['notes'] = undefined;
-
-/**
- * Arbitrary structured metadata stored as JSONB.
- * @member {Object.<String, Object>} metadatas
- */
-ProjectStrategies.prototype['metadatas'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created.
- * @member {Date} created_at
- */
-ProjectStrategies.prototype['created_at'] = undefined;
-
-/**
- * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
- * @member {Date} updated_at
- */
-ProjectStrategies.prototype['updated_at'] = undefined;
-
-
-
-
-
-
-export { ProjectStrategies };
-
-/**
  * The Projects model module.
  * @module model/Projects
  * @version 0.0.1
@@ -13044,6 +12811,239 @@ ProjectsStrategies.prototype['rows'] = undefined;
 
 
 export { ProjectsStrategies };
+
+/**
+ * The ProjectStrategies model module.
+ * @module model/ProjectStrategies
+ * @version 0.0.1
+ */
+class ProjectStrategies {
+    /**
+     * Constructs a new <code>ProjectStrategies</code>.
+     * @alias module:model/ProjectStrategies
+     */
+    constructor() { 
+        
+        ProjectStrategies.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+    }
+
+    /**
+     * Constructs a <code>ProjectStrategies</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/ProjectStrategies} obj Optional instance to populate.
+     * @return {module:model/ProjectStrategies} The populated <code>ProjectStrategies</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new ProjectStrategies();
+
+            if (data.hasOwnProperty('pk')) {
+                obj['pk'] = ApiClient.convertToType(data['pk'], 'Number');
+            }
+            if (data.hasOwnProperty('fk_user')) {
+                obj['fk_user'] = ApiClient.convertToType(data['fk_user'], 'Number');
+            }
+            if (data.hasOwnProperty('id')) {
+                obj['id'] = ApiClient.convertToType(data['id'], 'String');
+            }
+            if (data.hasOwnProperty('name')) {
+                obj['name'] = ApiClient.convertToType(data['name'], 'String');
+            }
+            if (data.hasOwnProperty('description')) {
+                obj['description'] = ApiClient.convertToType(data['description'], 'String');
+            }
+            if (data.hasOwnProperty('icon')) {
+                obj['icon'] = ApiClient.convertToType(data['icon'], 'String');
+            }
+            if (data.hasOwnProperty('traffic_light')) {
+                obj['traffic_light'] = ApiClient.convertToType(data['traffic_light'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_quality')) {
+                obj['traffic_light_quality'] = ApiClient.convertToType(data['traffic_light_quality'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_cost')) {
+                obj['traffic_light_cost'] = ApiClient.convertToType(data['traffic_light_cost'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('traffic_light_time')) {
+                obj['traffic_light_time'] = ApiClient.convertToType(data['traffic_light_time'], TrafficLightType);
+            }
+            if (data.hasOwnProperty('data_state')) {
+                obj['data_state'] = ApiClient.convertToType(data['data_state'], DataStateType);
+            }
+            if (data.hasOwnProperty('mcp_data_state')) {
+                obj['mcp_data_state'] = ApiClient.convertToType(data['mcp_data_state'], McpDataStateType);
+            }
+            if (data.hasOwnProperty('comments')) {
+                obj['comments'] = ApiClient.convertToType(data['comments'], 'String');
+            }
+            if (data.hasOwnProperty('notes')) {
+                obj['notes'] = ApiClient.convertToType(data['notes'], {'String': Object});
+            }
+            if (data.hasOwnProperty('metadatas')) {
+                obj['metadatas'] = ApiClient.convertToType(data['metadatas'], {'String': Object});
+            }
+            if (data.hasOwnProperty('created_at')) {
+                obj['created_at'] = ApiClient.convertToType(data['created_at'], 'Date');
+            }
+            if (data.hasOwnProperty('updated_at')) {
+                obj['updated_at'] = ApiClient.convertToType(data['updated_at'], 'Date');
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>ProjectStrategies</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ProjectStrategies</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['id'] && !(typeof data['id'] === 'string' || data['id'] instanceof String)) {
+            throw new Error("Expected the field `id` to be a primitive type in the JSON string but got " + data['id']);
+        }
+        // ensure the json data is a string
+        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
+            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
+        }
+        // ensure the json data is a string
+        if (data['description'] && !(typeof data['description'] === 'string' || data['description'] instanceof String)) {
+            throw new Error("Expected the field `description` to be a primitive type in the JSON string but got " + data['description']);
+        }
+        // ensure the json data is a string
+        if (data['icon'] && !(typeof data['icon'] === 'string' || data['icon'] instanceof String)) {
+            throw new Error("Expected the field `icon` to be a primitive type in the JSON string but got " + data['icon']);
+        }
+        // ensure the json data is a string
+        if (data['comments'] && !(typeof data['comments'] === 'string' || data['comments'] instanceof String)) {
+            throw new Error("Expected the field `comments` to be a primitive type in the JSON string but got " + data['comments']);
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * Auto-generated surrogate primary key uniquely identifying the project row.
+ * @member {Number} pk
+ */
+ProjectStrategies.prototype['pk'] = undefined;
+
+/**
+ * Reference to the linked user (logical reference into the system schema user table).
+ * @member {Number} fk_user
+ */
+ProjectStrategies.prototype['fk_user'] = undefined;
+
+/**
+ * Optional human-readable unique business identifier for the row, distinct from the surrogate primary key.
+ * @member {String} id
+ */
+ProjectStrategies.prototype['id'] = undefined;
+
+/**
+ * Human-readable name of the project.
+ * @member {String} name
+ */
+ProjectStrategies.prototype['name'] = undefined;
+
+/**
+ * Free-form textual description of the row.
+ * @member {String} description
+ */
+ProjectStrategies.prototype['description'] = undefined;
+
+/**
+ * Name of icon to be displayed.
+ * @member {String} icon
+ */
+ProjectStrategies.prototype['icon'] = undefined;
+
+/**
+ * RAG traffic-light indicator of overall project health: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light
+ */
+ProjectStrategies.prototype['traffic_light'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project quality: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_quality
+ */
+ProjectStrategies.prototype['traffic_light_quality'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project cost: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_cost
+ */
+ProjectStrategies.prototype['traffic_light_cost'] = undefined;
+
+/**
+ * RAG traffic-light indicator of project schedule/time: green (on track), amber (at risk, needs attention) or red (critical, off track).
+ * @member {module:model/TrafficLightType} traffic_light_time
+ */
+ProjectStrategies.prototype['traffic_light_time'] = undefined;
+
+/**
+ * Marking the row as written by an Endpoint and pending human review.
+ * @member {module:model/DataStateType} data_state
+ */
+ProjectStrategies.prototype['data_state'] = undefined;
+
+/**
+ * Marking the row as written by an MCP agent and pending human review.
+ * @member {module:model/McpDataStateType} mcp_data_state
+ */
+ProjectStrategies.prototype['mcp_data_state'] = undefined;
+
+/**
+ * Free-form comments about the row.
+ * @member {String} comments
+ */
+ProjectStrategies.prototype['comments'] = undefined;
+
+/**
+ * Arbitrary structured notes stored as JSONB.
+ * @member {Object.<String, Object>} notes
+ */
+ProjectStrategies.prototype['notes'] = undefined;
+
+/**
+ * Arbitrary structured metadata stored as JSONB.
+ * @member {Object.<String, Object>} metadatas
+ */
+ProjectStrategies.prototype['metadatas'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created.
+ * @member {Date} created_at
+ */
+ProjectStrategies.prototype['created_at'] = undefined;
+
+/**
+ * Timestamp (with timezone) set by the database when the row was created and refreshed on every update.
+ * @member {Date} updated_at
+ */
+ProjectStrategies.prototype['updated_at'] = undefined;
+
+
+
+
+
+
+export { ProjectStrategies };
 
 /**
  * The SkillsEnums model module.
@@ -13470,96 +13470,6 @@ SkillsViewQuery.prototype['language'] = undefined;
 export { SkillsViewQuery };
 
 /**
- * The StrategieViewQuery model module.
- * @module model/StrategieViewQuery
- * @version 0.0.1
- */
-class StrategieViewQuery {
-    /**
-     * Constructs a new <code>StrategieViewQuery</code>.
-     * @alias module:model/StrategieViewQuery
-     */
-    constructor() { 
-        
-        StrategieViewQuery.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'prj_projects.pk = 1';
-    }
-
-    /**
-     * Constructs a <code>StrategieViewQuery</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/StrategieViewQuery} obj Optional instance to populate.
-     * @return {module:model/StrategieViewQuery} The populated <code>StrategieViewQuery</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new StrategieViewQuery();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>StrategieViewQuery</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>StrategieViewQuery</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'prj_projects.pk = 1'
- */
-StrategieViewQuery.prototype['where'] = 'prj_projects.pk = 1';
-
-/**
- * @member {Number} limit
- */
-StrategieViewQuery.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-StrategieViewQuery.prototype['offset'] = undefined;
-
-
-
-
-
-
-export { StrategieViewQuery };
-
-/**
  * The StrategiesEnum model module.
  * @module model/StrategiesEnum
  * @version 0.0.1
@@ -13814,6 +13724,96 @@ StrategiesView.prototype['rows'] = undefined;
 
 
 export { StrategiesView };
+
+/**
+ * The StrategieViewQuery model module.
+ * @module model/StrategieViewQuery
+ * @version 0.0.1
+ */
+class StrategieViewQuery {
+    /**
+     * Constructs a new <code>StrategieViewQuery</code>.
+     * @alias module:model/StrategieViewQuery
+     */
+    constructor() { 
+        
+        StrategieViewQuery.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'prj_projects.pk = 1';
+    }
+
+    /**
+     * Constructs a <code>StrategieViewQuery</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/StrategieViewQuery} obj Optional instance to populate.
+     * @return {module:model/StrategieViewQuery} The populated <code>StrategieViewQuery</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new StrategieViewQuery();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>StrategieViewQuery</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>StrategieViewQuery</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'prj_projects.pk = 1'
+ */
+StrategieViewQuery.prototype['where'] = 'prj_projects.pk = 1';
+
+/**
+ * @member {Number} limit
+ */
+StrategieViewQuery.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+StrategieViewQuery.prototype['offset'] = undefined;
+
+
+
+
+
+
+export { StrategieViewQuery };
 
 /**
  * The Token model module.
@@ -15626,6 +15626,130 @@ VisionQuery.prototype['offset'] = undefined;
 export { VisionQuery };
 
 /**
+ * The Visions model module.
+ * @module model/Visions
+ * @version 0.0.1
+ */
+class Visions {
+    /**
+     * Constructs a new <code>Visions</code>.
+     * @alias module:model/Visions
+     */
+    constructor() { 
+        
+        Visions.initialize(this);
+    }
+
+    /**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */
+    static initialize(obj) { 
+        obj['where'] = 'pk > 0';
+    }
+
+    /**
+     * Constructs a <code>Visions</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {module:model/Visions} obj Optional instance to populate.
+     * @return {module:model/Visions} The populated <code>Visions</code> instance.
+     */
+    static constructFromObject(data, obj) {
+        if (data) {
+            obj = obj || new Visions();
+
+            if (data.hasOwnProperty('where')) {
+                obj['where'] = ApiClient.convertToType(data['where'], 'String');
+            }
+            if (data.hasOwnProperty('limit')) {
+                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
+            }
+            if (data.hasOwnProperty('offset')) {
+                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
+            }
+            if (data.hasOwnProperty('total')) {
+                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
+            }
+            if (data.hasOwnProperty('count')) {
+                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
+            }
+            if (data.hasOwnProperty('rows')) {
+                obj['rows'] = ApiClient.convertToType(data['rows'], [Vision]);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * Validates the JSON data with respect to <code>Visions</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Visions</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
+            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
+        }
+        if (data['rows']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['rows'])) {
+                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
+            }
+            // validate the optional field `rows` (array)
+            for (const item of data['rows']) {
+                Vision.validateJSON(item);
+            };
+        }
+
+        return true;
+    }
+
+
+}
+
+
+
+/**
+ * @member {String} where
+ * @default 'pk > 0'
+ */
+Visions.prototype['where'] = 'pk > 0';
+
+/**
+ * @member {Number} limit
+ */
+Visions.prototype['limit'] = undefined;
+
+/**
+ * @member {Number} offset
+ */
+Visions.prototype['offset'] = undefined;
+
+/**
+ * @member {Number} total
+ */
+Visions.prototype['total'] = undefined;
+
+/**
+ * @member {Number} count
+ */
+Visions.prototype['count'] = undefined;
+
+/**
+ * @member {Array.<module:model/Vision>} rows
+ */
+Visions.prototype['rows'] = undefined;
+
+
+
+
+
+
+export { Visions };
+
+/**
  * The VisionView model module.
  * @module model/VisionView
  * @version 0.0.1
@@ -15917,127 +16041,3 @@ VisionView.prototype['mis_2_vis'] = undefined;
 
 
 export { VisionView };
-
-/**
- * The Visions model module.
- * @module model/Visions
- * @version 0.0.1
- */
-class Visions {
-    /**
-     * Constructs a new <code>Visions</code>.
-     * @alias module:model/Visions
-     */
-    constructor() { 
-        
-        Visions.initialize(this);
-    }
-
-    /**
-     * Initializes the fields of this object.
-     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
-     * Only for internal use.
-     */
-    static initialize(obj) { 
-        obj['where'] = 'pk > 0';
-    }
-
-    /**
-     * Constructs a <code>Visions</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Visions} obj Optional instance to populate.
-     * @return {module:model/Visions} The populated <code>Visions</code> instance.
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Visions();
-
-            if (data.hasOwnProperty('where')) {
-                obj['where'] = ApiClient.convertToType(data['where'], 'String');
-            }
-            if (data.hasOwnProperty('limit')) {
-                obj['limit'] = ApiClient.convertToType(data['limit'], 'Number');
-            }
-            if (data.hasOwnProperty('offset')) {
-                obj['offset'] = ApiClient.convertToType(data['offset'], 'Number');
-            }
-            if (data.hasOwnProperty('total')) {
-                obj['total'] = ApiClient.convertToType(data['total'], 'Number');
-            }
-            if (data.hasOwnProperty('count')) {
-                obj['count'] = ApiClient.convertToType(data['count'], 'Number');
-            }
-            if (data.hasOwnProperty('rows')) {
-                obj['rows'] = ApiClient.convertToType(data['rows'], [Vision]);
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Validates the JSON data with respect to <code>Visions</code>.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Visions</code>.
-     */
-    static validateJSON(data) {
-        // ensure the json data is a string
-        if (data['where'] && !(typeof data['where'] === 'string' || data['where'] instanceof String)) {
-            throw new Error("Expected the field `where` to be a primitive type in the JSON string but got " + data['where']);
-        }
-        if (data['rows']) { // data not null
-            // ensure the json data is an array
-            if (!Array.isArray(data['rows'])) {
-                throw new Error("Expected the field `rows` to be an array in the JSON data but got " + data['rows']);
-            }
-            // validate the optional field `rows` (array)
-            for (const item of data['rows']) {
-                Vision.validateJSON(item);
-            };
-        }
-
-        return true;
-    }
-
-
-}
-
-
-
-/**
- * @member {String} where
- * @default 'pk > 0'
- */
-Visions.prototype['where'] = 'pk > 0';
-
-/**
- * @member {Number} limit
- */
-Visions.prototype['limit'] = undefined;
-
-/**
- * @member {Number} offset
- */
-Visions.prototype['offset'] = undefined;
-
-/**
- * @member {Number} total
- */
-Visions.prototype['total'] = undefined;
-
-/**
- * @member {Number} count
- */
-Visions.prototype['count'] = undefined;
-
-/**
- * @member {Array.<module:model/Vision>} rows
- */
-Visions.prototype['rows'] = undefined;
-
-
-
-
-
-
-export { Visions };
