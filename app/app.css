@@ -1,8 +1,8 @@
-/* eduxept · Strategie-Cockpit – custom CSS
+/* xEduOrg – custom CSS
    ──────────────────────────────────────────────────────────────────────────
    Tailwind (Play CDN) provides the utility framework; layout, spacing, colors
    and typography live directly as utility classes in the markup (app.html /
-   index.js). The design tokens (eduxept CI) live in the inline
+   index.js). The design tokens live in the inline
    `<style type="text/tailwindcss">@theme{…}` block in app.html / wrapper.html.
    Tailwind turns them into native utilities (bg-primary, text-vision,
    rounded-card, shadow-card …) AND emits them as :root variables, which the
@@ -21,7 +21,7 @@
    1. --color-primary/-secondary double as daisyUI semantic names; daisyUI's
       own [data-theme] rules are unlayered-equivalent priority within
       @layer base, but this plain (genuinely unlayered) :root always wins
-      regardless of source order, so the eduxept brand colors stay in charge
+      regardless of source order, so the colors stay in charge
       of non-daisyUI chrome (header, badges, …) under either daisyUI theme.
    2. The @tailwindcss/browser CDN script only emits a @theme token as an
       actual :root custom property when it also detects a matching utility
@@ -38,7 +38,7 @@
    selected via the data-theme attribute (set alongside the .dark class in
    app.html/wrapper.html/wrapper.js). */
 :root {
-    --color-bg: #eaf0f5;
+    --color-bg: #ffffff;
     --color-panel: #f6fbff;
     --color-panel-2: #e6edf3;
     --color-border: #c7d4df;

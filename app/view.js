@@ -15,7 +15,7 @@ import {Icon} from './icons.js';
 // Shows the connection parameters forwarded by the wrapper (URL query params).
 export function Params() {
     return html`
-        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card w-full mb-1">
+        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card w-full mb-4">
             <div class="card-body gap-3">
                 <div class="flex items-center gap-2">
                     <${Icon} name="plug" class="size-4 text-primary"/>

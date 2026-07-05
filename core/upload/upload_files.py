@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upload the cockpit files (HTML/JS/CSS) to the eduxept file API.
+"""Upload the cockpit files (HTML/JS/CSS) to the file API.
 
 Mirrors the reference curl call:
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zip the cockpit app/ folder and upload it to the eduxept file API.
+"""Zip the cockpit app/ folder and upload it to the file API.
 
 Mirrors the reference curl call:
 

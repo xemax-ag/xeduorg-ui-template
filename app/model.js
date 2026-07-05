@@ -20,7 +20,7 @@ export const TOKEN      = (qp.get('token')   || gp.token   || cfg.token   || '')
 export const PROJECT_PK = (qp.get('projectPk') || gp.projectPk || cfg.projectPk || '').toString().trim();
 export const LANGUAGE   = (qp.get('language') || gp.language || cfg.language || 'de').toString().trim().toLowerCase();
 
-console.log('BASE_URL', BASE_URL, 'TOKEN', TOKEN, 'PROJECT_PK', PROJECT_PK, 'LANGUAGE', LANGUAGE);
+// console.log('BASE_URL', BASE_URL, 'TOKEN', TOKEN, 'PROJECT_PK', PROJECT_PK, 'LANGUAGE', LANGUAGE);
 
 // Theme is resolved & applied by the inline script in app.html (single source
 // of truth, runs before first paint); here we just reflect the result.

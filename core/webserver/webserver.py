@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Local web server with live-reload for the eduxept Strategie-Cockpit.
+Local web server with live-reload for the app.
 
 File watching via *watchdog* (OS events, no polling); serving and browser
 reload via the Python standard library (http.server + SSE).

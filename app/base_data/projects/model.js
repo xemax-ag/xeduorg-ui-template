@@ -76,7 +76,7 @@ export const PROJECT_FIELDS = [
 export async function readProject() {
   if (!PROJECT_PK) return null;
   const res = await readProjects('pk = ' + PROJECT_PK);
-  console.log('readProject', res.rows[0]);
+  // console.log('readProject', res.rows[0]);
   return (res.rows && res.rows[0]) || null;
 }
 
@@ -86,7 +86,7 @@ export async function readProject() {
 // coerced to the field type ('' → null). Returns the updated row from the
 // PUT response, typed as ProjectStrategies (openapi.js).
 export async function updateProjectField(project, key, raw) {
-  console.log(project, key, raw)
+  // console.log(project, key, raw)
   const f = PROJECT_FIELDS.find(x => x.key === key);
   let value = raw === '' ? null : raw;
   if (value != null && f.type === 'number') {
@@ -98,6 +98,6 @@ export async function updateProjectField(project, key, raw) {
     catch (e) { throw new Error(t('invalid_json', {key, message: e.message})); }
   }
   const payload = {...project, [key]: value};
-  console.log('updateProjectField', payload);
+  // console.log('updateProjectField', payload);
   return updateProject(payload);
 }

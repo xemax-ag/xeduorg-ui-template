@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Upload the cockpit files (source/index.*) to the eduxept file API.
+# Upload the cockpit files (source/index.*) to the file API.
 set -euo pipefail
 
 cd "$(dirname "$0")"
