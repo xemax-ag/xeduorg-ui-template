@@ -9,6 +9,7 @@ import {useState, useEffect} from 'preact/hooks';
 import htm from 'htm';
 
 import {ProjectsStrategies} from './openapi.js';
+import {Icon} from './icons.js';
 
 const html = htm.bind(h);
 
@@ -68,8 +69,7 @@ function App() {
     // Apply the theme to this document whenever it changes.
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
-        document.documentElement.classList.toggle('wa-dark', theme === 'dark');
-        document.documentElement.classList.toggle('wa-light', theme !== 'dark');
+        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'black' : 'light');
     }, [theme]);
 
     // Reflect the selected language on <html lang> (initial value is set
@@ -173,12 +173,12 @@ function App() {
 
     // Top-right toggle: collapse/expand the topbar to give the cockpit the full viewport.
     return html`
-      <wa-button appearance="filled" size="s" variant="neutral"
-                 title=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}
-                 onClick=${() => setTopbarHidden(v => !v)} class="fixed top-2 right-2 z-50">
-        <wa-icon name=${topbarHidden ? 'bars' : 'xmark'}
-                 label=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}></wa-icon>
-      </wa-button>
+      <button class="btn btn-sm btn-circle btn-neutral fixed top-2 right-2 z-50"
+              title=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}
+              aria-label=${topbarHidden ? t('wrapper_js.show_panel') : t('wrapper_js.hide_panel')}
+              onClick=${() => setTopbarHidden(v => !v)}>
+        <${Icon} name=${topbarHidden ? 'bars' : 'xmark'} class="size-4"/>
+      </button>
 
       <div class=${'w-full shrink-0 max-w-[1920px] mx-auto px-5 pt-5 pb-0' + (topbarHidden ? ' hidden' : '')}>
         <header
@@ -188,40 +188,43 @@ function App() {
             <div class="text-xs text-white/70">eduxept-api-v1 · ${t('wrapper_js.connection_and_configuration')}</div>
           </div>
           <div class="ml-auto mr-2 flex items-center gap-3">
-            <wa-select appearance="filled" size="s" class="w-20" title=${t('wrapper_js.language_selection')}
-                       value=${language} onChange=${onSelectLanguage}>
-              <wa-option value="de">DE</wa-option>
-              <wa-option value="fr">FR</wa-option>
-              <wa-option value="it">IT</wa-option>
-              <wa-option value="en">EN</wa-option>
-            </wa-select>
-            <wa-button appearance="filled" size="s" variant="neutral"
-                       title=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
-                       onClick=${onToggleTheme}>
-              <wa-icon name=${theme === 'dark' ? 'moon' : 'sun'}
-                       label=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}></wa-icon>
-            </wa-button>
+            <select class="select select-sm w-20" title=${t('wrapper_js.language_selection')}
+                    value=${language} onChange=${onSelectLanguage}>
+              <option value="de">DE</option>
+              <option value="fr">FR</option>
+              <option value="it">IT</option>
+              <option value="en">EN</option>
+            </select>
+            <button class="btn btn-sm btn-circle btn-neutral"
+                    title=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
+                    aria-label=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
+                    onClick=${onToggleTheme}>
+              <${Icon} name=${theme === 'dark' ? 'moon' : 'sun'} class="size-4"/>
+            </button>
           </div>
 
         </header>
 
-        <wa-card class="mb-1">
-          <div slot="header" class="wa-cluster wa-gap-xs wa-align-items-center">
-            <wa-icon name="diagram-project"></wa-icon>
-            <h1 class="wa-heading-s m-0">${t('wrapper_js.project')}</h1>
+        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card mb-1">
+          <div class="card-body gap-3">
+            <div class="flex items-center gap-2">
+              <${Icon} name="diagram-project" class="size-4 text-primary"/>
+              <h2 class="card-title text-base m-0">${t('wrapper_js.project')}</h2>
+            </div>
+            <select class="select select-sm w-full" disabled=${!projectRows.length}
+                    value=${projectPk} onChange=${onSelectProject}>
+              ${!projectRows.length && html`<option value="">${t('wrapper_js.connect_first')}</option>`}
+              ${projectRows.map(p => html`
+                <option value=${String(p.pk)}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
+            </select>
           </div>
-          <wa-select placeholder=${t('wrapper_js.connect_first')} disabled=${!projectRows.length}
-                     value=${projectPk} onChange=${onSelectProject}>
-            ${projectRows.map(p => html`
-              <wa-option value=${String(p.pk)}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</wa-option>`)}
-          </wa-select>
-        </wa-card>
+        </div>
 
         ${err && html`
-          <wa-callout variant="danger" class="mb-2">
-            <wa-icon slot="icon" name="triangle-exclamation"></wa-icon>
+          <div role="alert" class="alert alert-error mb-2">
+            <${Icon} name="triangle-exclamation" class="size-5"/>
             <span class="whitespace-pre-wrap">${err}</span>
-          </wa-callout>`}
+          </div>`}
       </div>
 
       ${iframeSrc && html`

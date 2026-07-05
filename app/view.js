@@ -10,30 +10,45 @@ import htm from 'htm';
 const html = htm.bind(h);
 
 import {BASE_URL, TOKEN, PROJECT_PK, LANGUAGE, t} from './model.js';
+import {Icon} from './icons.js';
 
 // Shows the connection parameters forwarded by the wrapper (URL query params).
 export function Params() {
     return html`
-        <wa-card class="w-full mb-1">
-            <div slot="header" class="wa-cluster wa-gap-xs wa-align-items-center">
-                <wa-icon name="plug"></wa-icon>
-                <h1 class="wa-heading-s m-0">${t('view_js.params_from_wrapper')}</h1>
+        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card w-full mb-1">
+            <div class="card-body gap-3">
+                <div class="flex items-center gap-2">
+                    <${Icon} name="plug" class="size-4 text-primary"/>
+                    <h2 class="card-title text-base m-0">${t('view_js.params_from_wrapper')}</h2>
+                </div>
+                <div class="grid gap-3 grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]">
+                    <fieldset class="fieldset py-0">
+                        <legend class="fieldset-legend">baseUrl</legend>
+                        <input class="input input-sm w-full" value=${BASE_URL || ''} placeholder="–" readonly/>
+                    </fieldset>
+                    <fieldset class="fieldset py-0">
+                        <legend class="fieldset-legend">token</legend>
+                        <input class="input input-sm w-full" value=${TOKEN || ''} placeholder="–" readonly/>
+                    </fieldset>
+                    <fieldset class="fieldset py-0">
+                        <legend class="fieldset-legend">projectPk</legend>
+                        <input class="input input-sm w-full" value=${PROJECT_PK || ''} placeholder="–" readonly/>
+                    </fieldset>
+                    <fieldset class="fieldset py-0">
+                        <legend class="fieldset-legend">language</legend>
+                        <input class="input input-sm w-full" value=${LANGUAGE || ''} placeholder="–" readonly/>
+                    </fieldset>
+                </div>
             </div>
-            <div class="wa-grid wa-gap-m" style="--min-column-size: 14rem;">
-                <wa-input size="s" label="baseUrl" value=${BASE_URL || ''} placeholder="–" readonly></wa-input>
-                <wa-input size="s" label="token" value=${TOKEN || ''} placeholder="–" readonly></wa-input>
-                <wa-input size="s" label="projectPk" value=${PROJECT_PK || ''} placeholder="–" readonly></wa-input>
-                <wa-input size="s" label="language" value=${LANGUAGE || ''} placeholder="–" readonly></wa-input>
-            </div>
-        </wa-card>
+        </div>
     `;
 }
 
 // Error toast (bottom right); the Controller dismisses it after 5 s.
 export function Toast({text}) {
     return text ? html`
-        <wa-callout variant="danger" class="fixed bottom-4 right-4 z-50 max-w-md">
-            <wa-icon slot="icon" name="triangle-exclamation"></wa-icon>
+        <div role="alert" class="alert alert-error fixed bottom-4 right-4 z-50 max-w-md">
+            <${Icon} name="triangle-exclamation" class="size-5"/>
             <span class="whitespace-pre-wrap">${text}</span>
-        </wa-callout>` : null;
+        </div>` : null;
 }

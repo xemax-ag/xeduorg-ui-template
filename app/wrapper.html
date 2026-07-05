@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" class="wa-theme-default wa-palette-default">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +17,8 @@
       var t = q.get('theme') || c.theme || 'dark';
       if (t === 'dark') {
           document.documentElement.classList.add('dark');
-          document.documentElement.classList.add('wa-dark');
-      } else {
-          document.documentElement.classList.add('wa-light');
       }
+      document.documentElement.setAttribute('data-theme', t === 'dark' ? 'black' : 'light');
       document.documentElement.lang = (q.get('language') || c.language || 'de').toLowerCase();
   } catch (e) {
   }</script>
@@ -57,9 +55,9 @@
       }
     }
   </script>
-  <!-- Web Awesome via CDN (no build step): form/layout components (wa-input, wa-select, wa-card, …). -->
-  <link rel="stylesheet" href="https://ka-f.webawesome.com/webawesome@3.10.0/styles/webawesome.css">
-  <script type="module" src="https://ka-f.webawesome.com/webawesome@3.10.0/webawesome.loader.js"></script>
+  <!-- daisyUI 5 via CDN (no build step): component classes (card, input, select, btn, alert, …) for Tailwind CSS. -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
   <!-- Tailwind CSS v4 – Play CDN (development). -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- eduxept CI as native Tailwind utilities + :root variables (see app.html). -->

@@ -34,12 +34,12 @@ behaves when the user interacts with it. A simple website can be compared to a p
 images, and links. A modern web application goes further. It can react when a button is clicked, load new information,
 save changes, show messages, or update only one part of the screen without reloading the whole page. In this project,
 the main browser technologies are HTML for structure, JavaScript for behavior, Preact for organizing the interface, and
-Tailwind CSS and Web Awesome for appearance and reusable interface elements.</p>
+Tailwind CSS and daisyUI for appearance and reusable interface elements.</p>
 <h1>Technology Stack Used in This Project</h1>
 <p>The technology stack used in this project is deliberately simple and browser-focused. HTML defines the structure of the
 pages, while JavaScript controls behavior and user interaction. Preact organizes the interface into reusable components
 without requiring a heavy setup, and Tailwind CSS provides a consistent way to style layout, spacing, colors, and
-responsive behavior. Web Awesome adds ready-made interface components where standard controls are useful. Python is used
+responsive behavior. daisyUI adds ready-made Tailwind-based interface classes where standard controls are useful. Python is used
 outside the browser for supporting tools, such as the local web server, documentation generation, OpenAPI model
 generation, translation synchronization, and upload scripts. Together, these technologies keep the project
 understandable, practical, and easy to run locally.</p>
@@ -110,28 +110,31 @@ project, whether a dialog is open, or which data has already been loaded.</p>
 <li>In this project, Tailwind is a practical choice because it supports a modern-looking interface without requiring a
   complex build setup.</li>
 </ul>
-<h1>Web Awesome (https://webawesome.com)</h1>
+<h1>daisyUI (https://daisyui.com)</h1>
 <ul>
-<li><strong>Web Awesome</strong> is a free and open source component library.</li>
+<li><strong>daisyUI</strong> is a free and open source component library for Tailwind CSS.</li>
 <li>A <strong>component library</strong> is a collection of ready-made interface elements, such as buttons, dialogs, menus, tabs,
   dropdowns, form fields, and notifications.</li>
 <li>Component libraries save time because common interface parts do not need to be built from scratch.</li>
 <li>They also help create a more consistent user experience. If buttons, menus, and dialogs come from the same library,
   they usually behave and look more predictable.</li>
-<li>Web Awesome is built around web components. Web components are browser-native building blocks that can be reused in
-  different projects and frameworks.</li>
+<li>daisyUI works by adding semantic class names to Tailwind CSS. Instead of writing many utility classes for every
+  button, card, alert, or toggle, developers can use classes such as <code>btn</code>, <code>card</code>, <code>alert</code>, or <code>toggle</code>.</li>
+<li>daisyUI is CSS-based and framework-independent. The same classes can be used in plain HTML, Preact, React, Vue, and
+  many other environments because the browser only needs the generated CSS.</li>
 </ul>
-<p>There are a few integration details to keep in mind when using Web Awesome together with Tailwind CSS:</p>
+<p>There are a few integration details to keep in mind when using daisyUI together with Tailwind CSS:</p>
 <ul>
-<li>Tailwind classes usually style the outside element where the class is placed. Some Web Awesome components have their
-  own internal structure, so a Tailwind class may not always change the inner part of the component.</li>
-<li>For deeper styling, Web Awesome components should normally be customized through their documented attributes, CSS
-  custom properties, design tokens, or CSS parts.</li>
+<li>daisyUI is not a replacement for Tailwind CSS. Tailwind still provides the low-level utility classes for spacing,
+  layout, typography, and detailed adjustments.</li>
+<li>daisyUI component classes provide a higher-level starting point. Tailwind utility classes can still be added when a
+  component needs project-specific changes.</li>
+<li>daisyUI includes a theme system with semantic color names such as <code>primary</code>, <code>secondary</code>, <code>success</code>, <code>warning</code>, and
+  <code>error</code>. This makes light mode, dark mode, and custom themes easier to manage consistently.</li>
 <li>Tailwind includes a small browser reset called <strong>Preflight</strong>. It normalizes default browser styles, which is usually
   helpful, but it can sometimes affect form elements or surrounding content in unexpected ways.</li>
 <li>Both tools can be used together successfully, but the styling approach should be clear: use Tailwind for the general
-  page layout and project-specific styling, and use Web Awesome's own customization options for the inside of its
-  components.</li>
+  page layout and project-specific styling, and use daisyUI classes for common reusable interface elements.</li>
 </ul>
 <h1>Python (https://www.python.org)</h1>
 <ul>

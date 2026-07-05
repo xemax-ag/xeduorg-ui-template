@@ -14,6 +14,49 @@
    dependent rules (edit mode, toggle, segment-active, graph highlight chain),
    and the SVG diagram. */
 
+/* ── Light theme tokens (reliable source of truth) ───────────────────────────
+   Mirrors the light values from the @theme block in app.html/wrapper.html as
+   plain, literal :root custom properties. Two independent problems make this
+   necessary rather than redundant:
+   1. --color-primary/-secondary double as daisyUI semantic names; daisyUI's
+      own [data-theme] rules are unlayered-equivalent priority within
+      @layer base, but this plain (genuinely unlayered) :root always wins
+      regardless of source order, so the eduxept brand colors stay in charge
+      of non-daisyUI chrome (header, badges, …) under either daisyUI theme.
+   2. The @tailwindcss/browser CDN script only emits a @theme token as an
+      actual :root custom property when it also detects a matching utility
+      class (bg-*, text-*, …) in use somewhere in the page. Tokens that are
+      only ever consumed via var(--color-*) here in app.css (never as a
+      Tailwind utility class name) are silently omitted — so var() lookups
+      for them resolve to nothing, breaking anything relying on them
+      (previously invisible because Web Awesome's shadow-DOM components never
+      read these tokens; the plain-DOM elements below do).
+   Re-declaring them here, literally, sidesteps both problems at once. The
+   dark variant lives in :root.dark below, keyed off the same tokens.
+   daisyUI's own semantic tokens (base-100, neutral, error, …) are NOT
+   duplicated here — those come from the daisyUI "light"/"black" themes,
+   selected via the data-theme attribute (set alongside the .dark class in
+   app.html/wrapper.html/wrapper.js). */
+:root {
+    --color-bg: #eaf0f5;
+    --color-panel: #f6fbff;
+    --color-panel-2: #e6edf3;
+    --color-border: #c7d4df;
+    --color-text: #0a1c2a;
+    --color-text-dim: #4d6275;
+    --color-text-faint: #8499a8;
+    --color-primary: #09436f;
+    --color-secondary: #0b93d6;
+    --color-vision: #09436f;
+    --color-mission: #059669;
+    --color-focus: #d97706;
+    --color-action: #dc2626;
+    --color-ok: #16a34a;
+    --color-err: #dc2626;
+    --color-warn: #d97706;
+    --color-surface: #ffffff;
+}
+
 /* ── Dark theme ─────────────────────────────────────────────────────────────
    The whole UI is driven by the --color-* tokens: native utilities (bg-primary,
    text-vision …), the rules in this file, and the var(--color-*) arbitrary
@@ -100,8 +143,11 @@ a {
 }
 
 /* Buttons: default = primary (e.g. modal "Anlegen/Speichern"); modifiers via class.
-   The body prefix overrides Tailwind Preflight regardless of inject order. */
-body button {
+   The body prefix overrides Tailwind Preflight regardless of inject order.
+   :not(.btn) excludes daisyUI buttons: this rule is unlayered CSS, which
+   would otherwise always beat daisyUI's own @layer components .btn styles
+   regardless of specificity. */
+body button:not(.btn) {
     background: var(--color-primary);
     color: #fff;
     border: none;
@@ -139,8 +185,10 @@ button.sm {
     font-weight: 600;
 }
 
-/* Form elements */
-body input, body select, body textarea {
+/* Form elements. :not(.input, .select) excludes daisyUI form fields: this
+   rule is unlayered CSS, which would otherwise always beat daisyUI's own
+   @layer components .input/.select styles regardless of specificity. */
+body input:not(.input), body select:not(.select), body textarea {
     background: var(--color-panel-2);
     border: 1px solid var(--color-border);
     color: var(--color-text);
