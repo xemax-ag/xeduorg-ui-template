@@ -94,6 +94,16 @@ web server's live-reload (watchdog + SSE).
 
 ## Frontend architecture (`app/`)
 
+**Design Guidelines**
+The application should follow the Model-View-Controller (MVC) pattern described in `MVC.md`. Keep data access, business
+rules, UI rendering, and user interaction handling in their own areas so each part can be changed without unexpected
+side effects. Models should own data structures, API calls, and validation rules. Views should focus on presenting state
+and forwarding user actions. Controllers should coordinate between both sides and decide which view is rendered. Code
+should also stay modular. Related functionality should be grouped into clear folders and files, while unrelated
+responsibilities should be decoupled instead of collected in one large module. Prefer small, named helpers over repeated
+inline logic. A new feature should usually have an obvious home in the existing structure; if it does not, create a
+focused module rather than mixing concerns.
+
 **Two-tier, iframe-based.** `wrapper.html`/`wrapper.js` is the connection screen: it resolves the API base URL, bearer
 token, and theme, loads the project list, lets the user pick a project, then embeds `app.html` in an `<iframe>`,
 forwarding `baseUrl`, `token`, `projectPk`, and `theme` as **URL query parameters**. `app.html` reads those params on

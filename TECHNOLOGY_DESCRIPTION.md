@@ -112,6 +112,38 @@ There are a few integration details to keep in mind when using daisyUI together 
 - Both tools can be used together successfully, but the styling approach should be clear: use Tailwind for the general
   page layout and project-specific styling, and use daisyUI classes for common reusable interface elements.
 
+## daisyUI MCP Server (https://daisyui.com/docs/mcp)
+
+The **daisyUI MCP Server** is not part of the website runtime. It is a helper for AI coding tools. MCP lets an AI coding
+assistant ask an external server for more specific information while generating code. In the daisyUI case, the MCP
+server helps the assistant generate daisyUI-compatible markup, themes, and component examples that match the current
+daisyUI documentation.
+
+For this project, the important distinction is:
+
+- The browser integration stays in `app/wrapper.html`. The project already loads daisyUI 5 through the CDN:
+  `https://cdn.jsdelivr.net/npm/daisyui@5` and `https://cdn.jsdelivr.net/npm/daisyui@5/themes.css`.
+- The MCP integration belongs to the developer's coding tool, for example Codex, Cursor, Claude Code, VS Code Copilot,
+  or another MCP-capable assistant.
+- No extra `<script>` or `<link>` tag is needed in `wrapper.html` just because the MCP server is configured. The MCP
+  server helps create code during development; it does not run in the user's browser.
+
+After the MCP server is added to the coding tool, prompts can explicitly request it, for example:
+
+```text
+Create a responsive form using daisyUI 5 classes for this project. Use Blueprint MCP.
+```
+
+When using MCP-generated code in this repository, keep the same project rules as handwritten code:
+
+- Prefer daisyUI classes such as `btn`, `card`, `input`, `select`, `alert`, `modal`, and `toggle` for standard
+  interface elements.
+- Use Tailwind utility classes for layout, spacing, responsive behavior, and project-specific adjustments.
+- Keep generated markup compatible with the CDN-based setup in `wrapper.html`. Avoid examples that require a Node.js
+  build step unless the project intentionally changes its build approach.
+- Check generated components against the active theme setup. This project sets `data-theme` early in `wrapper.html`,
+  so generated components should use daisyUI semantic colors instead of hard-coded theme-specific colors where possible.
+
 # Python (https://www.python.org)
 
 - **Python** is a popular programming language because it is comparatively easy to read and write.

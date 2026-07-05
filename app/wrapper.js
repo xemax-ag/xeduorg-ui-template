@@ -195,7 +195,7 @@ function App() {
               <option value="it">IT</option>
               <option value="en">EN</option>
             </select>
-            <button class="btn btn-sm btn-circle btn-neutral"
+            <button class="btn btn-sm btn-circle btn-neutral w-10 h-10"
                     title=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
                     aria-label=${theme === 'dark' ? t('wrapper_js.switch_to_light_theme') : t('wrapper_js.switch_to_dark_theme')}
                     onClick=${onToggleTheme}>
@@ -205,7 +205,7 @@ function App() {
 
         </header>
 
-        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card mb-1">
+        <div class="card bg-base-100 border border-base-300 rounded-card shadow-card mb-5">
           <div class="card-body gap-3">
             <div class="flex items-center gap-2">
               <${Icon} name="diagram-project" class="size-4 text-primary"/>
