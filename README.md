@@ -111,6 +111,8 @@ To install, open one of the links, download the installer, and follow the on-scr
 
 ## Development Workflow
 
+You can download the template from https://github.com/xemax-ag/xeduorg-ui-template.
+
 This chapter explains the everyday routine: starting the app on your own computer, making changes, and publishing a
 finished version. No prior technical knowledge is required.
 
