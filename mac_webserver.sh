@@ -6,4 +6,4 @@
 set -euo pipefail
 
 cd "$(dirname "$0")"
-python3 core/webserver/webserver.py --open wrapper.html --port 8002 "$@"
+python3 core/webserver/webserver.py --open wrapper.html --port 8002

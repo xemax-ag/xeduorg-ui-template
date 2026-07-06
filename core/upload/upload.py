@@ -29,11 +29,10 @@ from core.config import config
 
 # Disable TLS certificate verification (self-signed / internal cert).
 _VERIFY = False
-
 SUBFOLDER = "strategies/template"
-
 APP_DIR = Path(__file__).resolve().parents[2] / "app"
 ZIP_PATH = Path(__file__).resolve().parent / "temp" / "app.zip"
+EXCLUDED_FILENAMES = {"openapi.json"}
 
 
 def zip_app_folder(app_dir: Path = APP_DIR, zip_path: Path = ZIP_PATH) -> Path:
@@ -41,7 +40,7 @@ def zip_app_folder(app_dir: Path = APP_DIR, zip_path: Path = ZIP_PATH) -> Path:
     zip_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
         for path in sorted(app_dir.rglob("*")):
-            if path.is_file():
+            if path.is_file() and path.name not in EXCLUDED_FILENAMES:
                 zf.write(path, path.relative_to(app_dir).as_posix())
     return zip_path
 

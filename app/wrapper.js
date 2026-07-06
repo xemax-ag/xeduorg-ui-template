@@ -33,6 +33,13 @@ const INIT_LANGUAGE = (() => {
     return LANGS.includes(l) ? l : 'de';
 })();
 
+// Selectable access roles (forwarded to the cockpit via the iframe URL).
+const ROLES = ['read', 'write', 'project', 'admin', 'dev'];
+const INIT_ROLE = (() => {
+    const r = (qp.get('role') || cfg.role || 'write').toLowerCase();
+    return ROLES.includes(r) ? r : 'write';
+})();
+
 async function api(path, body, method = 'POST') {
     const res = await fetch(BASE_URL + path, {
         method, headers: {Authorization: 'Bearer ' + TOKEN, 'Content-Type': 'application/json'},
@@ -58,6 +65,7 @@ async function api(path, body, method = 'POST') {
 function App() {
     const [theme, setTheme] = useState(INIT_THEME);
     const [language, setLanguage] = useState(INIT_LANGUAGE);
+    const [role, setRole] = useState(INIT_ROLE);
     const [topbarHidden, setTopbarHidden] = useState(false);
     // Data provider for the project dropdown: a ProjectsStrategies envelope
     // (generated model, openapi.js) — carries the query and, once loaded, the rows.
@@ -96,18 +104,20 @@ function App() {
             token: TOKEN,
             theme,
             language,
+            role,
             projectPk: pk || cfg.projectPk,
             ...over
         }));
     }
 
-    function buildSrc(pk, th, lang) {
+    function buildSrc(pk, th, lang, rl) {
         return 'app.html?' + new URLSearchParams({
             baseUrl: BASE_URL,
             token: TOKEN,
             projectPk: pk,
             theme: th,
-            language: lang
+            language: lang,
+            role: rl
         }).toString();
     }
 
@@ -133,7 +143,7 @@ function App() {
             setProjectPk(want);
             if (want) {
                 saveCfg(want);
-                setIframeSrc(buildSrc(want, theme, language));
+                setIframeSrc(buildSrc(want, theme, language, role));
             }
         } catch (e) {
             setErr(e.message);
@@ -149,14 +159,14 @@ function App() {
         const pk = e.target.value;
         setProjectPk(pk);
         saveCfg(pk);
-        if (pk) setIframeSrc(buildSrc(pk, theme, language));
+        if (pk) setIframeSrc(buildSrc(pk, theme, language, role));
     }
 
     function onToggleTheme() {
         const t = theme === 'dark' ? 'light' : 'dark';
         setTheme(t);
         saveCfg(projectPk, {theme: t});
-        if (projectPk) setIframeSrc(buildSrc(projectPk, t, language));  // reload the cockpit with the new theme
+        if (projectPk) setIframeSrc(buildSrc(projectPk, t, language, role));  // reload the cockpit with the new theme
     }
 
     function onSelectLanguage(e) {
@@ -166,7 +176,14 @@ function App() {
         // Keep the wrapper's i18next instance in sync (the iframe reloads and
         // re-detects; the wrapper page itself does not reload).
         if (window.i18nReady) window.i18nReady.then(() => i18next.changeLanguage(lang));
-        if (projectPk) setIframeSrc(buildSrc(projectPk, theme, lang));  // reload the cockpit with the new language
+        if (projectPk) setIframeSrc(buildSrc(projectPk, theme, lang, role));  // reload the cockpit with the new language
+    }
+
+    function onSelectRole(e) {
+        const r = e.target.value;
+        setRole(r);
+        saveCfg(projectPk, {role: r});
+        if (projectPk) setIframeSrc(buildSrc(projectPk, theme, language, r));  // reload the cockpit with the new role
     }
 
     const projectRows = projects.rows || [];
@@ -188,6 +205,11 @@ function App() {
             <div class="text-xs text-white/70">eduxept-api-v1 · ${t('wrapper_js.connection_and_configuration')}</div>
           </div>
           <div class="ml-auto mr-2 flex items-center gap-3">
+            <select class="select select-sm w-24" title=${t('wrapper_js.role_selection')}
+                    value=${role} onChange=${onSelectRole}>
+              ${ROLES.map(r => html`
+                <option value=${r}>${r}</option>`)}
+            </select>
             <select class="select select-sm w-20" title=${t('wrapper_js.language_selection')}
                     value=${language} onChange=${onSelectLanguage}>
               <option value="de">DE</option>

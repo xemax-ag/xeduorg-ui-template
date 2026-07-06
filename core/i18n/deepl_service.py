@@ -18,7 +18,7 @@ class Language(StrEnum):
 
 def translator(text: str, source: Language, target: Language) -> str:
     translator: deepl.Translator = deepl.Translator(
-        auth_key=config.deepl_auth_key, server_url=config.deepl_server_url
+        auth_key=config.deepl_auth_key, server_url='https://api.deepl.com'
     )
 
     result = translator.translate_text(

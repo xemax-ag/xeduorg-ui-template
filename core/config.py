@@ -35,11 +35,11 @@ load_dotenv(dotenv_path=dotenv_path)
 class Config(BaseSettings):
     # API
     api_base_url: str = ''
+    role: str = ''
     auth_token: str = ''
 
     # DeepL
     deepl_auth_key: str = ''
-    deepl_server_url: str = ''
 
 config = Config()
 

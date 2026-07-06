@@ -136,6 +136,33 @@ project, whether a dialog is open, or which data has already been loaded.</p>
 <li>Both tools can be used together successfully, but the styling approach should be clear: use Tailwind for the general
   page layout and project-specific styling, and use daisyUI classes for common reusable interface elements.</li>
 </ul>
+<h2>daisyUI MCP Server (https://daisyui.com/docs/mcp)</h2>
+<p>The <strong>daisyUI MCP Server</strong> is not part of the website runtime. It is a helper for AI coding tools. MCP lets an AI coding
+assistant ask an external server for more specific information while generating code. In the daisyUI case, the MCP
+server helps the assistant generate daisyUI-compatible markup, themes, and component examples that match the current
+daisyUI documentation.</p>
+<p>For this project, the important distinction is:</p>
+<ul>
+<li>The browser integration stays in <code>app/wrapper.html</code>. The project already loads daisyUI 5 through the CDN:
+  <code>https://cdn.jsdelivr.net/npm/daisyui@5</code> and <code>https://cdn.jsdelivr.net/npm/daisyui@5/themes.css</code>.</li>
+<li>The MCP integration belongs to the developer's coding tool, for example Codex, Cursor, Claude Code, VS Code Copilot,
+  or another MCP-capable assistant.</li>
+<li>No extra <code>&lt;script&gt;</code> or <code>&lt;link&gt;</code> tag is needed in <code>wrapper.html</code> just because the MCP server is configured. The MCP
+  server helps create code during development; it does not run in the user's browser.</li>
+</ul>
+<p>After the MCP server is added to the coding tool, prompts can explicitly request it, for example:</p>
+<pre><code class="language-text">Create a responsive form using daisyUI 5 classes for this project. Use Blueprint MCP.
+</code></pre>
+<p>When using MCP-generated code in this repository, keep the same project rules as handwritten code:</p>
+<ul>
+<li>Prefer daisyUI classes such as <code>btn</code>, <code>card</code>, <code>input</code>, <code>select</code>, <code>alert</code>, <code>modal</code>, and <code>toggle</code> for standard
+  interface elements.</li>
+<li>Use Tailwind utility classes for layout, spacing, responsive behavior, and project-specific adjustments.</li>
+<li>Keep generated markup compatible with the CDN-based setup in <code>wrapper.html</code>. Avoid examples that require a Node.js
+  build step unless the project intentionally changes its build approach.</li>
+<li>Check generated components against the active theme setup. This project sets <code>data-theme</code> early in <code>wrapper.html</code>,
+  so generated components should use daisyUI semantic colors instead of hard-coded theme-specific colors where possible.</li>
+</ul>
 <h1>Python (https://www.python.org)</h1>
 <ul>
 <li><strong>Python</strong> is a popular programming language because it is comparatively easy to read and write.</li>

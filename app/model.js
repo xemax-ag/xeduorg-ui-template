@@ -19,6 +19,7 @@ export const BASE_URL   = (qp.get('baseUrl') || gp.baseUrl || cfg.baseUrl || '')
 export const TOKEN      = (qp.get('token')   || gp.token   || cfg.token   || '').trim();
 export const PROJECT_PK = (qp.get('projectPk') || gp.projectPk || cfg.projectPk || '').toString().trim();
 export const LANGUAGE   = (qp.get('language') || gp.language || cfg.language || 'de').toString().trim().toLowerCase();
+export const ROLE       = (qp.get('role') || gp.role || cfg.role || 'read').toString().trim().toLowerCase();
 
 // console.log('BASE_URL', BASE_URL, 'TOKEN', TOKEN, 'PROJECT_PK', PROJECT_PK, 'LANGUAGE', LANGUAGE);
 
@@ -27,7 +28,7 @@ export const LANGUAGE   = (qp.get('language') || gp.language || cfg.language || 
 export const THEME      = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 
 export function saveCfg() {
-  localStorage.setItem(LS, JSON.stringify({ baseUrl: BASE_URL, token: TOKEN, projectPk: PROJECT_PK || cfg.projectPk, theme: THEME, language: LANGUAGE }));
+  localStorage.setItem(LS, JSON.stringify({ baseUrl: BASE_URL, token: TOKEN, projectPk: PROJECT_PK || cfg.projectPk, theme: THEME, language: LANGUAGE, role: ROLE }));
 }
 
 // ---- i18n ----

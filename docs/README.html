@@ -26,7 +26,7 @@ a { color: var(--link); }
 </head>
 <body>
 <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
-<h1>eduxept · Strategy Cockpit</h1>
+<h1>eduxept · Strategy App</h1>
 <p>Related documentation:</p>
 <ul>
 <li><a href="CLAUDE.md">CLAUDE.md</a> — project-specific instructions for AI coding agents and developers who work on the source
@@ -46,9 +46,9 @@ Explorer to run the corresponding script. On <strong>Mac or Linux</strong>, open
 Python command shown in each section directly (e.g. <code>python core/webserver/webserver.py …</code>). All other steps are
 identical on both platforms.</p>
 </blockquote>
-<p>Follow these steps once before using the cockpit. No prior technical knowledge is required.</p>
+<p>Follow these steps once before using the app. No prior technical knowledge is required.</p>
 <h3>Step 1 — Install Python</h3>
-<p>Python is the program that runs the cockpit's tools on your computer.</p>
+<p>Python is the program that runs the app's tools on your computer.</p>
 <ol>
 <li>Open this link in your web browser:
    https://apps.microsoft.com/detail/9pnrbtzxmb4z?hl=en-US&amp;gl=CH&amp;ocid=pdpshare</li>
@@ -57,7 +57,7 @@ identical on both platforms.</p>
    Microsoft Store.</li>
 </ol>
 <h3>Step 2 — Install the required Python modules</h3>
-<p>The cockpit needs a few add-on packages ("modules"). A ready-made script installs them all for you.</p>
+<p>The app needs a few add-on packages ("modules"). A ready-made script installs them all for you.</p>
 <ol>
 <li>Open the project folder in the Windows Explorer (the folder that contains this README file).</li>
 <li>Double-click the file <strong><code>win_install_python_modules.bat</code></strong>.</li>
@@ -69,15 +69,44 @@ identical on both platforms.</p>
 <p><strong>Note:</strong> If Windows shows a security warning ("Windows protected your PC"), click <strong>More info → Run anyway</strong>. The
 script only installs the packages listed in <code>core/requirements.txt</code>.</p>
 </blockquote>
-<p>You only need to do this once. After that, you can start the cockpit with <code>win_webserver.bat</code>.</p>
-<h3>Step 3 (optional) — Install a code editor (IDE)</h3>
-<p>You can run and use the app with just the steps above. But if you plan to <strong>look at or change the cockpit's files</strong>,
+<p>You only need to do this once. After that, you can start the app with <code>win_webserver.bat</code>.</p>
+<h3>Step 3 — Create the environment file</h3>
+<p>The app needs a few private settings before it can connect to the API: the server address, the access role, and
+secret keys or tokens. These values are loaded by <code>core/config.py</code> from an environment file. The default file name on
+Windows and Mac is <strong><code>xeduorg_ui_template.env</code></strong>.</p>
+<p>Do <strong>not</strong> write credentials directly into source files such as <code>.py</code>, <code>.js</code>, or <code>.html</code> files. Source files are often
+shared, copied, uploaded, committed to Git, or sent to code agents. If a token is hard-coded there, it can leak by
+accident and is harder to replace later. Keeping credentials in a separate environment file means the code can stay the
+same while every computer uses its own private settings.</p>
+<p>On Windows and Mac, place the environment file <strong>one folder above</strong> the project folder, at the same level as the project
+folder:</p>
+<pre><code class="language-text">Parent folder
+|-- xeduorg_ui_template.env
+`-- xeduorg-ui-template/
+    |-- README.md
+    `-- core/
+        `-- config.py
+</code></pre>
+<p>Create <code>xeduorg_ui_template.env</code> with this structure:</p>
+<pre><code class="language-env">API_BASE_URL=https://abc.xemax.ch
+ROLE=role
+AUTH_TOKEN=token
+DEEPL_AUTH_KEY=key
+</code></pre>
+<p>Allowed <code>ROLE</code> values are <code>read</code>, <code>write</code>, <code>project</code>, <code>admin</code>, and <code>dev</code>. Use the role value you received for your
+access.</p>
+<p><code>DEEPL_AUTH_KEY</code> is optional. It is only needed for the automatic translation sync with DeepL; if you do not use that
+tool, you can leave the value empty or remove the line.</p>
+<p>Replace <code>api</code>, <code>role</code>, <code>token</code> and <code>key</code> with the real values you received. Save the file, then start the app with
+<code>win_webserver.bat</code>.</p>
+<h3>Step 4 (optional) — Install a code editor (IDE)</h3>
+<p>You can run and use the app with just the steps above. But if you plan to <strong>look at or change the app's files</strong>,
 a proper code editor — an <strong>IDE</strong> (Integrated Development Environment) — makes this much easier and safer than a plain
 text editor like Notepad.</p>
 <p>Two recommended, free options:</p>
 <ul>
+<li><strong>Visual Studio Code</strong> — https://code.visualstudio.com</li>
 <li><strong>PyCharm</strong> — https://www.jetbrains.com/de-de/pycharm</li>
-<li><strong>Visual Studio Code</strong> — https://code.visualstudio.com/</li>
 </ul>
 <p>To install, open one of the links, download the installer, and follow the on-screen steps. Then open the project folder
 (the folder containing this README) from within the editor.</p>
@@ -91,20 +120,25 @@ text editor like Notepad.</p>
 <li><strong>Built-in terminal</strong> — you can run the project's scripts directly inside the editor instead of switching windows.</li>
 </ul>
 <h2>Development Workflow</h2>
-<p>This chapter explains the everyday routine: starting the cockpit on your own computer, making changes, and publishing a
+<p>This chapter explains the everyday routine: starting the app on your own computer, making changes, and publishing a
 finished version. No prior technical knowledge is required.</p>
-<h3>Start the cockpit (local web server)</h3>
+<h3>Start the local web server</h3>
 <ol>
 <li>In the project folder, double-click <strong><code>win_webserver.bat</code></strong>.</li>
-<li>A black window opens and stays open — leave it running. This is the small web server that shows the cockpit.</li>
-<li>Your web browser opens automatically at the cockpit's start page (<code>wrapper.html</code>). If it doesn't, open your browser
+<li>A black window opens and stays open — leave it running. This is the small web server that serves the wrapper.</li>
+<li>Your web browser opens automatically at the wrapper start page (<code>wrapper.html</code>). If it doesn't, open your browser
    and go to <strong>http://127.0.0.1:8002/wrapper.html</strong>.</li>
 <li>When you're finished, close the black window to stop the server.</li>
 </ol>
+<blockquote>
+<p><strong>Port:</strong> The local server uses port <code>8002</code> by default. If that port is already used on your computer, change the
+<code>--port 8002</code> value in <code>win_webserver.bat</code> on Windows, or in <code>mac_webserver.sh</code> / <code>linux_webserver.sh</code> on Mac or
+Linux. Use the same port in the browser address, for example <code>http://127.0.0.1:5500/wrapper.html</code>.</p>
+</blockquote>
 <p>Everything runs on <strong>your own computer</strong> here — nothing is published to the live platform. This is a safe place to try
 things out.</p>
 <h3>Automatic reloading</h3>
-<p>While the server window stays open, it watches the cockpit's files for changes. Whenever a file is edited and saved, the
+<p>While the server window stays open, it watches the app's files for changes. Whenever a file is edited and saved, the
 page in your browser <strong>reloads by itself</strong> — you don't need to press reload. So you can edit a file, switch to the
 browser, and immediately see the result.</p>
 <h3>Browser caching (when you see an old version)</h3>
@@ -117,7 +151,7 @@ be confusing: you change something, but the browser still shows the <strong>prev
 <li>If it still looks wrong, close the browser tab completely and open the address again.</li>
 </ul>
 <h3>Using code agents (Claude, Codex, local models)</h3>
-<p>A <strong>code agent</strong> is an AI assistant that can read and change the cockpit's files for you. Instead of editing files by
+<p>A <strong>code agent</strong> is an AI assistant that can read and change the app's files for you. Instead of editing files by
 hand, you describe in plain language what you want ("add a new button", "fix the error on the project screen"), and the
 agent proposes or makes the changes. It runs in a terminal, inside your code editor (IDE), or as a desktop app, and
 works directly on the files in the project folder.</p>
@@ -125,11 +159,11 @@ works directly on the files in the project folder.</p>
 <ul>
 <li><strong>Claude Desktop</strong> — Anthropic's desktop chat app (not a terminal). On its own it can't touch your files; you give it
   access by installing the <strong>Filesystem</strong> <em>Desktop Extension</em> once via <strong>Settings → Extensions</strong>, then pointing it at
-  the project folder using the folder's <strong>full path</strong> (e.g. <code>...\strategy_cockpit</code>). Restart the app afterwards.
-  From then on you can ask it, in the chat, to read and change the cockpit's files.</li>
+  the project folder using the folder's <strong>full path</strong> (e.g. <code>...\xeduorg-ui-template</code>). Restart the app afterwards.
+  From then on you can ask it, in the chat, to read and change the app's files.</li>
 <li><strong>Claude Code</strong> — Anthropic's command-line agent. Start it from a terminal opened in the project folder by running
   <code>claude</code>. It reads the file <strong><code>CLAUDE.md</code></strong> in this project, which gives it the project-specific rules and background,
-  so its changes fit how the cockpit is built.</li>
+  so its changes fit how the app is built.</li>
 <li><strong>OpenAI Codex</strong> — OpenAI's command-line agent (<code>codex</code>). It works the same way: open a terminal in the project
   folder and describe your task.</li>
 <li><strong>Local model providers</strong> — tools such as <strong>Ollama</strong> or <strong>LM Studio</strong> run an AI model <strong>on your own computer</strong>
@@ -143,7 +177,7 @@ tiers, and the providers charge accordingly: the most capable models cost notice
 subscription), while smaller models — and the local ones above — are cheap or free. That price difference is not just
 marketing; it shows up directly in the source code the agent writes:</p>
 <ul>
-<li><strong>A stronger model writes better code.</strong> It understands how the cockpit is built, follows the project rules (in
+<li><strong>A stronger model writes better code.</strong> It understands how the app is built, follows the project rules (in
   <code>CLAUDE.md</code>), makes fewer mistakes, and its changes usually work on the first or second try.</li>
 <li><strong>A weaker model produces code that often <em>looks</em> fine but isn't.</strong> It is more likely to contain subtle errors,
   ignore the project's conventions, or quietly break something elsewhere. You pay the difference in your own time:
@@ -156,7 +190,7 @@ marketing; it shows up directly in the source code the agent writes:</p>
 controls how much time the model spends thinking a problem through — checking its own plan, considering side effects —
 <strong>before</strong> it writes any code. Higher effort makes each task slower and somewhat more expensive, but the model catches
 its own mistakes instead of leaving them for you to find. The same logic as with model quality applies: for real
-changes to the cockpit, the extra thinking time is usually cheaper than the debugging it prevents; for quick questions,
+changes to the app, the extra thinking time is usually cheaper than the debugging it prevents; for quick questions,
 a low setting is fine.</p>
 <p>A simple rule of thumb: for changes that will be <strong>kept and published</strong>, use the best model available to you — with a
 generous reasoning-effort setting. Cheaper or local models and low effort are fine for questions, experiments, and
@@ -170,20 +204,20 @@ throwaway drafts.</p>
 <li><strong>Describe one change at a time.</strong> Small, clear requests give better results than one large, vague instruction.</li>
 </ul>
 <h3>Settings: server address and access token</h3>
-<p>The cockpit needs to know <strong>which server to talk to</strong> (the address) and <strong>an access token</strong> (a kind of password that
+<p>The app needs to know <strong>which server to talk to</strong> (the address) and <strong>an access token</strong> (a kind of password that
 proves you're allowed in). These two settings are <strong>not</strong> stored inside the program's code. They live in a separate
-settings file named <strong><code>strategy_cockpit.env</code></strong>, located <strong>one folder above</strong> the project folder. This keeps the secret
-token out of the project itself.</p>
+settings file named <strong><code>xeduorg_ui_template.env</code></strong>, located <strong>one folder above</strong> the project folder on Windows and Mac.
+This keeps the secret token out of the project itself.</p>
 <p>You normally don't touch this file by hand — it is prepared once. What's useful to understand:</p>
 <ul>
-<li>When you start the web server, it reads these settings and <strong>passes them automatically to the cockpit</strong> by attaching
-  them to the web address (as so-called URL parameters). That's why you don't have to type an address or token into the
-  cockpit yourself.</li>
-<li>Developer computers can use a second file, <code>strategy_cockpit_dev.env</code>, so that testing points at a different (
+<li>When you start the web server, it reads these settings and <strong>passes them automatically to the wrapper</strong> by attaching
+  them to the web address (as so-called URL parameters). The wrapper then forwards them to the app. That's why you
+  don't have to type an address or token into the wrapper yourself.</li>
+<li>Developer computers can use a second file, <code>xeduorg_ui_template_dev.env</code>, so that testing points at a different (
   development) server than the live one. The program picks the right file automatically based on which computer it runs
   on.</li>
 </ul>
-<p>If the cockpit reports that it can't connect or has no token, the <code>strategy_cockpit.env</code> file is usually the place to
+<p>If the app reports that it can't connect or has no token, the <code>xeduorg_ui_template.env</code> file is usually the place to
 check.</p>
 <h3>Publish a version to the hosting platform</h3>
 <p>When your changes are ready and tested locally, you can upload them to the live platform so others can use them.</p>
@@ -196,7 +230,7 @@ check.</p>
 </ol>
 <p>After a successful upload, the new version is live on the hosting platform.</p>
 <h2>API</h2>
-<p>The cockpit itself stores no data. Everything you see — visions, missions, focuses, and actions — lives on a separate
+<p>The app itself stores no data. Everything you see lives on a separate
 server and is fetched and saved over the network. This chapter explains how that works and why the file <code>openapi.json</code>
 matters.</p>
 <h3>What a REST API is</h3>
@@ -206,20 +240,20 @@ of API built on the same building blocks as the web.</p>
 <p>The key ideas:</p>
 <ul>
 <li>Every piece of data has its own <strong>address</strong> (URL), for example the list of all projects.</li>
-<li>The cockpit sends a <strong>request</strong> to such an address and gets a <strong>response</strong> back, usually as <strong>JSON</strong> — a plain-text
+<li>The app sends a <strong>request</strong> to such an address and gets a <strong>response</strong> back, usually as <strong>JSON</strong> — a plain-text
   format that both computers and humans can read.</li>
 <li>The type of request states the intent, following standard web verbs: <strong>read</strong> existing data (POST <code>.../read</code>),
   <strong>create</strong> new data, <strong>update</strong> an existing entry, or <strong>delete</strong> one.</li>
 <li>Each request carries the <strong>access token</strong> described above, so the server knows the caller is allowed in.</li>
 </ul>
-<p>In short: when you open a project or edit an action in the cockpit, the browser is quietly sending REST requests to the
+<p>In short: when you open a project or edit an action in the app, the browser is quietly sending REST requests to the
 backend and showing you the answers.</p>
 <h3>Why <code>openapi.json</code> matters</h3>
 <p>An API is only useful if you know exactly which addresses exist, what data they expect, and what they return. That
 description is written down in a single file called <strong><code>openapi.json</code></strong> (an <strong>OpenAPI specification</strong>). Think of it as the
 API's complete, machine-readable instruction manual.</p>
 <p>The file lives at <code>app/openapi.json</code> and serves as the <strong>checked-in contract</strong> for the backend: it documents
-every endpoint the cockpit relies on. Keeping a local copy means you can look up how an endpoint behaves without
+every endpoint the app relies on. Keeping a local copy means you can look up how an endpoint behaves without
 guessing, and it makes changes on the server visible when the file is refreshed.</p>
 <h3>Download the OpenAPI specification (<code>win_update_openapi.bat</code>)</h3>
 <p>The backend publishes its current <code>openapi.json</code> at its own address. To refresh the local copy so it matches the live
@@ -269,7 +303,7 @@ at runtime for a different language. Instead of writing <code>"No project loaded
 refers to a symbolic key (<code>"no_project_loaded"</code>), and a small i18n library replaces that key with the correct string
 for whatever language the user has selected. The result: the same codebase speaks German, English, French, or Italian
 without any code changes — only the locale files differ.</p>
-<p>The cockpit uses a lightweight custom i18n approach: locale files are plain JSON objects loaded once on startup, and a
+<p>The app uses a lightweight custom i18n approach: locale files are plain JSON objects loaded once on startup, and a
 <code>t(key)</code> helper resolves any key to the active language's string (falling back to German if a translation is missing).
 Some strings contain <strong>interpolation placeholders</strong> such as <code>{{status}}</code> or <code>{{path}}</code> — these are filled in at runtime
 with actual values and must survive translation verbatim.</p>

@@ -9,7 +9,7 @@ import htm from 'htm';
 
 const html = htm.bind(h);
 
-import {BASE_URL, TOKEN, PROJECT_PK, LANGUAGE, t} from './model.js';
+import {BASE_URL, TOKEN, ROLE, PROJECT_PK, LANGUAGE, t} from './model.js';
 import {Icon} from './icons.js';
 
 // Shows the connection parameters forwarded by the wrapper (URL query params).
@@ -29,6 +29,10 @@ export function Params() {
                     <fieldset class="fieldset py-0">
                         <legend class="fieldset-legend">token</legend>
                         <input class="input input-sm w-full" value=${TOKEN || ''} placeholder="–" readonly/>
+                    </fieldset>
+                    <fieldset class="fieldset py-0">
+                        <legend class="fieldset-legend">role</legend>
+                        <input class="input input-sm w-full" value=${ROLE || ''} placeholder="–" readonly/>
                     </fieldset>
                     <fieldset class="fieldset py-0">
                         <legend class="fieldset-legend">projectPk</legend>

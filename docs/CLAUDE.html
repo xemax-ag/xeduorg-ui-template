@@ -99,6 +99,15 @@ every data operation is an HTTP call to the configured API.</p>
 <p>There is no build step, no linter, and no test suite. Changes to <code>app/*.{html,js,css}</code> are picked up instantly by the
 web server's live-reload (watchdog + SSE).</p>
 <h2>Frontend architecture (<code>app/</code>)</h2>
+<p><strong>Design Guidelines</strong>
+The application should follow the Model-View-Controller (MVC) pattern described in <code>MVC.md</code>. Keep data access, business
+rules, UI rendering, and user interaction handling in their own areas so each part can be changed without unexpected
+side effects. Models should own data structures, API calls, and validation rules. Views should focus on presenting state
+and forwarding user actions. Controllers should coordinate between both sides and decide which view is rendered. Code
+should also stay modular. Related functionality should be grouped into clear folders and files, while unrelated
+responsibilities should be decoupled instead of collected in one large module. Prefer small, named helpers over repeated
+inline logic. A new feature should usually have an obvious home in the existing structure; if it does not, create a
+focused module rather than mixing concerns.</p>
 <p><strong>Two-tier, iframe-based.</strong> <code>wrapper.html</code>/<code>wrapper.js</code> is the connection screen: it resolves the API base URL, bearer
 token, and theme, loads the project list, lets the user pick a project, then embeds <code>app.html</code> in an <code>&lt;iframe&gt;</code>,
 forwarding <code>baseUrl</code>, <code>token</code>, <code>projectPk</code>, and <code>theme</code> as <strong>URL query parameters</strong>. <code>app.html</code> reads those params on
