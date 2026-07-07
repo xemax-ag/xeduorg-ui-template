@@ -9,7 +9,7 @@ authors = [
 requires-python = ">=3.13"
 readme = "README.md"
 dependencies = [
-    "datamodel-code-generator[ruff]>=0.67.0",
+    "datamodel-code-generator[ruff]>=0.68.0",
     "httpx>=0.28.1",
     "jinja2>=3.1.6",
     "openapi-generator-cli[jdk4py]>=7.23.0",
@@ -23,6 +23,8 @@ dependencies = [
     "watchdog>=6.0.0",
     "markdown>=3.10.2",
     "deepl>=1.30.0",
+    "textual>=8.2.8",
+    "rich>=15.0.0",
 ]
 
 [tool.pytest.ini_options]

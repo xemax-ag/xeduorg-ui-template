@@ -43,7 +43,7 @@ function App() {
     }, []);
 
     // Auto-save one changed attribute; the PUT response is the updated row
-    // (typed as ProjectStrategies) and replaces the project state directly.
+    // (typed as ProjectSkills) and replaces the project state directly.
     // On error, reload so the form falls back to the last stored values.
     async function changeProjectField(key, raw) {
         try {

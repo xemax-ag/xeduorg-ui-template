@@ -14,8 +14,8 @@ import {PROJECT_FIELDS} from './model.js';
 
 // Field keys rendered by ProjectSettings, in display order.
 const FIELD_ORDER = [
-    'pk', 'id', 'name', 'description',
-    'traffic_light', 'traffic_light_quality', 'traffic_light_cost', 'traffic_light_time',
+    'pk', 'id', 'tsl_name_txt', 'tsl_description_txt',
+    'tsl_language', 'tsl_name', 'tsl_description',
     'data_state', 'mcp_data_state', 'comments', 'notes', 'metadatas', 'created_at', 'updated_at',
 ];
 

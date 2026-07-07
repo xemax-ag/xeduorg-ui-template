@@ -7,16 +7,11 @@
 - ❌ Test the Mac OsX shell scripts for functionality.
 - ❌ describe openrouter workflow with ollama
 - ❌ multilingual example for labels AND values
+- ❌ Describe the workflow between ui-template and react framework integration
 
 
 Status icons:
-
-- Checked: ✅
-- Not done: ❌
-- Started: 🟠
-
-Traffic light icons:
-
-- Green: 🟢
-- Amber: 🟠
-- Red: 🔴
+- done: ✅
+- open: ❌
+- started: 🟠
+- idea: 💡

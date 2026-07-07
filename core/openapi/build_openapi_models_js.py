@@ -45,11 +45,8 @@ def bundle_model(source: str) -> str:
 
 
 def generate_models_openapi() -> None:
-    input_path = Path(__file__).parents[0] / 'openapi.json'
-    output_paths = [
-        Path(__file__).parents[2] / 'app' / 'openapi.js',
-        Path(__file__).parents[2] / 'app' / 'openapi.js',
-    ]
+    input_path = Path(__file__).parents[2] / 'app' / 'openapi.json'
+    output_path = Path(__file__).parents[2] / 'app' / 'openapi.js'
     with tempfile.TemporaryDirectory() as tmp:
         cmd = (f'uv run openapi-generator-cli generate -i {input_path} -g javascript -o {tmp} '
                f'--global-property models,supportingFiles,modelDocs=false,modelTests=false')
@@ -61,9 +58,9 @@ def generate_models_openapi() -> None:
         parts = [header, extract_api_client(Path(tmp) / 'src' / 'ApiClient.js')]
         for model_file in sorted((Path(tmp) / 'src' / 'model').iterdir()):
             parts.append(bundle_model(model_file.read_text()))
-    for output_path in output_paths:
-        output_path.write_text('\n'.join(parts))
-        print(f'{output_path} ({len(parts) - 2} model classes)')
+
+    output_path.write_text('\n'.join(parts))
+    print(f'{output_path} ({len(parts) - 2} model classes)')
 
 
 if __name__ == '__main__':

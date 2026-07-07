@@ -1,23 +1,23 @@
 // ==================== MODEL · base_data/projects ====================
-// Data + API access for the project row (/strategies-tables/projects/*).
+// Data + API access for the project row (/skills-tables/projects/*).
 // No Preact / no DOM rendering here — the View (./view.js) renders, the
 // app Controller owns the state and wires the two together.
 
-import {api, PROJECT_PK, t} from '../../model.js';
+import {api, LANGUAGE, PROJECT_PK, t} from '../../model.js';
 import {
-    ProjectQueryStrategies, ProjectsStrategies, ProjectStrategies,
-    TrafficLightType, DataStateType, McpDataStateType,
+    ProjectQuerySkills, ProjectsSkills, ProjectSkills,
+    DataStateType, McpDataStateType,
 } from '../../openapi.js';
 
-// ---- CRUD: /strategies-tables/projects/* ----
+// ---- CRUD: /skills-tables/projects/* ----
 // Contract (openapi.json):
-//   POST   …/create  ProjectStrategies      → ProjectStrategies
-//   POST   …/read    ProjectQueryStrategies → ProjectsStrategies (envelope, rows)
-//   PUT    …/update  ProjectStrategies      → ProjectStrategies
-//   DELETE …/delete  ProjectStrategies      → (kein Inhalt)
+//   POST   …/create  ProjectSkills      → ProjectSkills
+//   POST   …/read    ProjectQuerySkills → ProjectsSkills (envelope, rows)
+//   PUT    …/update  ProjectSkills      → ProjectSkills
+//   DELETE …/delete  ProjectSkills      → (kein Inhalt)
 // Payloads and results are typed via the generated dataclasses (openapi.js).
-const PROJECTS_BASE = '/strategies-tables/projects';
-const toProject = data => data ? ProjectStrategies.constructFromObject(data, new ProjectStrategies()) : null;
+const PROJECTS_BASE = '/skills-tables/projects';
+const toProject = data => data ? ProjectSkills.constructFromObject(data, new ProjectSkills()) : null;
 
 // Create a row. State/enum fields (traffic_light*, *data_state) are
 // intentionally not sent (server enum-view bug, see CLAUDE.md).
@@ -27,13 +27,15 @@ export async function createProject(project) {
   return toProject(await api(PROJECTS_BASE + '/create', payload));
 }
 
-// Read rows by SQL-ish filter; returns the ProjectsStrategies envelope
-// (rows typed as ProjectStrategies; `where` defaults to 'pk > 0').
+// Read rows by SQL-ish filter; returns the ProjectsSkills envelope
+// (rows typed as ProjectSkills; `where` defaults to 'pk > 0'). The UI
+// language is sent along so the server resolves the tsl_*_txt fields.
 export async function readProjects(where) {
-  const q = new ProjectQueryStrategies();
+  const q = new ProjectQuerySkills();
   if (where) q.where = where;
+  q.language = LANGUAGE;
   const data = await api(PROJECTS_BASE + '/read', q);
-  return ProjectsStrategies.constructFromObject(data, new ProjectsStrategies());
+  return ProjectsSkills.constructFromObject(data, new ProjectsSkills());
 }
 
 // Update a row (all fields optional, pk identifies the row).
@@ -47,22 +49,21 @@ export async function deleteProject(project) {
   return api(PROJECTS_BASE + '/delete', {pk: project.pk}, 'DELETE');
 }
 
-// ---- Projekt (current row from strategies-tables/projects) ----
+// ---- Projekt (current row from skills-tables/projects) ----
 // Attribute config for the Projekteinstellungen form. `ro` = server-managed,
 // read-only; `json` = JSONB column edited as JSON text; enum options come
 // from the generated enum classes (openapi.js, contract: openapi.json).
-const TRAFFIC_LIGHTS = Object.values(new TrafficLightType());
+// Language handling: tsl_name/tsl_description are logical references into
+// tsl_translations (read-only here); the editable texts are the resolved
+// tsl_name_txt/tsl_description_txt in tsl_language (the read language).
 export const PROJECT_FIELDS = [
   {key: 'pk', type: 'ro'},
-  {key: 'fk_user', type: 'number'},
   {key: 'id', type: 'text'},
-  {key: 'name', type: 'text'},
-  {key: 'description', type: 'text'},
-  {key: 'icon', type: 'text'},
-  {key: 'traffic_light', type: 'enum', options: TRAFFIC_LIGHTS},
-  {key: 'traffic_light_quality', type: 'enum', options: TRAFFIC_LIGHTS},
-  {key: 'traffic_light_cost', type: 'enum', options: TRAFFIC_LIGHTS},
-  {key: 'traffic_light_time', type: 'enum', options: TRAFFIC_LIGHTS},
+  {key: 'tsl_name', type: 'ro'},
+  {key: 'tsl_description', type: 'ro'},
+  {key: 'tsl_name_txt', type: 'text'},
+  {key: 'tsl_description_txt', type: 'text'},
+  {key: 'tsl_language', type: 'ro'},
   {key: 'data_state', type: 'enum', options: Object.values(new DataStateType())},
   {key: 'mcp_data_state', type: 'enum', options: Object.values(new McpDataStateType())},
   {key: 'comments', type: 'text'},
@@ -72,7 +73,7 @@ export const PROJECT_FIELDS = [
   {key: 'updated_at', type: 'ro'},
 ];
 
-// Load the current project row, typed as ProjectStrategies (openapi.js).
+// Load the current project row, typed as ProjectSkills (openapi.js).
 export async function readProject() {
   if (!PROJECT_PK) return null;
   const res = await readProjects('pk = ' + PROJECT_PK);
@@ -80,11 +81,12 @@ export async function readProject() {
   return (res.rows && res.rows[0]) || null;
 }
 
-// Write one changed attribute via PUT /strategies-tables/projects/update:
+// Write one changed attribute via PUT /skills-tables/projects/update:
 // the coerced value is merged into the full current row, so all other
-// attributes are sent along unchanged. `raw` is the input string; it is
-// coerced to the field type ('' → null). Returns the updated row from the
-// PUT response, typed as ProjectStrategies (openapi.js).
+// attributes (incl. tsl_language, which tells the server which language
+// the tsl_*_txt values belong to) are sent along unchanged. `raw` is the
+// input string; it is coerced to the field type ('' → null). Returns the
+// updated row from the PUT response, typed as ProjectSkills (openapi.js).
 export async function updateProjectField(project, key, raw) {
   // console.log(project, key, raw)
   const f = PROJECT_FIELDS.find(x => x.key === key);

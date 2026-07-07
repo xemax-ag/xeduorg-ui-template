@@ -12,7 +12,7 @@ update_openapi:
 	uv run python core/openapi/build_openapi_models_python.py
 
 deploy: sync_translations
-	uv run python core/upload/upload.py
+	uv run python core/upload/upload.py --folder "strategies/template"
 
 venv_build:
 	rm -rf .venv && rm -rf uv.lock && uv sync --no-group dev

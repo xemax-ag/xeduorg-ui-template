@@ -11,3 +11,5 @@ pytest>=9.1.1
 pytest-asyncio>=1.4.0
 openapi-generator-cli[jdk4py]>=7.23.0
 datamodel-code-generator[ruff]>=0.67.0
+textual>=8.2.8
+rich>=15.0.0

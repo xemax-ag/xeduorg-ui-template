@@ -13,6 +13,7 @@ Mirrors the reference curl call:
 
 from __future__ import annotations
 
+import argparse
 import mimetypes
 import os
 from pathlib import Path
@@ -29,7 +30,7 @@ from core.config import config
 
 # Disable TLS certificate verification (self-signed / internal cert).
 _VERIFY = False
-SUBFOLDER = "strategies/template"
+FOLDER = "strategies/template"
 APP_DIR = Path(__file__).resolve().parents[2] / "app"
 ZIP_PATH = Path(__file__).resolve().parent / "temp" / "app.zip"
 EXCLUDED_FILENAMES = {"openapi.json"}
@@ -50,7 +51,7 @@ def upload_file(
     *,
     api_url: str = config.api_base_url + "/files/upload",
     token: str = '',
-    subfolder: str = SUBFOLDER,
+    folder: str = FOLDER,
 ) -> dict:
     """Upload a single file and return the parsed JSON response.
 
@@ -65,7 +66,7 @@ def upload_file(
 
     with open(file_path, "rb") as fh:
         files = {"file": (filename, fh, content_type)}
-        data = {"subfolder": subfolder}
+        data = {"subfolder": folder}
         headers = {
             "accept": "application/json",
             "Authorization": f"Bearer {token}",
@@ -90,14 +91,14 @@ def upload_app_zip(
     *,
     api_url: str = config.api_base_url + "/files/upload",
     token: str = '',
-    subfolder: str = SUBFOLDER,
+    folder: str = FOLDER,
 ) -> dict[str, object]:
     """Zip app/ into core/upload/temp/app.zip, then upload it to subfolder."""
     zip_path = zip_app_folder()
     print(f"[ZIP]  {APP_DIR} -> {zip_path}")
     try:
-        result = upload_file(zip_path, api_url=api_url, token=token, subfolder=subfolder)
-        print(f"[OK]   {zip_path.name} -> {api_url} ({subfolder})")
+        result = upload_file(zip_path, api_url=api_url, token=token, folder=folder)
+        print(f"[OK]   {zip_path.name} -> {api_url} ({folder})")
         return result
     except httpx.HTTPStatusError as exc:
         detail = exc.response.text
@@ -109,4 +110,7 @@ def upload_app_zip(
 
 
 if __name__ == "__main__":
-    upload_app_zip(token=config.auth_token)
+    parser = argparse.ArgumentParser(description="Zip the app/ folder and upload it to the file API.")
+    parser.add_argument("--folder", default=FOLDER, help=f"target subfolder on the file API (default: {FOLDER})")
+    args = parser.parse_args()
+    upload_app_zip(token=config.auth_token, folder=args.folder)

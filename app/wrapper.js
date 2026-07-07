@@ -8,7 +8,7 @@ import {h, render} from 'preact';
 import {useState, useEffect} from 'preact/hooks';
 import htm from 'htm';
 
-import {ProjectsStrategies} from './openapi.js';
+import {ProjectsSkills} from './openapi.js';
 import {Icon} from './icons.js';
 
 const html = htm.bind(h);
@@ -67,9 +67,9 @@ function App() {
     const [language, setLanguage] = useState(INIT_LANGUAGE);
     const [role, setRole] = useState(INIT_ROLE);
     const [topbarHidden, setTopbarHidden] = useState(false);
-    // Data provider for the project dropdown: a ProjectsStrategies envelope
+    // Data provider for the project dropdown: a ProjectsSkills envelope
     // (generated model, openapi.js) — carries the query and, once loaded, the rows.
-    const [projects, setProjects] = useState(new ProjectsStrategies());
+    const [projects, setProjects] = useState(new ProjectsSkills());
     const [projectPk, setProjectPk] = useState(String(cfg.projectPk || ''));
     const [err, setErr] = useState('');
     const [iframeSrc, setIframeSrc] = useState('');
@@ -130,12 +130,14 @@ function App() {
         }
         saveCfg();
         try {
-            // The ProjectsStrategies instance is both the request payload (its
-            // `where`, default 'pk > 0', serializes as the JSON body) and — after
-            // constructFromObject — the typed result (rows of ProjectStrategies).
-            const query = new ProjectsStrategies();
-            const data = await api('/strategies-tables/projects/read', query);
-            const provider = ProjectsStrategies.constructFromObject(data, query);
+            // The ProjectsSkills instance is both the request payload (its
+            // `where`, default 'pk > 0', plus the UI language so the server
+            // resolves the tsl_*_txt fields, serializes as the JSON body) and —
+            // after constructFromObject — the typed result (rows of ProjectSkills).
+            const query = new ProjectsSkills();
+            query.language = language;
+            const data = await api('/skills-tables/projects/read', query);
+            const provider = ProjectsSkills.constructFromObject(data, query);
             setProjects(provider);
             const rows = provider.rows || [];
             let want = String(cfg.projectPk || 3);
@@ -237,7 +239,7 @@ function App() {
                     value=${projectPk} onChange=${onSelectProject}>
               ${!projectRows.length && html`<option value="">${t('wrapper_js.connect_first')}</option>`}
               ${projectRows.map(p => html`
-                <option value=${String(p.pk)}>${(p.name || p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
+                <option value=${String(p.pk)}>${(p.id || ('pk ' + p.pk)) + '  (pk=' + p.pk + ')'}</option>`)}
             </select>
           </div>
         </div>
