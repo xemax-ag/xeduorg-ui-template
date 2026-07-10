@@ -19,7 +19,7 @@ Usage:
     python webserver.py                 # port 8000, opens app.html
     python webserver.py --port 5500
     python webserver.py --open app.html
-    python webserver.py --no-open
+    python webserver.py --no-open       # alias: --noload
 """
 
 import argparse
@@ -217,7 +217,8 @@ def main():
     parser.add_argument("--host", default="127.0.0.1", help="Host (default: 127.0.0.1)")
     parser.add_argument("--open", default="wrapper.html",
                         help="File opened in the browser (default: wrapper.html)")
-    parser.add_argument("--no-open", action="store_true", help="Do not open the browser automatically")
+    parser.add_argument("--no-open", "--noload", action="store_true",
+                        help="Do not open the browser automatically")
     args = parser.parse_args()
 
     # This script lives in core/webserver/; the repo root is two levels up.
