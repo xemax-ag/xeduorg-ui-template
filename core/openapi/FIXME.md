@@ -1,0 +1,1 @@
+Unterscheidung Windows und Linux!

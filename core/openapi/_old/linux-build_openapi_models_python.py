@@ -1,11 +1,8 @@
 import ast
-import os
 import pathlib
 import re
 import subprocess
 import sys
-import platform
-import sysconfig
 from pathlib import Path
 import httpx
 from datamodel_code_generator import Formatter
@@ -17,16 +14,6 @@ from core.config import config
 formatters=[Formatter.RUFF_FORMAT, Formatter.RUFF_CHECK]
 
 # https://datamodel-code-generator.koxudaxi.dev/cli-reference/openapi-only-options/#include-path-parameters
-
-
-def env_with_script_dirs() -> dict[str, str]:
-    """datamodel-codegen locates ruff via PATH; pip's script dirs (venv or user
-    install) are not necessarily on it — prepend them for the subprocess."""
-    env = os.environ.copy()
-    scripts = (sysconfig.get_path('scripts'), sysconfig.get_path('scripts', f'{os.name}_user'))
-    env['PATH'] = os.pathsep.join((*scripts, env.get('PATH', '')))
-    return env
-
 
 def download_openapi_json() -> None:
     with httpx.Client(timeout=60.0, follow_redirects=False) as client:
@@ -74,27 +61,27 @@ def fix_enum_defaults(file_path: Path) -> None:
         file_path.write_text(new_source)
 
 
+def generate_models(scope: str) -> None:
+    output_path = Path(__file__).parents[0] / scope.replace('-', '_') / 'models.py'
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[2]}/app/openapi.json --input-file-type openapi '
+           f'--include-path-parameters --openapi-scopes paths --openapi-include-paths /{scope}/* '
+           f'--output {output_path} '
+           f'--formatters ruff-format --formatters ruff-check')
+    print(cmd)
+    subprocess.run(cmd, shell=True, check=True)
+    fix_enum_defaults(output_path)
+
+
 def generate_models_openapi() -> None:
-    if platform.system() == 'Linux':
-        output_path = Path(__file__).parents[0] / 'openapi.py'
-        cmd = [sys.executable, '-m', 'datamodel_code_generator',
-               '--input', str(Path(__file__).parents[2] / 'app' / 'openapi.json'), '--input-file-type', 'openapi',
-               '--include-path-parameters', '--openapi-scopes', 'paths',
-               '--output', str(output_path),
-               '--formatters', 'ruff-format', '--formatters', 'ruff-check']
-        print(subprocess.list2cmdline(cmd))
-        subprocess.run(cmd, check=True, env=env_with_script_dirs())
-        fix_enum_defaults(output_path)
-    else:
-        output_path = Path(__file__).parents[0] / 'openapi.py'
-        cmd = [sys.executable, '-m', 'datamodel_code_generator',
-               '--input', str(Path(__file__).parents[2] / 'app' / 'openapi.json'), '--input-file-type', 'openapi',
-               '--include-path-parameters', '--openapi-scopes', 'paths',
-               '--output', str(output_path),
-               '--formatters', 'ruff-format', '--formatters', 'ruff-check']
-        print(subprocess.list2cmdline(cmd))
-        subprocess.run(cmd, check=True, env=env_with_script_dirs())
-        fix_enum_defaults(output_path)
+    output_path = Path(__file__).parents[0] / 'openapi.py'
+    cmd = (f'uv run datamodel-codegen --input {Path(__file__).parents[2]}/app/openapi.json --input-file-type openapi '
+           f'--include-path-parameters --openapi-scopes paths '
+           f'--output {output_path} '
+           f'--formatters ruff-format --formatters ruff-check')
+    print(cmd)
+    subprocess.run(cmd, shell=True, check=True)
+    fix_enum_defaults(output_path)
 
 
 if __name__ == '__main__':

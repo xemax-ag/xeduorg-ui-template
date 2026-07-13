@@ -58,10 +58,3 @@ backup_source:
 
 	rsync -av --delete \
 		/home/phe/config/ admin_phe@192.168.1.12:/volume1/backup_phe/source/config/;
-
-claude:
-	uv run headroom wrap claude --port 8788
-
-headroom:
-	clear
-	uv run headroom perf
