@@ -75,26 +75,22 @@ def fix_enum_defaults(file_path: Path) -> None:
 
 
 def generate_models_openapi() -> None:
+    output_path = Path(__file__).parents[0] / 'openapi.py'
     if platform.system() == 'Linux':
-        output_path = Path(__file__).parents[0] / 'openapi.py'
-        cmd = [sys.executable, '-m', 'datamodel_code_generator',
+        cmd = ['uv', 'run', 'datamodel-codegen',
                '--input', str(Path(__file__).parents[2] / 'app' / 'openapi.json'), '--input-file-type', 'openapi',
                '--include-path-parameters', '--openapi-scopes', 'paths',
                '--output', str(output_path),
                '--formatters', 'ruff-format', '--formatters', 'ruff-check']
-        print(subprocess.list2cmdline(cmd))
-        subprocess.run(cmd, check=True, env=env_with_script_dirs())
-        fix_enum_defaults(output_path)
     else:
-        output_path = Path(__file__).parents[0] / 'openapi.py'
         cmd = [sys.executable, '-m', 'datamodel_code_generator',
                '--input', str(Path(__file__).parents[2] / 'app' / 'openapi.json'), '--input-file-type', 'openapi',
                '--include-path-parameters', '--openapi-scopes', 'paths',
                '--output', str(output_path),
                '--formatters', 'ruff-format', '--formatters', 'ruff-check']
-        print(subprocess.list2cmdline(cmd))
-        subprocess.run(cmd, check=True, env=env_with_script_dirs())
-        fix_enum_defaults(output_path)
+    print(subprocess.list2cmdline(cmd))
+    subprocess.run(cmd, check=True, env=env_with_script_dirs())
+    fix_enum_defaults(output_path)
 
 
 if __name__ == '__main__':
