@@ -9,7 +9,7 @@
 - ❌ multilingual example for labels AND values
 - ❌ Describe the workflow between ui-template and react framework integration
 - ❌ Include description of Caveman in CLAUDE.md => settings in settings.local.json!
-
+- ❌ include state public
 
 Status icons:
 - done: ✅

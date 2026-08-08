@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/xeduorg-ui-template.iml" filepath="$PROJECT_DIR$/.idea/xeduorg-ui-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/xedu-org-ui-template.iml" filepath="$PROJECT_DIR$/.idea/xedu-org-ui-template.iml" />
     </modules>
   </component>
 </project>
