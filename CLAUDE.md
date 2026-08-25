@@ -183,7 +183,7 @@ against the updated schema.
 Pydantic-settings `Config` exposes `api_base_url` and `auth_token`, loaded from a `.env` file **one directory above the
 repo root** (`parents[2]`) — the token is kept out of the repo. The web server injects these into `wrapper.html` via
 query params so no token is hardcoded in the source. `get_computer_id()` reads the Windows `MachineGuid`; if the current
-machine is in `COMPUTER_IDS_DEV`, `strategy_cockpit_dev.env` is loaded instead of `strategy_cockpit.env`.
+machine is in `COMPUTER_IDS_DEV`, `xeduorg_ui_template_dev.env` is loaded instead of `xeduorg_ui_template.env`.
 
 ## Python tooling (`core/`)
 
