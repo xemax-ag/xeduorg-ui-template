@@ -9,20 +9,20 @@ authors = [
 requires-python = ">=3.13"
 readme = "README.md"
 dependencies = [
-    "datamodel-code-generator[ruff]>=0.68.0",
+    "datamodel-code-generator[ruff]>=0.75.1",
     "httpx>=0.28.1",
     "jinja2>=3.1.6",
-    "openapi-generator-cli[jdk4py]>=7.23.0",
+    "openapi-generator-cli[jdk4py]>=7.25.0",
     "openpyxl>=3.1.5",
     "pyclean>=3.7.0",
     "pydantic>=2.13.4",
-    "pydantic-settings>=2.14.2",
+    "pydantic-settings>=2.15.0",
     "python-docx>=1.2.0",
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
     "watchdog>=6.0.0",
-    "markdown>=3.10.2",
-    "deepl>=1.30.0",
+    "markdown>=3.10.3",
+    "deepl>=1.32.0",
     "textual>=8.2.8",
     "rich>=15.0.0",
 ]
@@ -41,10 +41,10 @@ required-environments = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["app*"]
+include = ["app*", "core*"]
 
 # uv add --dev ....
 [dependency-groups]
 dev = [
-    "headroom-ai[all]>=0.30.0",
+    "headroom-ai[all]>=0.36.5",
 ]
