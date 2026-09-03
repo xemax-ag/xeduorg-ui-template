@@ -14,3 +14,9 @@ Status icons:
 - open: ❌
 - started: 🟠
 - idea: 💡
+
+
+## skills
+https://skillsllm.com/skill/superpowers
+https://github.com/pydantic/skills/tree/main/skills
+https://skillsllm.com/skill/superdesign-skill
